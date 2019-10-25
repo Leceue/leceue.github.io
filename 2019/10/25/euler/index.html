@@ -59,7 +59,7 @@
 <meta property="og:site_name" content="Thinkings and Works">
 <meta property="og:description" content="euler函数euler函数是表示从1~n中与n互质的个数，互质的定义简单提一下，$gcd(a,b)=1$。那么如何求一个数的euler函数？我们可以将每个数与n求gcd一下，如果gcd为1，则贡献加1，时间复杂度为 $O(n logn)$，极其优秀（雾）那么来思考更加优秀的算法（为什么一定要求euler函数($\varphi(n)$函数)呢QAQ）">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-25T08:54:05.557Z">
+<meta property="og:updated_time" content="2019-10-25T13:15:53.741Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://leceue.github.io./2019/10/25/euler/">
@@ -247,7 +247,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-10-25 16:00:39 / Modified: 16:54:05" itemprop="dateCreated datePublished" datetime="2019-10-25T16:00:39+08:00">2019-10-25</time>
+              <time title="Created: 2019-10-25 16:00:39 / Modified: 21:15:53" itemprop="dateCreated datePublished" datetime="2019-10-25T16:00:39+08:00">2019-10-25</time>
             </span>
 
           
@@ -509,6 +509,56 @@ a^{b}=a^{p*\varphi(n)+r}=(a^{\varphi(n)})^p*a^{r} \equiv 1^{p}*a^{r} \equiv a^{r
 
 
   
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
 
   
 

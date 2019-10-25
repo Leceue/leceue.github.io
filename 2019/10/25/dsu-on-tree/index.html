@@ -59,7 +59,7 @@
 <meta property="og:site_name" content="Thinkings and Works">
 <meta property="og:description" content="这篇博客只是简单叙述思想(因为ML太弱了),具体例题请转其他博客.dsu on tree,许多OI将其归于启发式合并,当然如果你能理解更好,这只是一个理解方式罢了.思想简述　　顾名思义,这个算法是处理树上问题,将子树分开求解,如果暴力了话是枚举每个子树,然后dfs;　　这里将每次dfs完的清空操作重新定义,并且规定dfs顺序,以来优化成log解法.">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-25T08:08:51.150Z">
+<meta property="og:updated_time" content="2019-10-25T13:15:42.157Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://leceue.github.io./2019/10/25/dsu-on-tree/">
@@ -247,7 +247,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-10-25 15:59:52 / Modified: 16:08:51" itemprop="dateCreated datePublished" datetime="2019-10-25T15:59:52+08:00">2019-10-25</time>
+              <time title="Created: 2019-10-25 15:59:52 / Modified: 21:15:42" itemprop="dateCreated datePublished" datetime="2019-10-25T15:59:52+08:00">2019-10-25</time>
             </span>
 
           
@@ -481,6 +481,56 @@
 
 
   
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
 
   
 

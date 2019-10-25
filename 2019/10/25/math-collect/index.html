@@ -59,7 +59,7 @@
 <meta property="og:site_name" content="Thinkings and Works">
 <meta property="og:description" content="EXGCD　　我们在遇见不定方程的时候，总会一筹莫展，但是EXGCD为我们提供了方法，如同　　$ a x + b y = c $   　　那么我们先从这个这个式子出发：　　$ax+by=gcd(a,b)$ 　　 $(1)$　　我们不妨设出另一个式子　　$ b x_{0}+(a \% b)y_{0}=gcd(b,a \% b)$ 　　 $(2)$">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-25T08:15:22.682Z">
+<meta property="og:updated_time" content="2019-10-25T13:16:31.390Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://leceue.github.io./2019/10/25/math-collect/">
@@ -247,7 +247,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-10-25 16:00:59 / Modified: 16:15:22" itemprop="dateCreated datePublished" datetime="2019-10-25T16:00:59+08:00">2019-10-25</time>
+              <time title="Created: 2019-10-25 16:00:59 / Modified: 21:16:31" itemprop="dateCreated datePublished" datetime="2019-10-25T16:00:59+08:00">2019-10-25</time>
             </span>
 
           
@@ -500,6 +500,56 @@
 
 
   
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
 
   
 

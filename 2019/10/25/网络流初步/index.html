@@ -59,7 +59,7 @@
 <meta property="og:site_name" content="Thinkings and Works">
 <meta property="og:description" content="其实网络流很久之前已经学过,但是因为一些原因搁置了很久,于是想再系统地复习一下.由于博主能力有限,所以关于网络流知识也是了解个大概,这里只是简单介绍,并且说一下博主的感性理解最大流　　EK増广路算法　　　　很容易理解的一个算法,也就是我们不断地bfs找出一条増广路然后更新剩余容量,直到更新完毕,类似于SPFA做法.时间复杂度$O(nm^{2})$;">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-25T08:06:14.315Z">
+<meta property="og:updated_time" content="2019-10-25T13:17:40.470Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://leceue.github.io./2019/10/25/%E7%BD%91%E7%BB%9C%E6%B5%81%E5%88%9D%E6%AD%A5/">
@@ -247,7 +247,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-10-25 15:58:45 / Modified: 16:06:14" itemprop="dateCreated datePublished" datetime="2019-10-25T15:58:45+08:00">2019-10-25</time>
+              <time title="Created: 2019-10-25 15:58:45 / Modified: 21:17:40" itemprop="dateCreated datePublished" datetime="2019-10-25T15:58:45+08:00">2019-10-25</time>
             </span>
 
           
@@ -477,6 +477,56 @@
 
 
   
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
 
   
 

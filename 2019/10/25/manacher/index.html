@@ -60,7 +60,7 @@
 <meta property="og:description" content="manacher算法的由来不再赘述，自行百度QWQ。。。进入正题，manacher算法是一个高效的计算回文串的算法，回文串如果不知道可以给出一个例子：“ noon ”，这样应该就很清晰了；其实这个算法虽然名字长，但是实际代码很短，而且理解起来并不难。。。（连我这种蒟蒻都懂了）这里给出模板题题目描述给出一个只由小写英文字符a,b,c…y,z组成的字符串S,求S中最长回文串的长度.">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;images&#x2F;14.png">
-<meta property="og:updated_time" content="2019-10-25T08:36:22.940Z">
+<meta property="og:updated_time" content="2019-10-25T13:16:23.332Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;images&#x2F;14.png">
 
@@ -249,7 +249,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-10-25 16:18:22 / Modified: 16:36:22" itemprop="dateCreated datePublished" datetime="2019-10-25T16:18:22+08:00">2019-10-25</time>
+              <time title="Created: 2019-10-25 16:18:22 / Modified: 21:16:23" itemprop="dateCreated datePublished" datetime="2019-10-25T16:18:22+08:00">2019-10-25</time>
             </span>
 
           
@@ -496,6 +496,56 @@
 
 
   
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
 
   
 

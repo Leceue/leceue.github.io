@@ -60,7 +60,7 @@
 <meta property="og:description" content="前置知识　　1.线段树。。。　　（好像没了　　2.（可知可不知，可能会有帮助）动态开点线段树主席树(可持久化线段树)　　一看可持久化,我们总会想到一些恐怖的算法.但是其实理解并不难,而这里我只是将主席树的思想讲清楚(尽量),题还是自己刷(虽然我就没刷几道　　先看一道 模板题题目描述如题，给定N个整数构成的序列，将对于指定的闭区间查询其区间内的第K小值。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;images&#x2F;6.png">
-<meta property="og:updated_time" content="2019-10-25T08:13:31.554Z">
+<meta property="og:updated_time" content="2019-10-25T13:18:04.531Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;images&#x2F;6.png">
 
@@ -249,7 +249,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-10-25 16:00:23 / Modified: 16:13:31" itemprop="dateCreated datePublished" datetime="2019-10-25T16:00:23+08:00">2019-10-25</time>
+              <time title="Created: 2019-10-25 16:00:23 / Modified: 21:18:04" itemprop="dateCreated datePublished" datetime="2019-10-25T16:00:23+08:00">2019-10-25</time>
             </span>
 
           
@@ -498,6 +498,56 @@
 
 
   
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
 
   
 

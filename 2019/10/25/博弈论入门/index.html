@@ -59,7 +59,7 @@
 <meta property="og:site_name" content="Thinkings and Works">
 <meta property="og:description" content="说实话,我真的对这个游戏看得是一脸懵逼,因为(我太弱了)我没有明白一些变量的意思,所以一直很懵,现在才明白,这让我明白博弈论(还可以骗钱)博大精深;以下是我自己思考的过程,也许不严谨,但是最终明白了.这里只是粗略地介绍Nim游戏,一个入门博客,以来更好地进入SG函数(因为我才刚学游戏简介　　背景故事我就不说了,直接介绍游戏规则.">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-25T08:07:39.946Z">
+<meta property="og:updated_time" content="2019-10-25T13:16:39.368Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://leceue.github.io./2019/10/25/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%85%A5%E9%97%A8/">
@@ -247,7 +247,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-10-25 15:59:17 / Modified: 16:07:39" itemprop="dateCreated datePublished" datetime="2019-10-25T15:59:17+08:00">2019-10-25</time>
+              <time title="Created: 2019-10-25 15:59:17 / Modified: 21:16:39" itemprop="dateCreated datePublished" datetime="2019-10-25T15:59:17+08:00">2019-10-25</time>
             </span>
 
           
@@ -494,6 +494,56 @@
 
 
   
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
 
   
 
