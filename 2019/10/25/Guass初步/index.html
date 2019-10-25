@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Guass初步 | Thinkings and Works</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Mr_Leceue">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": true,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/ML.jpg"></a></div>
+    <span>2019-10-25</span>
+    <h2>Guass初步</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>Gauss算法，称为高斯消元算法，用来解决n元一次方程，在解决线性方程问题起着重要作用。</p>
+<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a><strong>简述</strong></h2><p>　　运用高斯消元的方法，我们可以在O(n3)的时间求出n元线性方程，但是由于时间复杂度的原因，请注意题目数据范围的提示。</p>
+<p>　　<strong>高斯消元三大定理（在小学就学过了吧）：</strong></p>
+<p>　　　　1.两个方程互换位置，解不变；</p>
+<p>　　　　2.一个方程进行加减乘除，解不变；</p>
+<p>　　　　3.一个方程乘上数k加上另一个方程，解不变；</p>
+<p>　　这便是我们解决的基础；</p>
+<h2 id="过程："><a href="#过程：" class="headerlink" title="过程："></a><strong>过程：</strong></h2><p>　　这里给出<a href="https://www.luogu.org/problem/P3389" target="_blank" rel="noopener">luogu例题链接</a>，这样方便寻找；</p>
+<p>　　我们这里不用luogu的样例示范（因为不是整数好麻烦），这里给出方程</p>
+<p>　　2 x + 3 y - z = 21;</p>
+<p>　　x + 2 y + 2 z = 7;</p>
+<p>　  3 x + y + 5 z = 8;　</p>
+<p>　　我们将系数提出，然后就可以得到一个3 * 3的矩阵，之后将每个方程等号右边放到矩阵的最右边，就得到了：</p>
+<p>　　<img src="/images/18.png" alt="alt"></p>
+<p>　　这里每个方程的结果与系数我用黑线隔开了，想必也更清楚；</p>
+<p>　　有了定理，我们理一下目标：</p>
+<p>　　我们如果将每一个方程只留下一个未知数的系数，那么最后就可以求解了，如：</p>
+<p>　　<img src="/images/19.png" alt="alt"></p>
+<p>　　当然系数不一定只会是1，但是只要除一下就好，根据这个定义，我们将第 i 个未知数的前系数非零而且其他系数都为零，这个系数在矩阵的位置为 i ，i；</p>
+<p>　　这样的矩阵称为“简化阶梯矩阵”；</p>
+<p>　　我们只要将每个矩阵化成简化阶梯矩阵即可；</p>
+<h2 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a><strong>步骤：</strong></h2><p>　　1.枚举第 i 个未知数（外循坏）；</p>
+<p>　　2.决定在哪一行求解这个未知数：</p>
+<p>　　　　这里采用先对每一行 j 第 i 个系数找到最大值，有最大值的这一行定义为第ms行（名字随便起的，没有其他意思），然后将第ms行交换至第 i 行</p>
+<p>　　3.判断第i行第i个数的值是否为0，这里由于数学期望和精度问题，我们将这个判断改为这个数的值是否小于我们定义的那个精度，如果小于（那就相当于为0了），</p>
+<p>　　　　那么无解（因为这个项的系数是所有中最大的，所以其他的也都为0，一定无解）；</p>
+<p>　　4.然后进行消元，就是将其他方程这个项的系数归0，这里有精度问题，但是从期望来讲，是不成问题的；</p>
+<h2 id="Code："><a href="#Code：" class="headerlink" title="Code："></a><strong>Code：</strong></h2><p>　　（我才不会说其实我有模拟操作但是太麻烦不想写了。。。）</p>
+<p>　　不过我很良心，所以我有输出模拟，运行一下我的代码就行了；</p>
+<p>　　</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 107</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> db double</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">const</span> db cmp=<span class="number">1e-8</span>;</span><br><span class="line">db a[maxn][maxn];</span><br><span class="line"></span><br><span class="line"><span class="comment">//模拟啦 biu~</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">biu</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"work %d \n"</span>,x);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n+<span class="number">1</span>;j++)</span><br><span class="line">         <span class="built_in">cout</span>&lt;&lt;a[i][j]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">         <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n+<span class="number">1</span>;j++)</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%lf"</span>,&amp;a[i][j]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> ms=i;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=i;j&lt;=n;j++)</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">fabs</span>(a[j][i])&gt;<span class="built_in">fabs</span>(a[ms][i]))</span><br><span class="line">                ms=j;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">fabs</span>(a[ms][i])&lt;cmp)&#123;</span><br><span class="line">            <span class="built_in">puts</span>(<span class="string">"No Solution"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n+<span class="number">1</span>;j++)</span><br><span class="line">            swap(a[i][j],a[ms][j]);</span><br><span class="line">        biu(<span class="number">2</span>); </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(j==i) <span class="keyword">continue</span>;</span><br><span class="line">            db rate=a[j][i]/a[i][i];</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> k=i+<span class="number">1</span>;k&lt;=n+<span class="number">1</span>;k++)</span><br><span class="line">                a[j][k]-=a[i][k]*rate;</span><br><span class="line">        &#125;</span><br><span class="line">        biu(<span class="number">4</span>);<span class="comment">//良心模拟。。。 </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="built_in">printf</span>(<span class="string">"%.2f\n"</span>,a[i][n+<span class="number">1</span>]/a[i][i]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a><strong>例题</strong></h2><p>　　<a href="https://www.luogu.org/problem/P4035" target="_blank" rel="noopener">P4035 [JSOI2008]球形空间产生器</a></p>
+<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>有一个球形空间产生器能够在 nnn 维空间中产生一个坚硬的球体。现在，你被困在了这个 nnn 维球体中，你只知道球面上 n+1n+1n+1 个点的坐标，你需要以最快的速度确定这个 nnn 维球体的球心坐标，以便于摧毁这个球形空间产生器。</p>
+<h3 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h3><p>第一行是一个整数 nnn (1&lt;=N=10)(1&lt;=N=10)(1&lt;=N=10)。接下来的 n+1n+1n+1 行，每行有 nnn 个实数，表示球面上一点的 nnn 维坐标。每一个实数精确到小数点后 666 位，且其绝对值都不超过 200002000020000。</p>
+<h3 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h3><p>有且只有一行，依次给出球心的 nnn 维坐标（ nnn 个实数），两个实数之间用一个空格隔开。每个实数精确到小数点后 333 位。数据保证有解。你的答案必须和标准输出一模一样才能够得分。</p>
+<p>　　这个只要构造出矩阵即可；</p>
+<p>　　可惜我不会在博客上用数学公式。。。</p>
+<p>　　所以就随便写写了；</p>
+<p>　　设xi为第i维的坐标；</p>
+<p>　　sum(j=1,n) { (a[ i , j ] - x [ j ]) }=r^2;</p>
+<p>　　这样的方程共有11个，我们要将r消掉，所以将相邻的两个方程相减，得到11个方程，然后将多项式拆开，合并，移项得到；</p>
+<p>　　sum(j=1,n){ 2<em>(a[ i , j ] - a[ i + 1 , j ) </em> x [ j ] } = sum(j=1,n){ a[ i , j ] - a[ i + 1 , j ] };</p>
+<p>　　这样就可以将左边的作为方程左边，右边作为结果，列出矩阵，这里还不需要检验，直接上代码。。。</p>
+<p>　</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> db double</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line">db a[<span class="number">17</span>][<span class="number">17</span>],c[<span class="number">17</span>][<span class="number">17</span>];</span><br><span class="line"><span class="keyword">const</span> db cmp=<span class="number">1e-8</span>;</span><br><span class="line"><span class="function">db <span class="title">calc</span><span class="params">(db x)</span></span>&#123;<span class="keyword">return</span> x*x;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n+<span class="number">1</span>;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%lf"</span>,&amp;a[i][j]);</span><br><span class="line">            <span class="keyword">if</span>(i==<span class="number">1</span>) <span class="keyword">continue</span>;</span><br><span class="line">            c[i<span class="number">-1</span>][j]=<span class="number">2</span>*(a[i<span class="number">-1</span>][j]-a[i][j]);</span><br><span class="line">            c[i<span class="number">-1</span>][n+<span class="number">1</span>]+=calc(a[i<span class="number">-1</span>][j])-calc(a[i][j]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> ms=i;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;=n;j++)</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">fabs</span>(c[j][i])&gt;<span class="built_in">fabs</span>(c[ms][i])) ms=j;</span><br><span class="line">        <span class="keyword">if</span>(ms!=i) <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n+<span class="number">1</span>;j++)</span><br><span class="line">            swap(c[i][j],c[ms][j]);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i==j) <span class="keyword">continue</span>;</span><br><span class="line">            db rate=c[j][i]/c[i][i];</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> k=i+<span class="number">1</span>;k&lt;=n+<span class="number">1</span>;k++)</span><br><span class="line">                c[j][k]-=c[i][k]*rate;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="built_in">printf</span>(<span class="string">"%.3f "</span>,c[i][n+<span class="number">1</span>]/c[i][i]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实还有一些拓展内容，到时候再补充。。。</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/25/%E8%8E%AB%E9%98%9F-%E5%9F%BA%E4%BA%8E%E5%88%86%E5%9D%97%E7%9A%84%E4%BC%98%E5%8C%96/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>莫队--基于分块的优化</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/25/manacher/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>manacher</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Thinkings and Works</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Search..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/ML.jpg" alt="Mr_Leceue"/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Mr_Leceue</p>
+          <span class="tagline">人定胜天</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

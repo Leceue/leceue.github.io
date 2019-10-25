@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>euler | Thinkings and Works</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Mr_Leceue">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": true,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/ML.jpg"></a></div>
+    <span>2019-10-25</span>
+    <h2>euler</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="euler函数"><a href="#euler函数" class="headerlink" title="euler函数"></a>euler函数</h2><p>euler函数是表示从1~n中与n互质的个数，互质的定义简单提一下，$gcd(a,b)=1$。</p>
+<p>那么如何求一个数的euler函数？</p>
+<p>我们可以将每个数与n求gcd一下，如果gcd为1，则贡献加1，时间复杂度为 $O(n logn)$，极其优秀（雾）</p>
+<p>那么来思考更加优秀的算法（为什么一定要求euler函数($\varphi(n)$函数)呢QAQ）</p>
+<h3 id="引论"><a href="#引论" class="headerlink" title="引论"></a>引论</h3><p>在算法基本定理中，$N=p1^{c1}<em>p2^{c2}</em>p3^{c3}…$，其中pi为质因数，那么：</p>
+<script type="math/tex; mode=display">
+\varphi(N)=N*\frac{p1-1}{p1}*\frac{p2-1}{p2}...=\frac{pn-1}{pn}=N*\prod_{p|n} \frac{p-1}{p}</script><p>简单证明：</p>
+<p>设p是N的质因子，那么显然p的倍数与N不互质，这些数分别是$p<em>1,p</em>2…p*N/p$，</p>
+<p>显然有N/p个，那么我们可以减去这N/p个。设q是N的质因子，那么同理，q的倍数的个数有N/q个，那么在这N/p和N/q个当中有同时是p和q的倍数的，而我们多减了一次，我们容斥一下可以得到：</p>
+<script type="math/tex; mode=display">
+\varphi(N)=N-N/p-N/q+N/pq=N*(q-1)/q*(p-1)/p</script><p>那么推广到全部即可；</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>我们可以枚举其质因数，不用素数筛，当中我们可以直接用自然数筛，将N中所有的该数倍数筛掉，那么之后的合数必然是之前质因数的组合乘积，但是我们已经筛掉，所以不可能筛到合数，并且我们只用筛到$\sqrt{n}$即可，这个证明较简单，不再赘述。</p>
+<h4 id="code"><a href="#code" class="headerlink" title="code"></a>code</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;cstdio&gt;</span><br><span class="line">#include&lt;cmath&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">int main()&#123;</span><br><span class="line">	int n,lim,ans;</span><br><span class="line">	scanf(&quot;%d&quot;,&amp;n);</span><br><span class="line">	lim=sqrt(n),ans=n;</span><br><span class="line">	for(int i=2;i&lt;=lim;i++)</span><br><span class="line">		if(!(n%i))&#123;</span><br><span class="line">			ans=ans/i*(i-1);</span><br><span class="line">			while(!(n%i)) n/=i;</span><br><span class="line">		&#125;</span><br><span class="line">	if(n&gt;1) ans=ans/n*(n-1);//质因数大于sqrt(n) </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h3><blockquote>
+<p>1.如果n&gt;1，1~n中与n互质的数的和为$n*\varphi(n)/2$</p>
+</blockquote>
+<p>简单证明：</p>
+<p>根据更相减损术可得，$gcd(a,b)=gcd(a,a-b)$，那么与n互质的数成对出现，则平均数为n/2，那么易得到结论；</p>
+<p>2.如果a,b互质,$\varphi(ab)=\varphi(a)\varphi(b)$</p>
+<p>简单证明：</p>
+<p>根据euler函数的计算公式可得：</p>
+<script type="math/tex; mode=display">
+\varphi(ab)=ab*\prod_{p|ab}(p-1)/p=a*\prod_{p|a}(p-1)/p *b*\prod_{p|b}(p-1)/p=\varphi(a)*\varphi{b}</script><p>==定义：满足性质2的为积性函数==</p>
+<p>3.如果$f(n)$为积性函数，$n=\prod_{i=1}^{m}p_{i}^{c_{i}}$，那么$f(n)=\prod_{i=1}^{m}f(pi^{c_{i}})$</p>
+<p>简单证明：</p>
+<p>类比积性函数的定义和定义式可以得到</p>
+<p>4.设p为质数,p|n且$p^{2}|n$,那么$\varphi(n)=varphi(n/p)*p$</p>
+<p>简单证明:</p>
+<p>这个就很好证了,显然p和n/p的质因数相同,那么定义式中只有N是不同的,那么拆开再合并定义式就可以得到结论;</p>
+<p>5.设p为质数,p|n但$p^{2}\not\mid n$,那么$\varphi(n)=\varphi(n/p)*(p-1)$</p>
+<p>简单证明:</p>
+<p>显然,p与n/p互质,那么根据积性函数$\varphi(n)=\varphi(n/p)*\varphi(p)$,当中$\varphi(p)=p-1$(因为p是质数),那么结论显然;</p>
+<p>==以上性质4,5可以用来线性求euler函数,在后面会提到==</p>
+<p>6.$\sum_{d|n}\varphi(d)=n$</p>
+<p>证明忽略(雾</p>
+<h3 id="euler函数的线性筛法"><a href="#euler函数的线性筛法" class="headerlink" title="euler函数的线性筛法"></a>euler函数的线性筛法</h3><p>如果要求1~n的euler函数,那么如何求解?</p>
+<p>暴力解法,对每一个数进行求解,那么可以得到一个$O(n\sqrt{n})$的算法;</p>
+<p>如何更优?</p>
+<p>运用性质4,5即可,在素数筛的过程中进行性质4,5的判断,然后统计;</p>
+<h4 id="code-1"><a href="#code-1" class="headerlink" title="code"></a>code</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 100008</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,prim[maxn],vis[maxn],euler[maxn],m;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(!vis[i])&#123;</span><br><span class="line">			vis[i]=i;prim[++m]=i;</span><br><span class="line">			euler[i]=i<span class="number">-1</span>;<span class="comment">//这个很好理解 </span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(prim[j]&gt;vis[i]||prim[j]*i&gt;n) <span class="keyword">break</span>;</span><br><span class="line">			vis[prim[j]*i]=prim[j];</span><br><span class="line">			<span class="comment">//素数筛 </span></span><br><span class="line">			euler[prim[j]*i]=euler[prim[j]]*(i%prim[j]?(prim[j]<span class="number">-1</span>):(prim[j]));</span><br><span class="line">			<span class="comment">//性质4,5的判断 </span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="欧拉定理"><a href="#欧拉定理" class="headerlink" title="欧拉定理"></a>欧拉定理</h3><h5 id="简述"><a href="#简述" class="headerlink" title="简述:"></a>简述:</h5><script type="math/tex; mode=display">
+gcd(a,b)=1,a^{\varphi(b)}\equiv1(\mod b)</script><p>证明略(不会(雾</p>
+<h4 id="拓展欧拉定理"><a href="#拓展欧拉定理" class="headerlink" title="拓展欧拉定理"></a>拓展欧拉定理</h4><h5 id="简述-1"><a href="#简述-1" class="headerlink" title="简述;"></a>简述;</h5><p>$gcd(a,n)=1,则a^{b}\equiv a^{b\% \varphi(n)}(mod n)$    </p>
+<p>简单证明:</p>
+<p>设$b=p*\varphi(n)+r$,那么$r= b(mod \varphi(n))$,由欧拉定理可得:</p>
+<script type="math/tex; mode=display">
+a^{b}=a^{p*\varphi(n)+r}=(a^{\varphi(n)})^p*a^{r} \equiv 1^{p}*a^{r} \equiv a^{r} \equiv a^{b \%\ \varphi(n)}</script>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/25/math-collect/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>math collect</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/25/%E4%B8%BB%E5%B8%AD%E6%A0%91%E5%88%9D%E6%AD%A5/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>主席树初步</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Thinkings and Works</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Search..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/ML.jpg" alt="Mr_Leceue"/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Mr_Leceue</p>
+          <span class="tagline">人定胜天</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

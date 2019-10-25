@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>矩阵树 | Thinkings and Works</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Mr_Leceue">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": true,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/ML.jpg"></a></div>
+    <span>2019-10-25</span>
+    <h2>矩阵树</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="必备知识："><a href="#必备知识：" class="headerlink" title="必备知识："></a>必备知识：</h2><p>　　高斯消元，图论基本知识（好像就这。。。（雾）） </p>
+<p>这里是无向图部分，请不要走错场。。。</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>　　我们将邻接矩阵定义为矩阵$A(u,v)$，我想邻接矩阵就不用再多说了；</p>
+<p>　　我们将每个点的度数矩阵定义为矩阵$D(u,v)$，这里再加上数学表示；</p>
+<p>　　$D(u,u)=u$这个点的度数，$D(u,v)=0（u!=v)$；</p>
+<p>　　我们将矩阵Laplace（或Kirchhoff）定义为$L(u,v)=D(u,v)-A(u,v)$</p>
+<p>　　我们将生成树的个数定义为 $t$；</p>
+<h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>　　这里将讲述行列式，如果dalao已经学过，请直接跳过这个环节；</p>
+<p>　　这里引入的是$N*N$方阵行列式（因为邻接矩阵是方形），例如</p>
+<p>　　<img src="/images/1.png" alt="alt"></p>
+<p>　　行列式的公式是<script type="math/tex">D=|A|=\sum(-1)^v a_{1,l_1}a_{2,l_2}a_{3,l_3}...a_{n,l_n}</script>.</p>
+<p>　　PS：其中v是 $l_1 , l_2 , l_3 … l_n$的逆序对个数；</p>
+<p>　　行列式有几个性质：</p>
+<ul>
+<li>行行交换，结果相反；</li>
+<li>行行叠加，结果不变；</li>
+<li>矩阵行伸长，结果等比例增加；</li>
+</ul>
+<p>　　PS：</p>
+<p>　　性质1的简单证明：</p>
+<p>　　　　由行列式的公式可知，行行交换，必然会出现逆序对的变化，变化为1，那么此时结果符号一定会改变；</p>
+<p>　　性质2的补充：</p>
+<p>　　　　可以让其他行乘上k叠加到这一行，结果不变；</p>
+<p>　　根据这些，我们就可以发现，高斯消元可以很好的利用这些性质，那么高斯消元后矩阵对角线的乘积即为结果；</p>
+<p>　　我从其他位置挖来了一个矩阵L的优化证明，说实话，我有点蒙</p>
+<p>　　<img src="/images/3.png" alt="alt"></p>
+<p>　　我们根据这个性质可以少算一行一列，这应该也算优化吧（心虚~</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>　　这样思路就十分清晰了，这里的矩阵L行列式值即为生成树个数，那么我们就有了步骤：</p>
+<ol>
+<li>首先构造矩阵L，根据公式$L=D - A$，我们可以很方便地求出矩阵L，当然，在读入边时就可以直接操作，如边 $u$  -&gt; $v$，我们不妨让$f [ u ] [ v ]=f [ v ] [ u ] - -,f [ u ] [ u ]++,f [ v ] [ v ]++$.</li>
+<li>然后将矩阵高斯消元，并求出对角线的乘积。</li>
+<li>有时因为必须是整数，我们可以采用类似于辗转相除法的减去方法，下面将详细介绍。</li>
+</ol>
+<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>　　模板题：<a href="https://www.luogu.org/problem/P4111" target="_blank" rel="noopener">小Z的房间</a></p>
+<p>　　思路清晰，只要将一个点和上下左右建边，构造矩阵L，用高斯消元求解；</p>
+<p>　　不过高斯消元一般求其小数形式，这里是不行的，因为是方案数（不可能是小数啊QWQ）；</p>
+<p>　　这里就应用了类似于辗转相除的方法，回顾辗转相除，将两个数取$mod$，然后交换位置，直到一个为0为止；</p>
+<p>　　高斯消元同样是将另一个数消为0，那么我们将函数改一下，如下（看注释）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ll <span class="title">Gauss</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ll ans=<span class="number">1</span>;n=cent<span class="number">-1</span>;<span class="comment">//定理 1 的应用 ,cent为总点数 </span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="keyword">while</span>(f[j][i])&#123;<span class="comment">//类辗转相除法 ，直到一个为0 </span></span><br><span class="line">                <span class="keyword">int</span> t=f[i][i]/f[j][i];</span><br><span class="line">                <span class="comment">//注意是int类型（向下取整），没减完，但是减后f[i][i]&lt;f[j][i] </span></span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> k=i;k&lt;=n;k++)</span><br><span class="line">                    f[i][k]=(f[i][k]-f[j][k]*t%mod+mod)%mod;</span><br><span class="line">                swap(f[i],f[j]);<span class="comment">//交换位置辗转减 </span></span><br><span class="line">                <span class="comment">//交换位置是因为上面所说的 f[i][i]&lt;f[j][i] </span></span><br><span class="line">                ans=-ans;<span class="comment">//交换位置要取反 </span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ans=(ans*f[i][i]+mod)%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　应该解释的还算清楚，类似辗转相除的复杂度大约多了一个$log n$，总复杂度$O(n^{3}log n)$我将整个代码放在这里，算一个模板吧：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> mod 1000000000</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,m,a[<span class="number">100</span>][<span class="number">100</span>],cent;</span><br><span class="line">ll f[<span class="number">100</span>][<span class="number">100</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">    f[u][u]++,f[u][v]--;</span><br><span class="line">&#125;<span class="comment">//由于矩阵对称，所以加减一次就好。。。 </span></span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">Gauss</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ll ans=<span class="number">1</span>;n=cent<span class="number">-1</span>;<span class="comment">//定理 1 的应用 ,cent为总点数 </span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="keyword">while</span>(f[j][i])&#123;<span class="comment">//类辗转相除法 ，直到一个为0 </span></span><br><span class="line">                <span class="keyword">int</span> t=f[i][i]/f[j][i];</span><br><span class="line">                <span class="comment">//注意是int类型（向下取整），没减完，但是减后f[i][i]&lt;f[j][i] </span></span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> k=i;k&lt;=n;k++)</span><br><span class="line">                    f[i][k]=(f[i][k]-f[j][k]*t%mod+mod)%mod;</span><br><span class="line">                swap(f[i],f[j]);<span class="comment">//交换位置辗转减 </span></span><br><span class="line">                <span class="comment">//交换位置是因为上面所说的 f[i][i]&lt;f[j][i] </span></span><br><span class="line">                ans=-ans;<span class="comment">//交换位置要取反 </span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ans=(ans*f[i][i]+mod)%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;n,&amp;m);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">            <span class="keyword">char</span> s=getchar();</span><br><span class="line">            <span class="keyword">while</span>(s!=<span class="string">'.'</span>&amp;&amp;s!=<span class="string">'*'</span>)</span><br><span class="line">                s=getchar();<span class="comment">//防止输入出错 </span></span><br><span class="line">            <span class="keyword">if</span>(s==<span class="string">'.'</span>) a[i][j]=++cent;<span class="comment">//命名 </span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">            <span class="keyword">int</span> now,rou;</span><br><span class="line">            <span class="keyword">if</span>(!(now=a[i][j])) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span>(rou=a[i<span class="number">-1</span>][j]) add(now,rou);</span><br><span class="line">            <span class="keyword">if</span>(rou=a[i][j<span class="number">-1</span>]) add(now,rou);</span><br><span class="line">            <span class="keyword">if</span>(rou=a[i+<span class="number">1</span>][j]) add(now,rou);</span><br><span class="line">            <span class="keyword">if</span>(rou=a[i][j+<span class="number">1</span>]) add(now,rou);<span class="comment">//构建L矩阵 </span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%lld\n"</span>,(Gauss()+mod)%mod);<span class="comment">//不能是负数。。。 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="深入"><a href="#深入" class="headerlink" title="深入"></a>深入</h2><p>　　懂了模板当然是不够的，我们应该见识一些技巧：</p>
+<h3 id="SDOI2014-重建"><a href="#SDOI2014-重建" class="headerlink" title="[SDOI2014]重建"></a><a href="https://www.luogu.org/problem/P3317" target="_blank" rel="noopener">[SDOI2014]重建</a></h3><p>　　题目不再粘贴，我们直接叙述；</p>
+<p>　　这里同样是生成树个数，不过不同的是，这里具有边权值，不过这里并不碍事，我们将叙述有点权值将如何应对。</p>
+<p>　　根据高中概率的基本知识，两个没有交集的事件$A,B$，概率分别为$P(A),P(B)$，那么$P(AB)=P(A)*P(B)$，这个应该都懂。</p>
+<p>　　那么每条边联通的概率为$P(u,v)$，那么不连通的概率是$1-P(u,v)$，这个应该很显然。</p>
+<p>　　那么一个生成树的概率$P(G)= P(u,v)*(1 - P（x，y))$，其中u，v的边属于生成树$G$，而$x,y$这条边不属于。</p>
+<p>　　那么，$\sum P(G)$即为总概率，我们将式子改造。</p>
+<p>​    <script type="math/tex">\sum_{G} \prod_{(u,v)\in G,(x,y)\notin G} P(u,v)*(1-P(x，y))</script></p>
+<p>​    <script type="math/tex">=\sum_G \prod_{(u,v)\in G,(x,y)\notin G} P（u，v）*(1-\frac{P(G)}{P（u，v)})</script></p>
+<p>​    <script type="math/tex">=\sum_G (1 - P(G))\prod_{(u,v)\in G,(x,y)\notin G} \frac{P(u,v)}{1-P(u,v)}</script></p>
+<p>　　解释一下，由于属于树$G$的边和不属于树$G$的边互为补集，所以就可以利用这个性质，我直接表达这个式子</p>
+<p>　　$sum=\sum(1-P(G)) \prod_{(u,v)\in G,(x,y)\notin G} \frac{P(u,v)}{1-P(u,v)}$</p>
+<p>　　这样就很显然了，将<script type="math/tex">\frac{P[u][v]}{1-P[u][v]}</script>作为边权值，不过如何处理边权，这里给出步骤：</p>
+<p>　　1.我们将矩阵读入，重新定义边权；</p>
+<p>　　2.将边权当作度数加在对角线上，然后当作邻接矩阵中边的个数减去即可；</p>
+<p>　　3.高斯消元；</p>
+<p>　　介绍完毕，$Code$：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 57</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> db double</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line">db f[maxn][maxn],ans=<span class="number">1.0</span>;</span><br><span class="line"><span class="keyword">const</span> db eps=<span class="number">1e-8</span>;</span><br><span class="line"></span><br><span class="line"><span class="function">db <span class="title">Gauss</span><span class="params">()</span></span>&#123;</span><br><span class="line">    n--;db ol=<span class="number">1.0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> sp=i;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;=n;j++)</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">fabs</span>(f[j][i])&gt;<span class="built_in">fabs</span>(f[sp][i])) sp=j;</span><br><span class="line">        <span class="keyword">if</span>(i!=sp) swap(f[i],f[sp]),ans=-ans;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            db t=f[j][i]/f[i][i];</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> k=i;k&lt;=n;k++)</span><br><span class="line">                f[j][k]-=f[i][k]*t;</span><br><span class="line">        &#125;</span><br><span class="line">        ol*=f[i][i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ol;</span><br><span class="line">&#125;<span class="comment">//这里是小数，所以操作就没有那么鬼畜了。。 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">//sum = sigma P(G) Π(P[u][v]/(1-P[u][v]));</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%lf"</span>,&amp;f[i][j]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            db t=max((<span class="number">1.0</span>-f[i][j]),eps);<span class="comment">//小心 0 哦 </span></span><br><span class="line">            <span class="keyword">if</span>(i&gt;j) ans*=t;<span class="comment">//累加，得出 1-P(G) </span></span><br><span class="line">            f[i][j]/=t;<span class="comment">//步骤1 </span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)</span><br><span class="line">            <span class="keyword">if</span>(i!=j)&#123;</span><br><span class="line">                f[i][i]+=f[i][j]; </span><br><span class="line">                f[i][j]=-f[i][j];</span><br><span class="line">            &#125;<span class="comment">//步骤2 ,构图 </span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%.10lf"</span>,<span class="built_in">fabs</span>(Gauss()*ans));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="SHOI2016-黑暗前的幻想乡"><a href="#SHOI2016-黑暗前的幻想乡" class="headerlink" title="[SHOI2016]黑暗前的幻想乡"></a><a href="https://www.luogu.org/problem/P4336" target="_blank" rel="noopener">[SHOI2016]黑暗前的幻想乡</a></h3><p>　　这里用到了容斥原理，二进制枚举等技巧，容斥我就不再叙述，自己不会可以<a href="https://baike.baidu.com/item/容斥原理/10146840?fr=aladdin" target="_blank" rel="noopener">yy一下</a>（逃~</p>
+<p>　　直接上代码了（有良心注释）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 19</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> mod 1000000007</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="built_in">vector</span>&lt;pair&lt;<span class="keyword">int</span> ,<span class="keyword">int</span> &gt; &gt;a[maxn];</span><br><span class="line">ll f[maxn][maxn],ans;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">Gauss</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m=n<span class="number">-1</span>;ll ol=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">            <span class="keyword">while</span>(f[j][i])&#123;</span><br><span class="line">                <span class="keyword">int</span> t=f[i][i]/f[j][i];</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> k=i;k&lt;=m;k++)</span><br><span class="line">                    f[i][k]=(f[i][k]-f[j][k]*t%mod+mod)%mod;</span><br><span class="line">                swap(f[i],f[j]);ol=-ol;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ol=ol*f[i][i]%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (ol+mod)%mod;</span><br><span class="line">&#125;<span class="comment">//唉，方案数。。。 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">    f[u][u]++,f[v][v]++;</span><br><span class="line">    f[u][v]--,f[v][u]--;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>,t,u,v;i&lt;=n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;t);</span><br><span class="line">        <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;u,&amp;v);</span><br><span class="line">            a[i].push_back(make_pair(u,v));<span class="comment">//存图 </span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> lim=<span class="number">1</span>&lt;&lt;(n<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;lim;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> cnt=<span class="number">0</span>;<span class="built_in">memset</span>(f,<span class="number">0</span>,<span class="keyword">sizeof</span>(f));<span class="comment">//暴力建图 </span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;n<span class="number">-1</span>;k++)&#123;<span class="comment">//二进制枚举 </span></span><br><span class="line">            <span class="keyword">if</span>((<span class="number">1</span>&lt;&lt;k)&amp;i)&#123;</span><br><span class="line">                cnt++;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;a[k+<span class="number">1</span>].size();j++)</span><br><span class="line">                    add(a[k+<span class="number">1</span>][j].first,a[k+<span class="number">1</span>][j].second);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>((n-cnt)&amp;<span class="number">1</span>) ans=(ans+Gauss())%mod;</span><br><span class="line">        <span class="comment">//容斥原理。。。其实就是奇数和偶数分别加减 。。。 </span></span><br><span class="line">        <span class="keyword">else</span> ans=(ans-Gauss()+mod)%mod;<span class="comment">//防止负数。。。 </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%lld\n"</span>,ans);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>　　其实还有一些内容，但是由于赶着复习，就没再说了。</p>
+<p>　　我们做的这几道题，无非是建图，统计答案，高斯消元时设下关卡，导致题目难度的跃升。</p>
+<p>　　但既然已经知道要考哪里，就往哪个地方想，就像专题训练一样，然后找出特点，从而在综合题中找到这个算法的影子；</p>
+<p>　　这个算法特点主要就是生成树的计数，所以应该很好看出来，记住特点和处理方法，培养数学思维才是做题目的；</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/25/%E7%8C%AB%E6%A0%91/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>猫树</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/25/%E5%9F%BA%E7%8E%AF%E6%A0%91%E5%88%9D%E6%AD%A5/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>基环树初步</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Thinkings and Works</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Search..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/ML.jpg" alt="Mr_Leceue"/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Mr_Leceue</p>
+          <span class="tagline">人定胜天</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

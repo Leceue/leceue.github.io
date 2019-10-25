@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Hello World | Thinkings and Works</title>
+  <title>博弈论入门 | Thinkings and Works</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Mr_Leceue">
   <meta name="keywords" content="">
@@ -49,8 +49,8 @@
   <div class="page-title">
     <div class="avatar"><a href="/"><img src="/images/ML.jpg"></a></div>
     <span>2019-10-25</span>
-    <h2>Hello World</h2>
-    
+    <h2>博弈论入门</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></div>
     </div>
 </div>
 </div>
@@ -58,15 +58,37 @@
   <div class="lx-post">
     <div class="lx-entry padding">
       <div>
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <p>说实话,我真的对这个游戏看得是一脸懵逼,因为(我太弱了)我没有明白一些变量的意思,所以一直很懵,现在才明白,这让我明白博弈论(还可以骗钱)博大精深;</p>
+<p>以下是我自己思考的过程,也许不严谨,但是最终明白了.</p>
+<p>这里只是粗略地介绍Nim游戏,一个入门博客,以来更好地进入SG函数(因为我才刚学</p>
+<h2 id="游戏简介"><a href="#游戏简介" class="headerlink" title="游戏简介"></a>游戏简介</h2><p>　　背景故事我就不说了,直接介绍游戏规则.</p>
+<p>　　有n堆物品,每堆有$a_{i}$个物品,两个玩家每次可以任选一堆挑出任意整数个物品(可以整堆取完),但不能不取,取走最后一个物品的为胜者.</p>
+<p>　　这个游戏历史久远,曾用来赌钱,但是被一位数学家用二进制求解,得到了先手必胜和先手必败理论,于是这个游戏也就GG了;</p>
+<h2 id="游戏套路"><a href="#游戏套路" class="headerlink" title="游戏套路"></a>游戏套路</h2><p>　　假如有3堆物品,它们的个数分别是6,4,2,那么两个玩家都选择最优策略,那么先手胜还是后手胜? <a href="https://www.luogu.org/problem/P2197" target="_blank" rel="noopener">(例题(竟然还蓝了))</a></p>
+<p>　　答案是后手胜.(这个可以自己推一下)</p>
+<p>　　这里引入一个概念:有向图游戏;</p>
+<h3 id="有向图游戏"><a href="#有向图游戏" class="headerlink" title="　　有向图游戏"></a>　　有向图游戏</h3><p>　　　　我们定义一个游戏的初始状态为起点,向所能到达的所有状态连边,通过不断向下延展,得到必胜点(就是到这个点是胜利的情况)和必败点(这其实是我自己的理解)</p>
+<p>　　考虑将${6,4,2}$这个集合作为起点,然后向所有状态连边;但是显然状态太多,我们无法完全枚举;</p>
+<p>　　考虑终点,必然是${0,0,0}$,此时集合的异或和显然是0.</p>
+<p>　　那么我们定义每一堆剩余的个数为$A_{i}$,我们通过推论可以得到:初始状态集合异或和为0时必败,反之必胜.</p>
+<p>　　为什么会得到这个结论?</p>
+<h2 id="游戏思考"><a href="#游戏思考" class="headerlink" title="游戏思考"></a>游戏思考</h2><p>　　考虑将开始时集合中的数换成二进制,即${110,100,010}$,最后状态也换成二进制,我就不再写出来了.</p>
+<p>　　我们倒着推,最终解异或和为0,那么必然是从异或和非0的状态转移过来的.</p>
+<h3 id="证明"><a href="#证明" class="headerlink" title="　　证明"></a>　　证明</h3><p>　　　　如果$A_{1} Xor A_{2} Xor A_{3} …Xor A_{i}… Xor  A_{n}=0$,那么其中$A_{i}$是从$A_{i}^{‘}$转移过来的,假设$A_{1} Xor A_{2} Xor A_{3} …Xor A_{i}^{‘}… Xor  A_{n}=0$,</p>
+<p>　　　　根据异或运算得到,$A_{i}=A_{i}^{‘}$,根据游戏规则,每个玩家必然至少要取1个物品,与规则矛盾,假设不成立,结论成立.</p>
+<p>　　所以考虑采取这样一个策略,如果我们开始时异或和不为0,那么我们策略是轮到对手时,让他得到$A_{1} Xor A_{2} Xor A_{3} …Xor A_{i}… Xor  A_{n}=0$.</p>
+<p>　　那么必败节点必定到对方手中,我们需要证明一下我们一定能实现这个策略</p>
+<h3 id="证明-1"><a href="#证明-1" class="headerlink" title="　　证明"></a>　　证明</h3><p>　　　　假设此时集合异或和为x,此时最大数为$A_{i}$,那么我们可以让$A_{i}$变成$A_{i} Xor x$,这样异或和就又为0了.</p>
+<p>　　　　显然,$A_{i} &gt; A_{i} Xor x$,所以我们可以让$A_{i}$变成$A{i}Xor即可,那么一定可以实现这个策略.</p>
+<p>　　但是如果我们开始时异或和为0,对方也可以反过来利用这个策略,让我们陷入必败场面.</p>
+<p>　　结论再次强调一遍:初始状态集合异或和为0时必败,反之必胜.</p>
+<p>　　(以上证明单纯自己类似口述,没有按照严格的证明格式,请多谅解)</p>
+<h2 id="游戏反思"><a href="#游戏反思" class="headerlink" title="游戏反思"></a>游戏反思</h2><p>　　我们学习的是思维方式,而不单单是结论,所以我们反思一下我们做了什么</p>
+<p>　　1.首先分析了模型,概括出每种情况的集合,构造了一个有向图游戏;</p>
+<p>　　2.我们思考了每个点的转移方式.并分析了必败点的特点,发现一些特别的转移情况.</p>
+<p>　　3.我们更加深入的思考了转移情景,并证明了策略的正确性.</p>
+<p>　　4.算法实现(这里没有摆出);</p>
+<p>　　根据这个思路,也许会对以后有帮助,SG函数和Mex运算将会在之后讲到(博主还在努力的学T_T)</p>
 
       </div>
     </div>
@@ -75,12 +97,12 @@
 <div class="lx-navigation">
 	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
 		<div class="overlay"></div>
-		<a class="copy" href="/2019/10/25/%E5%9F%BA%E7%8E%AF%E6%A0%91%E5%88%9D%E6%AD%A5/">
+		<a class="copy" href="/2019/10/25/dsu-on-tree/">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
 						<span>Next</span>
-						<h3>基环树初步</h3>
+						<h3>dsu on tree</h3>
 					</div>
 				</div>
 			</div>
@@ -88,12 +110,12 @@
 	</div>
         <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
 		<div class="overlay"></div>
-		<a class="copy" href="#">
+		<a class="copy" href="/2019/10/25/%E7%BD%91%E7%BB%9C%E6%B5%81%E5%88%9D%E6%AD%A5/">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
 						<span>Prev</span>
-						<h3>没有更早的文章</h3>
+						<h3>网络流初步</h3>
 					</div>
 				</div>
 			</div>

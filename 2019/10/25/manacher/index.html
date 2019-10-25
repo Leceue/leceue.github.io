@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>manacher | Thinkings and Works</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Mr_Leceue">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": true,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/ML.jpg"></a></div>
+    <span>2019-10-25</span>
+    <h2>manacher</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">字符串</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>manacher算法的由来不再赘述，自行百度QWQ。。。</p>
+<p>进入正题，manacher算法是一个高效的计算回文串的算法，回文串如果不知道可以给出一个例子：“ noon ”，这样应该就很清晰了；</p>
+<p>其实这个算法虽然名字长，但是实际代码很短，而且理解起来并不难。。。（连我这种蒟蒻都懂了）</p>
+<p>这里给出<a href="https://www.luogu.org/problem/P3805" target="_blank" rel="noopener">模板题</a></p>
+<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给出一个只由小写英文字符a,b,c…y,z组成的字符串S,求S中最长回文串的长度.</p>
+<p>字符串长度为n</p>
+<h3 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h3><p>一行小写英文字符a,b,c…y,z组成的字符串S</p>
+<h3 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h3><p>一个整数表示答案</p>
+<p>　　其中n的范围为11000000，很显然，只能是$O(n)$的复杂度，但是为何复杂度这么优秀，这里在讲完算法之后会简述。</p>
+<p><strong>定理：</strong></p>
+<ul>
+<li>　　一个回文串只有一个对称中心，这个中心上可能有字母或者没有（如果没有字母，我们可以再加上一个，再后面会解释），我们暂且定义其为mid；</li>
+<li>　　mid两端的区间对称，两边全等（回文串的定义）；</li>
+<li>　　如果一个大的回文串一端的区间中有回文串，我们先定义它的中心为 i ，那么大回文串的另一端一定会有相同的回文串；</li>
+<li>　　根据上一条，如果我们要更新在右端区间的回文串，那么在左边的回文串半径就可以更新右边的，但是有大回文串的区间限制，所以应当两者取min；</li>
+<li>　　结束上面定理的继承之后，直接暴力枚举检查是否两端更新。</li>
+</ul>
+<p><strong>解释：</strong></p>
+<p>　　上面的原理毕竟太过干，只是纯理论，所以制图说明；</p>
+<p>　　<img src="/images/14.png" alt="alt"></p>
+<p>　　比如说这个区间是一个大回文串，我们我们用r保留其有边界，那么l就可以根据中点坐标公式变形得到mid*2 - r，所以我们只保留右边界 r 即可。</p>
+<p>　　那么可以看见，如果我们以 i 为这段区间中一个回文串的中心，那么，与它对称的回文串中心就可以求出（根据中点公式，得2*mid - i ，与上面相同）；</p>
+<p>　　那么我们就可以根据定理来继承左边回文串的半径，但是如果左边这个回文串有超过区间的部分怎么办？</p>
+<p>　　这里就用到我们所说的取min了，将左边回文串半径和r - i相比取min，这里就得到了 i 的一个半径，但这个半径一定小于或等于真实半径，所以还需暴力枚举；</p>
+<p>　　这里就可见manachar算法的核心操作了，就是枚举回文串中心，然后继承半径以来减少枚举的次数；</p>
+<p>　　我们用p[ i ]表示以点 i 为中心的回文串的半径，r记录回文串到达的最右边的坐标，mid随之更新，记录这个回文串的中心；</p>
+<p><strong>Code</strong></p>
+<p>　　</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 22000007</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">char</span> dat[maxn];</span><br><span class="line"><span class="keyword">int</span> p[maxn],r,cnt=<span class="number">1</span>,mid,ans;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">scan</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> s=getchar();</span><br><span class="line">    dat[<span class="number">0</span>]=<span class="string">'~'</span>;<span class="comment">//为了不超出边界的小操作 </span></span><br><span class="line">    dat[<span class="number">1</span>]=<span class="string">'|'</span>;<span class="comment">//这个间隔解决了对称中心没有字母的情况 </span></span><br><span class="line">    <span class="keyword">while</span>(s&gt;=<span class="string">'a'</span>&amp;&amp;s&lt;=<span class="string">'z'</span>)&#123;</span><br><span class="line">        dat[++cnt]=s;</span><br><span class="line">        dat[++cnt]=<span class="string">'|'</span>;</span><br><span class="line">        s=getchar();</span><br><span class="line">    &#125;<span class="comment">//其实与读入优化没差啦 </span></span><br><span class="line">&#125;<span class="comment">//自定义读入 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    scan();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=cnt;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(r&gt;i) p[i]=min(p[<span class="number">2</span>*mid-i],r-i);<span class="comment">//由对称的回文串继承，用r-i限制 </span></span><br><span class="line">        <span class="keyword">else</span> p[i]=<span class="number">1</span>;<span class="comment">//CASE ：无法继承 </span></span><br><span class="line">        <span class="keyword">while</span>(dat[i-p[i]]==dat[i+p[i]]) p[i]++;<span class="comment">//暴力更新 </span></span><br><span class="line">        <span class="keyword">if</span>(p[i]+i&gt;r) r=p[i]+i,mid=i;<span class="comment">// r边界必须是最右 </span></span><br><span class="line">        ans=max(ans,p[i]);<span class="comment">//更新答案 </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,ans<span class="number">-1</span>);<span class="comment">//这个减一可以自己模拟一下，数学推了话好麻烦的说 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这就是manachar算法的简述了，当然这里解释一下为什么复杂度为O（n）：</p>
+<p>　　我感觉这和KMP复杂度有些类似，因为这里因为继承的缘故，所以每个点更新次数较少，然后均摊到每个循环，那么复杂度就变成了$O(n)$了；</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/25/Guass%E5%88%9D%E6%AD%A5/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>Guass初步</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/25/AC%E8%87%AA%E5%8A%A8%E6%9C%BA/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>AC自动机</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Thinkings and Works</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Search..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/ML.jpg" alt="Mr_Leceue"/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Mr_Leceue</p>
+          <span class="tagline">人定胜天</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

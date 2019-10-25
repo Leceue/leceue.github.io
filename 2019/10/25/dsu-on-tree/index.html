@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>dsu on tree | Thinkings and Works</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Mr_Leceue">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": true,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/ML.jpg"></a></div>
+    <span>2019-10-25</span>
+    <h2>dsu on tree</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>这篇博客只是简单叙述思想(因为ML太弱了),具体例题请转其他博客.</p>
+<hr>
+<p>dsu on tree,许多OI将其归于启发式合并,当然如果你能理解更好,这只是一个理解方式罢了.</p>
+<h2 id="思想简述"><a href="#思想简述" class="headerlink" title="思想简述"></a>思想简述</h2><p>　　顾名思义,这个算法是处理树上问题,将子树分开求解,如果暴力了话是枚举每个子树,然后dfs;</p>
+<p>　　这里将每次dfs完的清空操作重新定义,并且规定dfs顺序,以来优化成log解法.</p>
+<p>　　这里我们引入一个 <a href="https://www.luogu.org/problem/CF600E" target="_blank" rel="noopener">例题</a></p>
+<blockquote>
+<p>一棵树有n个结点，每个结点都是一种颜色，每个颜色有一个编号，求树中每个子树的最多的颜色编号的和。</p>
+</blockquote>
+<p>　　仔细读题我们可以先想到暴力解法,分别从一个点进行dfs,肯定会爆;</p>
+<p>　　那么我们思考一下,一颗子树上的点dfs结果是否可以被该子树根节点利用?</p>
+<p>　　当然可以,但是我们只能保留一个点的结果,所以我们就面临一个选择,留哪一个?</p>
+<p>　　我们想到树剖,那么我们保留重儿子就可以较好的保留信息,时间复杂度也会大幅降低.</p>
+<h2 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h2><p>　　1.dfs1找到重儿子和轻儿子;</p>
+<p>　　2.dfs2递归处理每一个点,先扫描轻儿子,再扫描重儿子.</p>
+<p>　　3.设计calc函数,用来处理轻重儿子,可以将add和del分开写,也可以合在一起;</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>　　</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 100007</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,head[maxn],a[maxn],sz[maxn],son[maxn],cent;</span><br><span class="line"><span class="keyword">int</span> fa[maxn],vis[maxn];</span><br><span class="line">ll col,max_part,num[maxn],ans[maxn];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> next,to;</span><br><span class="line">&#125;edge[maxn&lt;&lt;<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> type_of_scan&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">scan</span><span class="params">(type_of_scan &amp;x)</span></span>&#123;</span><br><span class="line">    type_of_scan f=<span class="number">1</span>;x=<span class="number">0</span>;<span class="keyword">char</span> s=getchar();</span><br><span class="line">    <span class="keyword">while</span>(s&lt;<span class="string">'0'</span>||s&gt;<span class="string">'9'</span>)&#123;<span class="keyword">if</span>(s==<span class="string">'-'</span>)f=<span class="number">-1</span>;s=getchar();&#125;</span><br><span class="line">    <span class="keyword">while</span>(s&gt;=<span class="string">'0'</span>&amp;&amp;s&lt;=<span class="string">'9'</span>)&#123;x=x*<span class="number">10</span>+s-<span class="string">'0'</span>;s=getchar();&#125;</span><br><span class="line">    x*=f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> type_of_print&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(type_of_print x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(x&lt;<span class="number">0</span>) <span class="built_in">putchar</span>(<span class="string">'-'</span>),x=-x;</span><br><span class="line">    <span class="keyword">if</span>(x&gt;<span class="number">9</span>) print(x/<span class="number">10</span>);</span><br><span class="line">    <span class="built_in">putchar</span>(x%<span class="number">10</span>+<span class="string">'0'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">    edge[++cent]=(node)&#123;head[u],v&#125;;head[u]=cent;</span><br><span class="line">    edge[++cent]=(node)&#123;head[v],u&#125;;head[v]=cent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs1</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    sz[x]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=edge[i].next)&#123;</span><br><span class="line">        <span class="keyword">int</span> y=edge[i].to;</span><br><span class="line">        <span class="keyword">if</span>(y==fa[x]) <span class="keyword">continue</span>;</span><br><span class="line">        fa[y]=x;dfs1(y);sz[x]+=sz[y];</span><br><span class="line">        <span class="keyword">if</span>(sz[son[x]]&lt;sz[y]) son[x]=y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">calc</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> p)</span></span>&#123;</span><br><span class="line">    num[a[x]]+=p;</span><br><span class="line">    <span class="keyword">if</span>(p&gt;<span class="number">0</span>&amp;&amp;num[a[x]]==max_part) col+=a[x];</span><br><span class="line">    <span class="keyword">if</span>(p&gt;<span class="number">0</span>&amp;&amp;num[a[x]]&gt;max_part) col=a[x],max_part=num[a[x]];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=edge[i].next)&#123;</span><br><span class="line">        <span class="keyword">int</span> y=edge[i].to;</span><br><span class="line">        <span class="keyword">if</span>(y==fa[x]||vis[y]) <span class="keyword">continue</span>;</span><br><span class="line">        calc(y,p);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs2</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> id)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=edge[i].next)&#123;</span><br><span class="line">        <span class="keyword">int</span> y=edge[i].to;</span><br><span class="line">        <span class="keyword">if</span>(y==fa[x]||y==son[x]) <span class="keyword">continue</span>;</span><br><span class="line">        dfs2(y,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(son[x]) dfs2(son[x],<span class="number">1</span>),vis[son[x]]=<span class="number">1</span>;</span><br><span class="line">    calc(x,<span class="number">1</span>);ans[x]=col;</span><br><span class="line">    <span class="keyword">if</span>(son[x]) vis[son[x]]=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(!id) calc(x,<span class="number">-1</span>),max_part=col=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    scan(n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) scan(a[i]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>,u,v;i&lt;=n<span class="number">-1</span>;i++)</span><br><span class="line">        scan(u),scan(v),add(u,v);</span><br><span class="line">    dfs1(<span class="number">1</span>),dfs2(<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) print(ans[i]),<span class="built_in">putchar</span>(<span class="string">' '</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/25/%E4%B8%BB%E5%B8%AD%E6%A0%91%E5%88%9D%E6%AD%A5/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>主席树初步</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/25/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%85%A5%E9%97%A8/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>博弈论入门</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Thinkings and Works</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Search..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/ML.jpg" alt="Mr_Leceue"/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Mr_Leceue</p>
+          <span class="tagline">人定胜天</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

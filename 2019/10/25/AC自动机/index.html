@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AC自动机 | Thinkings and Works</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Mr_Leceue">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": true,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/ML.jpg"></a></div>
+    <span>2019-10-25</span>
+    <h2>AC自动机</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">字符串</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>先存代码</p>
+<h2 id="AC自动机（简单版）"><a href="#AC自动机（简单版）" class="headerlink" title="AC自动机（简单版）"></a>AC自动机（简单版）</h2><p>　　</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 1000007</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,ans;</span><br><span class="line"><span class="keyword">int</span> tr[maxn][<span class="number">28</span>],val[maxn],cnt,fail[maxn];</span><br><span class="line"><span class="keyword">char</span> mod[maxn],tx[maxn];</span><br><span class="line"><span class="built_in">queue</span>&lt;<span class="keyword">int</span> &gt;q;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">char</span> *a)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> now=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;a[i];i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!tr[now][a[i]-<span class="string">'a'</span>]) tr[now][a[i]-<span class="string">'a'</span>]=++cnt;</span><br><span class="line">        now=tr[now][a[i]-<span class="string">'a'</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    val[now]++;</span><br><span class="line">&#125;<span class="comment">//建树 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AC</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++) <span class="keyword">if</span>(tr[<span class="number">0</span>][i]) q.push(tr[<span class="number">0</span>][i]);<span class="comment">//26个字母跑 </span></span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> u=q.front();q.pop();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(tr[u][i]) fail[tr[u][i]]=tr[fail[u]][i],q.push(tr[u][i]);<span class="comment">//调取指针 </span></span><br><span class="line">            <span class="keyword">else</span> tr[u][i]=tr[fail[u]][i];<span class="comment">//建立“虚边”——指向失配指针的i边</span></span><br><span class="line">            <span class="comment">//这里已经改变了trie图 </span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">query</span><span class="params">(<span class="keyword">char</span> *t)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ol=<span class="number">0</span>,u=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;t[i];i++)&#123;</span><br><span class="line">        u=tr[u][t[i]-<span class="string">'a'</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=u;j&amp;&amp;val[j]!=<span class="number">-1</span>;j=fail[j])</span><br><span class="line">            ol+=val[j],val[j]=<span class="number">-1</span>;<span class="comment">//fail跳（这样其实很慢） </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ol;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="comment">//    freopen("cin.in","r",stdin);</span></span><br><span class="line"><span class="comment">//    freopen("co.out","w",stdout);</span></span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%s"</span>,mod),build(mod);</span><br><span class="line">    AC();</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%s"</span>,tx);ans=query(tx);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,ans);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="AC自动机（加强版）"><a href="#AC自动机（加强版）" class="headerlink" title="AC自动机（加强版）"></a>AC自动机（加强版）</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 1000007</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> T,n,ans;</span><br><span class="line"><span class="keyword">char</span> mod[maxn][<span class="number">100</span>],tx[maxn];</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> AC&#123;</span><br><span class="line">    <span class="keyword">int</span> tr[maxn][<span class="number">27</span>],fail[maxn],tot;</span><br><span class="line">    <span class="keyword">int</span> cnt,val[maxn],num[maxn];</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Init</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">memset</span>(tr,<span class="number">0</span>,<span class="keyword">sizeof</span>(tr));</span><br><span class="line">        <span class="built_in">memset</span>(num,<span class="number">0</span>,<span class="keyword">sizeof</span>(num));</span><br><span class="line">        <span class="built_in">memset</span>(fail,<span class="number">0</span>,<span class="keyword">sizeof</span> fail);</span><br><span class="line">        <span class="built_in">memset</span>(val,<span class="number">0</span>,<span class="keyword">sizeof</span> val);</span><br><span class="line">        cnt=ans=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">char</span> *s,<span class="keyword">int</span> id)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> now=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;s[i];i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!tr[now][s[i]-<span class="string">'a'</span>]) tr[now][s[i]-<span class="string">'a'</span>]=++cnt;</span><br><span class="line">            now=tr[now][s[i]-<span class="string">'a'</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        val[now]=id;<span class="comment">//记录id，这个不怕覆盖 </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span> &gt;q;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++) <span class="keyword">if</span>(tr[<span class="number">0</span>][i]) q.push(tr[<span class="number">0</span>][i]);</span><br><span class="line">        <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">            <span class="keyword">int</span> u=q.front();q.pop();</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)</span><br><span class="line">                <span class="keyword">if</span>(tr[u][i]) fail[tr[u][i]]=tr[fail[u]][i],q.push(tr[u][i]),<span class="built_in">cerr</span>&lt;&lt;fail[tr[u][i]]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">                <span class="keyword">else</span> tr[u][i]=tr[fail[u]][i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">query</span><span class="params">(<span class="keyword">char</span> *t)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> u=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;t[i];i++)&#123;</span><br><span class="line">            u=tr[u][t[i]-<span class="string">'a'</span>];</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=u;j;j=fail[j])</span><br><span class="line">                <span class="keyword">if</span>(val[j]) num[val[j]]++,ans=max(ans,num[val[j]]);</span><br><span class="line">        &#125;<span class="comment">//还是跳，不过记录的不一样而已 </span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,ans);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="keyword">if</span>(ans==num[i]) <span class="built_in">printf</span>(<span class="string">"%s\n"</span>,mod[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">while</span>(n)&#123;</span><br><span class="line">        AC::Init();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="built_in">scanf</span>(<span class="string">"%s"</span>,mod[i]),AC::insert(mod[i],i);</span><br><span class="line">        AC::build();</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%s"</span>,tx);</span><br><span class="line">        AC::query(tx);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="AC自动机（二次加强版）"><a href="#AC自动机（二次加强版）" class="headerlink" title="AC自动机（二次加强版）"></a>AC自动机（二次加强版）</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 2000007</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">char</span> mod[maxn],tx[maxn];</span><br><span class="line"><span class="keyword">int</span> fail[maxn],tr[maxn][<span class="number">27</span>],val[maxn],num[maxn];</span><br><span class="line"><span class="keyword">int</span> id[maxn],cnt,in[maxn],to[maxn];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">char</span> *a,<span class="keyword">int</span> idx)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> now=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;a[i];i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!tr[now][a[i]-<span class="string">'a'</span>]) tr[now][a[i]-<span class="string">'a'</span>]=++cnt;</span><br><span class="line">        now=tr[now][a[i]-<span class="string">'a'</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    val[now]++;id[idx]=now;<span class="comment">//记录 </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">queue</span>&lt;<span class="keyword">int</span> &gt;q;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++) <span class="keyword">if</span>(tr[<span class="number">0</span>][i]) q.push(tr[<span class="number">0</span>][i]);</span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> u=q.front();q.pop();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(tr[u][i]) fail[tr[u][i]]=tr[fail[u]][i],q.push(tr[u][i]),in[fail[tr[u][i]]]++;</span><br><span class="line">            <span class="keyword">else</span> tr[u][i]=tr[fail[u]][i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">query</span><span class="params">(<span class="keyword">char</span> *t)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> u=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;t[i];i++)</span><br><span class="line">        u=tr[u][t[i]-<span class="string">'a'</span>],num[u]++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">topu</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=cnt;i++) <span class="keyword">if</span>(!in[i]) q.push(i);</span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> u=q.front(),v=fail[u];q.pop();</span><br><span class="line">        num[v]+=num[u];--in[v];</span><br><span class="line">        <span class="keyword">if</span>(!(in[v])) q.push(v);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="comment">//这里是跟题解学的topu,效率也挺高 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="built_in">scanf</span>(<span class="string">"%s"</span>,mod),insert(mod,i);</span><br><span class="line">    build();</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%s"</span>,tx);query(tx);</span><br><span class="line">    topu(); </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,num[id[i]]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="单词"><a href="#单词" class="headerlink" title="单词"></a>单词</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 2000007</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">char</span> mod[maxn],tx[maxn],c[maxn];</span><br><span class="line"><span class="keyword">int</span> fail[maxn],tr[maxn][<span class="number">28</span>],val[maxn],num[maxn];</span><br><span class="line"><span class="keyword">int</span> id[maxn],cnt,in[maxn],tot;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">char</span> *a,<span class="keyword">int</span> idx)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> now=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;a[i];i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!tr[now][a[i]-<span class="string">'a'</span>]) tr[now][a[i]-<span class="string">'a'</span>]=++cnt;</span><br><span class="line">        now=tr[now][a[i]-<span class="string">'a'</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    val[now]++;id[idx]=now;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">queue</span>&lt;<span class="keyword">int</span> &gt;q;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">27</span>;i++) <span class="keyword">if</span>(tr[<span class="number">0</span>][i]) q.push(tr[<span class="number">0</span>][i]);</span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> u=q.front();q.pop();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">27</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(tr[u][i]) fail[tr[u][i]]=tr[fail[u]][i],q.push(tr[u][i]),in[fail[tr[u][i]]]++;</span><br><span class="line">            <span class="keyword">else</span> tr[u][i]=tr[fail[u]][i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">query</span><span class="params">(<span class="keyword">char</span> *t)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> u=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;t[i];i++)</span><br><span class="line">        u=tr[u][t[i]-<span class="string">'a'</span>],num[u]++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">topu</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=cnt;i++) <span class="keyword">if</span>(!in[i]) q.push(i);</span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> u=q.front(),v=fail[u];q.pop();</span><br><span class="line">        num[v]+=num[u];--in[v];</span><br><span class="line">        <span class="keyword">if</span>(!(in[v])) q.push(v);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">work</span><span class="params">(<span class="keyword">char</span> *a,<span class="keyword">char</span> *b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len1=<span class="built_in">strlen</span>(a),len2=<span class="built_in">strlen</span>(b);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=len1;i&lt;len1+len2;i++)</span><br><span class="line">        a[i]=b[i-len1];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="built_in">scanf</span>(<span class="string">"%s"</span>,c),work(mod,c),</span><br><span class="line">        tot=<span class="built_in">strlen</span>(mod),insert(c,i),mod[tot++]=<span class="string">'&#123;'</span>;</span><br><span class="line">    build();</span><br><span class="line">    query(mod);topu();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,num[id[i]]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/25/manacher/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>manacher</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/25/math-collect/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>math collect</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Thinkings and Works</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Search..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/ML.jpg" alt="Mr_Leceue"/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Mr_Leceue</p>
+          <span class="tagline">人定胜天</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
