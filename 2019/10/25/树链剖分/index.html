@@ -1,79 +1,289 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>树链剖分 | Thinkings and Works</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="author" content="Mr_Leceue">
-  <meta name="keywords" content="">
-  <meta name="description" content="">
-  <script id="hexo-configurations">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/256.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    theme: 'Lx',
-    version: '1.4.5',
-    localsearch:{
-      "enable": true,
-      "trigger": "auto",
-      "top_n_per_article": true,
-      "unescape": false,
-      "preload": false
-      },
-    path: 'search.xml'
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
   };
 </script>
 
-  <link rel="shortcut icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/css/main.css">
-  <script src="/js/jquery.min.js"></script>
-  <script src="/js/jquery.jside.menu.js"></script>
-	<script>
-	$(document).ready(function(){
-	$(".menu-container").jSideMenu({
-	    jSidePosition: "position-right",
-	    jSideSticky: true,
-	    jSideSkin: "endless-river",
-	     });
-	}); 
-	</script>
+  <meta name="description" content="。。。。有点懒；需要先理解几个概念： LCA  线段树（熟练，要不代码能调一天）  图论的基本知识（dfs序的性质）  这大概就好了；定义：　　1.重儿子：一个点所连点树size最大的，这个son被称为这个点的重儿子；　　2.轻儿子：一个点所连点除重儿子以外的都是轻儿子；　　3.重链：从一个轻儿子或根节点开始沿重儿子走所成的链；">
+<meta name="keywords" content="数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树链剖分">
+<meta property="og:url" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;2019&#x2F;10&#x2F;25&#x2F;%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86&#x2F;index.html">
+<meta property="og:site_name" content="Thinkings and Works">
+<meta property="og:description" content="。。。。有点懒；需要先理解几个概念： LCA  线段树（熟练，要不代码能调一天）  图论的基本知识（dfs序的性质）  这大概就好了；定义：　　1.重儿子：一个点所连点树size最大的，这个son被称为这个点的重儿子；　　2.轻儿子：一个点所连点除重儿子以外的都是轻儿子；　　3.重链：从一个轻儿子或根节点开始沿重儿子走所成的链；">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-10-25T08:42:47.742Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://leceue.github.io./2019/10/25/%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>树链剖分 | Thinkings and Works</title>
   
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 </head>
-<body>
-<div class="single">
-<div id="page">
-<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
-  <div class="overlay">
-  <div class="page-title">
-    <div class="avatar"><a href="/"><img src="/images/ML.jpg"></a></div>
-    <span>2019-10-25</span>
-    <h2>树链剖分</h2>
-    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></div>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Thinkings and Works</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
+        <p class="site-subtitle">A HA IOer</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
 </div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>Schedule</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
 </div>
-<div id="lx-main-content">
-  <div class="lx-post">
-    <div class="lx-entry padding">
-      <div>
-        <p>。。。。</p>
-<p>有点懒；</p>
-<p>需要先理解几个概念：</p>
-<ol>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/10/25/%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Mr_Leceue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Thinkings and Works">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          树链剖分
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-10-25 16:20:01 / Modified: 16:42:47" itemprop="dateCreated datePublished" datetime="2019-10-25T16:20:01+08:00">2019-10-25</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>。。。。</p><p>有点懒；</p><p>需要先理解几个概念：</p><ol>
 <li><p>LCA</p>
 </li>
 <li><p>线段树（熟练，要不代码能调一天）</p>
 </li>
 <li><p>图论的基本知识（dfs序的性质）</p>
 </li>
-</ol>
-<p>这大概就好了；</p>
-<p><strong>定义</strong>：</p>
-<p>　　1.重儿子：一个点所连点树size最大的，这个son被称为这个点的重儿子；</p>
-<p>　　2.轻儿子：一个点所连点除重儿子以外的都是轻儿子；</p>
-<p>　　3.重链：从一个轻儿子或根节点开始沿重儿子走所成的链；</p>
+</ol><p>这大概就好了；</p><p><strong>定义</strong>：</p><p>　　1.重儿子：一个点所连点树size最大的，这个son被称为这个点的重儿子；</p><p>　　2.轻儿子：一个点所连点除重儿子以外的都是轻儿子；</p><p>　　3.重链：从一个轻儿子或根节点开始沿重儿子走所成的链；</p><a id="more"></a>
+
+
+
+
+
+
+
+
 <p><strong>步骤</strong>：</p>
 <p>　　在代码里，结合代码更清晰。。。（其实是太懒了）</p>
 <p>　有重点需要注意的东西在code中有提到，仔细看。。。。</p>
@@ -96,130 +306,208 @@
 <p>推荐评测网站<a href="https://loj.ac/problem/139" target="_blank" rel="noopener">LOJ </a>。。。（因为洛谷没有换根操作）</p>
 <h3 id="AC代码附上"><a href="#AC代码附上" class="headerlink" title="AC代码附上"></a>AC代码附上</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 100007</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ol putchar(<span class="meta-string">'\n'</span>)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> le(x) x&lt;&lt;1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> re(x) x&lt;&lt;1|1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,m,head[maxn],cent,dep[maxn],son[maxn],fa[maxn],vis[maxn];</span><br><span class="line"><span class="keyword">int</span> top[maxn],a[maxn],id[maxn],w[maxn],sz[maxn],cnt,ij,root;</span><br><span class="line">ll tr[maxn&lt;&lt;<span class="number">3</span>],tag[maxn&lt;&lt;<span class="number">3</span>];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> next,to;</span><br><span class="line">&#125;edge[maxn&lt;&lt;<span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> type_of_scan&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">scan</span><span class="params">(type_of_scan &amp;x)</span></span>&#123;</span><br><span class="line">    type_of_scan f=<span class="number">1</span>;x=<span class="number">0</span>;<span class="keyword">char</span> s=getchar();</span><br><span class="line">    <span class="keyword">while</span>(s&lt;<span class="string">'0'</span>||s&gt;<span class="string">'9'</span>) f=s==<span class="string">'-'</span>?<span class="number">-1</span>:<span class="number">1</span>,s=getchar();</span><br><span class="line">    <span class="keyword">while</span>(s&gt;=<span class="string">'0'</span>&amp;&amp;s&lt;=<span class="string">'9'</span>) x=(x&lt;&lt;<span class="number">3</span>)+(x&lt;&lt;<span class="number">1</span>)+s-<span class="string">'0'</span>,s=getchar();</span><br><span class="line">    x*=f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> type_of_print&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(type_of_print x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(x&lt;<span class="number">0</span>) <span class="built_in">putchar</span>(<span class="string">'-'</span>),x=-x;</span><br><span class="line">    <span class="keyword">if</span>(x&gt;<span class="number">9</span>) print(x/<span class="number">10</span>);</span><br><span class="line">    <span class="built_in">putchar</span>(x%<span class="number">10</span>+<span class="string">'0'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">    edge[++cent]=(node)&#123;head[u],v&#125;;head[u]=cent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push_up</span><span class="params">(<span class="keyword">int</span> p)</span></span>&#123;</span><br><span class="line">    tr[p]=tr[le(p)]+tr[re(p)];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push_down</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> p,ll k)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    tr[le(p)]+=<span class="number">1l</span>l*(mid-l+<span class="number">1</span>)*k,</span><br><span class="line">    tr[re(p)]+=<span class="number">1l</span>l*(r-mid)*k,</span><br><span class="line">    tag[le(p)]+=k,tag[re(p)]+=k;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> p)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l==r)&#123;</span><br><span class="line">        tr[p]=w[l];</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    build(l,mid,le(p));</span><br><span class="line">    build(mid+<span class="number">1</span>,r,re(p));</span><br><span class="line">    push_up(p);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">r_add</span><span class="params">(<span class="keyword">int</span> nl,<span class="keyword">int</span> nr,<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> p,<span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nl&lt;=l&amp;&amp;nr&gt;=r)&#123;</span><br><span class="line">        tr[p]+=<span class="number">1l</span>l*(r-l+<span class="number">1</span>)*k;</span><br><span class="line">        tag[p]+=<span class="number">1l</span>l*k;</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">    &#125;</span><br><span class="line">    push_down(l,r,p,tag[p]),tag[p]=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(nl&lt;=mid) r_add(nl,nr,l,mid,le(p),k);</span><br><span class="line">    <span class="keyword">if</span>(nr&gt;mid) r_add(nl,nr,mid+<span class="number">1</span>,r,re(p),k);</span><br><span class="line">    push_up(p);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">r_query</span><span class="params">(<span class="keyword">int</span> nl,<span class="keyword">int</span> nr,<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> p)</span></span>&#123;</span><br><span class="line">    ll ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(nl&lt;=l&amp;&amp;nr&gt;=r) <span class="keyword">return</span> tr[p];</span><br><span class="line">    push_down(l,r,p,tag[p]),tag[p]=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(nl&lt;=mid) ans+=r_query(nl,nr,l,mid,le(p));</span><br><span class="line">    <span class="keyword">if</span>(nr&gt;mid) ans+=r_query(nl,nr,mid+<span class="number">1</span>,r,re(p));</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs1</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    sz[x]=<span class="number">1</span>;<span class="keyword">int</span> max_part=<span class="number">-1</span>;vis[x]++;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=edge[i].next)&#123;</span><br><span class="line">        <span class="keyword">int</span> y=edge[i].to;</span><br><span class="line">        <span class="keyword">if</span>(y==fa[x]) <span class="keyword">continue</span>;</span><br><span class="line">        fa[y]=x;dep[y]=dep[x]+<span class="number">1</span>;</span><br><span class="line">        dfs1(y);sz[x]+=sz[y];</span><br><span class="line">        <span class="keyword">if</span>(max_part&lt;sz[y]) son[x]=y,max_part=sz[y];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs2</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> t)</span></span>&#123;</span><br><span class="line">    id[x]=++cnt;w[cnt]=a[x];top[x]=t;</span><br><span class="line">    <span class="keyword">if</span>(!son[x]) <span class="keyword">return</span> ;</span><br><span class="line">    dfs2(son[x],t);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=edge[i].next)&#123;</span><br><span class="line">        <span class="keyword">int</span> y=edge[i].to;</span><br><span class="line">        <span class="keyword">if</span>(y==son[x]||fa[x]==y) <span class="keyword">continue</span>;</span><br><span class="line">        dfs2(y,y);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Lca</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(top[x]!=top[y])&#123;</span><br><span class="line">        <span class="keyword">if</span>(dep[top[x]]&lt;dep[top[y]]) swap(x,y);</span><br><span class="line">        x=fa[top[x]];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dep[x]&gt;dep[y]?y:x;</span><br><span class="line">&#125;<span class="comment">//只要看懂树链剖分的基本操作，这个很简单 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//前提条件：要求的节点相挨的节点u，必须是root的LCA </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(top[x]!=top[y])&#123;</span><br><span class="line">        <span class="keyword">if</span>(dep[top[x]]&lt;dep[top[y]]) swap(x,y);<span class="comment">//从最下往上跳 </span></span><br><span class="line">        <span class="keyword">if</span>(fa[top[x]]==y) <span class="keyword">return</span> top[x];<span class="comment">//如果y是x所在重链top的父亲节点，那么就可以返回了 </span></span><br><span class="line">        x=fa[top[x]];<span class="comment">//跳 </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(dep[x]&lt;dep[y]) swap(x,y);<span class="comment">//让y最浅 </span></span><br><span class="line">    <span class="keyword">return</span> son[y];<span class="comment">// 因为在一条重链上，那么重儿子一定是路径上与要求节点相挨的 </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">tree_add</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root==x) r_add(<span class="number">1</span>,n,<span class="number">1</span>,n,<span class="number">1</span>,k);<span class="comment">//CASE 1 </span></span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">int</span> lca=Lca(x,root);</span><br><span class="line">        <span class="keyword">if</span>(lca!=x) r_add(id[x],id[x]+sz[x]<span class="number">-1</span>,<span class="number">1</span>,n,<span class="number">1</span>,k);<span class="comment">//CASE 2 </span></span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">int</span> dson=find(x,root);</span><br><span class="line">            r_add(<span class="number">1</span>,n,<span class="number">1</span>,n,<span class="number">1</span>,k);</span><br><span class="line">            r_add(id[dson],id[dson]+sz[dson]<span class="number">-1</span>,<span class="number">1</span>,n,<span class="number">1</span>,-k);</span><br><span class="line">        &#125;<span class="comment">//CASE 3 </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">tree_query</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root==x) <span class="keyword">return</span> r_query(<span class="number">1</span>,n,<span class="number">1</span>,n,<span class="number">1</span>);<span class="comment">//CASE 1 </span></span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">int</span> lca=Lca(x,root);</span><br><span class="line">        <span class="keyword">if</span>(lca!=x) <span class="keyword">return</span> r_query(id[x],id[x]+sz[x]<span class="number">-1</span>,<span class="number">1</span>,n,<span class="number">1</span>);<span class="comment">//CASE 2 </span></span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">int</span> dson=find(x,root);</span><br><span class="line">            <span class="keyword">return</span> r_query(<span class="number">1</span>,n,<span class="number">1</span>,n,<span class="number">1</span>)-r_query(id[dson],id[dson]+sz[dson]<span class="number">-1</span>,<span class="number">1</span>,n,<span class="number">1</span>);</span><br><span class="line">        &#125;<span class="comment">//CASE 3 </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">road_add</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,ll k)</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(top[x]!=top[y])&#123;</span><br><span class="line">        <span class="keyword">if</span>(dep[top[x]]&lt;dep[top[y]]) swap(x,y);</span><br><span class="line">        r_add(id[top[x]],id[x],<span class="number">1</span>,n,<span class="number">1</span>,k);</span><br><span class="line">        x=fa[top[x]];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(dep[x]&gt;dep[y]) swap(x,y);</span><br><span class="line">    r_add(id[x],id[y],<span class="number">1</span>,n,<span class="number">1</span>,k);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">road_query</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    ll ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(top[x]!=top[y])&#123;</span><br><span class="line">        <span class="keyword">if</span>(dep[top[x]]&lt;dep[top[y]]) swap(x,y);</span><br><span class="line">        ans+=r_query(id[top[x]],id[x],<span class="number">1</span>,n,<span class="number">1</span>);</span><br><span class="line">        x=fa[top[x]];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(dep[x]&gt;dep[y]) swap(x,y);</span><br><span class="line">    ans+=r_query(id[x],id[y],<span class="number">1</span>,n,<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="comment">//    freopen("cin.in","r",stdin);</span></span><br><span class="line"><span class="comment">//    freopen("co.out","w",stdout);</span></span><br><span class="line">    scan(n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) scan(a[i]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>,v;i&lt;=n;i++) scan(v),add(i,v),add(v,i);</span><br><span class="line">    dfs1(<span class="number">1</span>),dfs2(<span class="number">1</span>,<span class="number">1</span>),build(<span class="number">1</span>,n,<span class="number">1</span>);root=<span class="number">1</span>;</span><br><span class="line">    scan(m);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> type,x,y,z;</span><br><span class="line">        scan(type),scan(x);</span><br><span class="line">        <span class="keyword">if</span>(type==<span class="number">1</span>) root=x;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(type==<span class="number">2</span>) scan(y),scan(z),road_add(x,y,z);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(type==<span class="number">3</span>) scan(z),tree_add(x,z);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(type==<span class="number">4</span>) scan(y),<span class="built_in">printf</span>(<span class="string">"%lld\n"</span>,road_query(x,y));</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(type==<span class="number">5</span>) <span class="built_in">printf</span>(<span class="string">"%lld\n"</span>,tree_query(x));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      </div>
     </div>
-  </div>
-</div>
-<div class="lx-navigation">
-	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
-		<div class="overlay"></div>
-		<a class="copy" href="/2019/10/25/%E6%82%AC%E7%BA%BF%E6%B3%95/">
-			<div class="display-t">
-				<div class="display-tc">
-					<div>
-						<span>Next</span>
-						<h3>悬线法</h3>
-					</div>
-				</div>
-			</div>
-		</a>
-	</div>
-        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
-		<div class="overlay"></div>
-		<a class="copy" href="/2019/10/25/%E8%8E%AB%E9%98%9F-%E5%9F%BA%E4%BA%8E%E5%88%86%E5%9D%97%E7%9A%84%E4%BC%98%E5%8C%96/">
-			<div class="display-t">
-				<div class="display-tc">
-					<div>
-						<span>Prev</span>
-						<h3>莫队--基于分块的优化</h3>
-					</div>
-				</div>
-			</div>
-		</a>
-	</div>
-</div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Mr_Leceue
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://leceue.github.io./2019/10/25/%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/" title="树链剖分">http://leceue.github.io./2019/10/25/%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/null" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
 </div>
 
-<footer>
-  <div>
-  Copyright &copy; 2019.<a href="/">Thinkings and Works</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
-  </div>
-</footer>
-</div>
-<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
-<div class="popup search-popup local-search-popup">
-  <div class="local-search-header clearfix">
-    <span class="search-icon">
-      <i class="fa fa-search"></i>
-    </span>
-    <span class="popup-btn-close">
-      <i class="fa fa-times-circle"></i>
-    </span>
-    <div class="local-search-input-wrapper">
-      <input autocomplete="off"
-             placeholder="Search..." spellcheck="false"
-             type="text" id="local-search-input">
-    </div>
-  </div>
-  <div id="local-search-result"></div>
-</div>
 
-<button class="menu-trigger"></button>
-<div class="menu">
-  <div class="menu-head">
-    <span class="layer">
-      <div class="col">
-        <div class="row for-pic">
-          <div class="profile-pic">
-            <a href="/"><img src="/images/ML.jpg" alt="Mr_Leceue"/></a>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
           </div>
-        </div>
-        <div class="row for-name">
-          <p>Mr_Leceue</p>
-          <span class="tagline">人定胜天</span>
-        </div>
-      </div>
-    </span>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/10/25/%E8%8E%AB%E9%98%9F-%E5%9F%BA%E4%BA%8E%E5%88%86%E5%9D%97%E7%9A%84%E4%BC%98%E5%8C%96/" rel="next" title="莫队--基于分块的优化">
+                  <i class="fa fa-chevron-left"></i> 莫队--基于分块的优化
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/10/25/%E6%82%AC%E7%BA%BF%E6%B3%95/" rel="prev" title="悬线法">
+                  悬线法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
   </div>
-  <nav class="menu-container">
-  <ul class="menu-items">
-    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
-    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
-    <li class="has-sub"><span class="dropdown-heading">
-      <i class="fa fa-bookmark fa-fw"></i>页面</span>
-        <ul>
-          <li><a href="/guestbook">留言</a></li>
-        <li><a href="/about">关于</a></li>
-        </ul>
-    </li>
-    <li class="has-sub"><span class="dropdown-heading">
-      <i class="fa fa-link fa-fw"></i>友链</span>
-        <ul>
-          <li> <a href="https://www.cnblogs.com/waterflower/" target="_blank">mycnblogs</a></li>
-        <li> <a href="https://www.luogu.org/blog/Kenrick/#" target="_blank">zzh</a></li>
-        <li> <a href="https://www.luogu.org/blog/103452/#" target="_blank">syk</a></li>
-        <li> <a href="https://blog.csdn.net/yuanchen_" target="_blank">yuanchen</a></li>
-        <li> <a href="https://October-2021.github.io" target="_blank">_October_</a></li>
-        </ul>
-    </li>
-  </ul>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#拓展："><span class="nav-number">1.</span> <span class="nav-text">拓展：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-LCA查询："><span class="nav-number">1.1.</span> <span class="nav-text">　　1.LCA查询：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-换根操作："><span class="nav-number">1.2.</span> <span class="nav-text">　　2.换根操作：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AC代码附上"><span class="nav-number">1.3.</span> <span class="nav-text">AC代码附上</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Mr_Leceue"
+    src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Mr_Leceue</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
   </nav>
 </div>
 
-<div class="gototop js-top">
-  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
-</div>
-<script src="/js/jquery.easing.min.js"></script>
-<script src="/js/jquery.waypoints.min.js"></script>
-<script src="/js/jquery.stellar.min.js"></script>
-<script src="/js/main.js"></script>
-<script src="/js/local.search.js"></script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr_Leceue</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
 </body>
 </html>
+
+<span id="busuanzi_container_site_uv">
+  本站访问次数：<span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+</span>

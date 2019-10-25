@@ -1,68 +1,281 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>矩阵树 | Thinkings and Works</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="author" content="Mr_Leceue">
-  <meta name="keywords" content="">
-  <meta name="description" content="">
-  <script id="hexo-configurations">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/256.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    theme: 'Lx',
-    version: '1.4.5',
-    localsearch:{
-      "enable": true,
-      "trigger": "auto",
-      "top_n_per_article": true,
-      "unescape": false,
-      "preload": false
-      },
-    path: 'search.xml'
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
   };
 </script>
 
-  <link rel="shortcut icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/css/main.css">
-  <script src="/js/jquery.min.js"></script>
-  <script src="/js/jquery.jside.menu.js"></script>
-	<script>
-	$(document).ready(function(){
-	$(".menu-container").jSideMenu({
-	    jSidePosition: "position-right",
-	    jSideSticky: true,
-	    jSideSkin: "endless-river",
-	     });
-	}); 
-	</script>
+  <meta name="description" content="必备知识：　　高斯消元，图论基本知识（好像就这。。。（雾）） 这里是无向图部分，请不要走错场。。。定义　　我们将邻接矩阵定义为矩阵$A(u,v)$，我想邻接矩阵就不用再多说了；　　我们将每个点的度数矩阵定义为矩阵$D(u,v)$，这里再加上数学表示；　　$D(u,u)=u$这个点的度数，$D(u,v)=0（u!=v)$；">
+<meta name="keywords" content="数论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="矩阵树">
+<meta property="og:url" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;2019&#x2F;10&#x2F;25&#x2F;%E7%9F%A9%E9%98%B5%E6%A0%91&#x2F;index.html">
+<meta property="og:site_name" content="Thinkings and Works">
+<meta property="og:description" content="必备知识：　　高斯消元，图论基本知识（好像就这。。。（雾）） 这里是无向图部分，请不要走错场。。。定义　　我们将邻接矩阵定义为矩阵$A(u,v)$，我想邻接矩阵就不用再多说了；　　我们将每个点的度数矩阵定义为矩阵$D(u,v)$，这里再加上数学表示；　　$D(u,u)=u$这个点的度数，$D(u,v)=0（u!=v)$；">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;images&#x2F;1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;images&#x2F;3.png">
+<meta property="og:updated_time" content="2019-10-25T07:23:40.188Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;images&#x2F;1.png">
+
+<link rel="canonical" href="http://leceue.github.io./2019/10/25/%E7%9F%A9%E9%98%B5%E6%A0%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>矩阵树 | Thinkings and Works</title>
   
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 </head>
-<body>
-<div class="single">
-<div id="page">
-<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
-  <div class="overlay">
-  <div class="page-title">
-    <div class="avatar"><a href="/"><img src="/images/ML.jpg"></a></div>
-    <span>2019-10-25</span>
-    <h2>矩阵树</h2>
-    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></div>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Thinkings and Works</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
+        <p class="site-subtitle">A HA IOer</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
 </div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>Schedule</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
 </div>
-<div id="lx-main-content">
-  <div class="lx-post">
-    <div class="lx-entry padding">
-      <div>
-        <h2 id="必备知识："><a href="#必备知识：" class="headerlink" title="必备知识："></a>必备知识：</h2><p>　　高斯消元，图论基本知识（好像就这。。。（雾）） </p>
-<p>这里是无向图部分，请不要走错场。。。</p>
-<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>　　我们将邻接矩阵定义为矩阵$A(u,v)$，我想邻接矩阵就不用再多说了；</p>
-<p>　　我们将每个点的度数矩阵定义为矩阵$D(u,v)$，这里再加上数学表示；</p>
-<p>　　$D(u,u)=u$这个点的度数，$D(u,v)=0（u!=v)$；</p>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/10/25/%E7%9F%A9%E9%98%B5%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Mr_Leceue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Thinkings and Works">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          矩阵树
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-10-25 14:49:18 / Modified: 15:23:40" itemprop="dateCreated datePublished" datetime="2019-10-25T14:49:18+08:00">2019-10-25</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="必备知识："><a href="#必备知识：" class="headerlink" title="必备知识："></a>必备知识：</h2><p>　　高斯消元，图论基本知识（好像就这。。。（雾）） </p><p>这里是无向图部分，请不要走错场。。。</p><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>　　我们将邻接矩阵定义为矩阵$A(u,v)$，我想邻接矩阵就不用再多说了；</p><p>　　我们将每个点的度数矩阵定义为矩阵$D(u,v)$，这里再加上数学表示；</p><p>　　$D(u,u)=u$这个点的度数，$D(u,v)=0（u!=v)$；</p><a id="more"></a>
+
+
+
+
 <p>　　我们将矩阵Laplace（或Kirchhoff）定义为$L(u,v)=D(u,v)-A(u,v)$</p>
 <p>　　我们将生成树的个数定义为 $t$；</p>
 <h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>　　这里将讲述行列式，如果dalao已经学过，请直接跳过这个环节；</p>
@@ -125,130 +338,208 @@
 <p>　　但既然已经知道要考哪里，就往哪个地方想，就像专题训练一样，然后找出特点，从而在综合题中找到这个算法的影子；</p>
 <p>　　这个算法特点主要就是生成树的计数，所以应该很好看出来，记住特点和处理方法，培养数学思维才是做题目的；</p>
 
-      </div>
     </div>
-  </div>
-</div>
-<div class="lx-navigation">
-	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
-		<div class="overlay"></div>
-		<a class="copy" href="/2019/10/25/%E7%8C%AB%E6%A0%91/">
-			<div class="display-t">
-				<div class="display-tc">
-					<div>
-						<span>Next</span>
-						<h3>猫树</h3>
-					</div>
-				</div>
-			</div>
-		</a>
-	</div>
-        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
-		<div class="overlay"></div>
-		<a class="copy" href="/2019/10/25/%E5%9F%BA%E7%8E%AF%E6%A0%91%E5%88%9D%E6%AD%A5/">
-			<div class="display-t">
-				<div class="display-tc">
-					<div>
-						<span>Prev</span>
-						<h3>基环树初步</h3>
-					</div>
-				</div>
-			</div>
-		</a>
-	</div>
-</div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Mr_Leceue
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://leceue.github.io./2019/10/25/%E7%9F%A9%E9%98%B5%E6%A0%91/" title="矩阵树">http://leceue.github.io./2019/10/25/%E7%9F%A9%E9%98%B5%E6%A0%91/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/null" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
 </div>
 
-<footer>
-  <div>
-  Copyright &copy; 2019.<a href="/">Thinkings and Works</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
-  </div>
-</footer>
-</div>
-<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
-<div class="popup search-popup local-search-popup">
-  <div class="local-search-header clearfix">
-    <span class="search-icon">
-      <i class="fa fa-search"></i>
-    </span>
-    <span class="popup-btn-close">
-      <i class="fa fa-times-circle"></i>
-    </span>
-    <div class="local-search-input-wrapper">
-      <input autocomplete="off"
-             placeholder="Search..." spellcheck="false"
-             type="text" id="local-search-input">
-    </div>
-  </div>
-  <div id="local-search-result"></div>
-</div>
 
-<button class="menu-trigger"></button>
-<div class="menu">
-  <div class="menu-head">
-    <span class="layer">
-      <div class="col">
-        <div class="row for-pic">
-          <div class="profile-pic">
-            <a href="/"><img src="/images/ML.jpg" alt="Mr_Leceue"/></a>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag"># 数论</a>
           </div>
-        </div>
-        <div class="row for-name">
-          <p>Mr_Leceue</p>
-          <span class="tagline">人定胜天</span>
-        </div>
-      </div>
-    </span>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/10/25/%E5%9F%BA%E7%8E%AF%E6%A0%91%E5%88%9D%E6%AD%A5/" rel="next" title="基环树初步">
+                  <i class="fa fa-chevron-left"></i> 基环树初步
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/10/25/%E7%8C%AB%E6%A0%91/" rel="prev" title="猫树">
+                  猫树 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
   </div>
-  <nav class="menu-container">
-  <ul class="menu-items">
-    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
-    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
-    <li class="has-sub"><span class="dropdown-heading">
-      <i class="fa fa-bookmark fa-fw"></i>页面</span>
-        <ul>
-          <li><a href="/guestbook">留言</a></li>
-        <li><a href="/about">关于</a></li>
-        </ul>
-    </li>
-    <li class="has-sub"><span class="dropdown-heading">
-      <i class="fa fa-link fa-fw"></i>友链</span>
-        <ul>
-          <li> <a href="https://www.cnblogs.com/waterflower/" target="_blank">mycnblogs</a></li>
-        <li> <a href="https://www.luogu.org/blog/Kenrick/#" target="_blank">zzh</a></li>
-        <li> <a href="https://www.luogu.org/blog/103452/#" target="_blank">syk</a></li>
-        <li> <a href="https://blog.csdn.net/yuanchen_" target="_blank">yuanchen</a></li>
-        <li> <a href="https://October-2021.github.io" target="_blank">_October_</a></li>
-        </ul>
-    </li>
-  </ul>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#必备知识："><span class="nav-number">1.</span> <span class="nav-text">必备知识：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">2.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引入"><span class="nav-number">3.</span> <span class="nav-text">引入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-number">4.</span> <span class="nav-text">应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">5.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深入"><span class="nav-number">6.</span> <span class="nav-text">深入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SDOI2014-重建"><span class="nav-number">6.1.</span> <span class="nav-text">[SDOI2014]重建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SHOI2016-黑暗前的幻想乡"><span class="nav-number">6.2.</span> <span class="nav-text">[SHOI2016]黑暗前的幻想乡</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Mr_Leceue"
+    src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Mr_Leceue</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
   </nav>
 </div>
 
-<div class="gototop js-top">
-  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
-</div>
-<script src="/js/jquery.easing.min.js"></script>
-<script src="/js/jquery.waypoints.min.js"></script>
-<script src="/js/jquery.stellar.min.js"></script>
-<script src="/js/main.js"></script>
-<script src="/js/local.search.js"></script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr_Leceue</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
 </body>
 </html>
+
+<span id="busuanzi_container_site_uv">
+  本站访问次数：<span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+</span>

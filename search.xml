@@ -3,11 +3,11 @@
   <entry>
     <title>一维以及二维的差分的简述</title>
     <url>/2019/10/25/%E4%B8%80%E7%BB%B4%E4%BB%A5%E5%8F%8A%E4%BA%8C%E7%BB%B4%E7%9A%84%E5%B7%AE%E5%88%86%E7%9A%84%E7%AE%80%E8%BF%B0/</url>
-    <content><![CDATA[<p>　　差分，也就是数与数之间的差值。拿一维差分来举例子，将差分设为c[ ]数组，原数为a[ ],那么</p>
-<p>　　<strong>$c[i]=a[i]-a[i-1]$</strong></p>
-<p>　　这便是简单的差分数组；</p>
-<p>　　那么要他何用？</p>
-<p>　　最为主要的作用就是区间的修改，那么在修改之前，我们先明白如何将原数求出。很显然，$c[1]$~$c[i]$差分数组求和即可得到$a[i]$。</p>
+    <content><![CDATA[<p>　　差分，也就是数与数之间的差值。拿一维差分来举例子，将差分设为c[ ]数组，原数为a[ ],那么</p><p>　　<strong>$c[i]=a[i]-a[i-1]$</strong></p><p>　　这便是简单的差分数组；</p><p>　　那么要他何用？</p><p>　　最为主要的作用就是区间的修改，那么在修改之前，我们先明白如何将原数求出。很显然，$c[1]$~$c[i]$差分数组求和即可得到$a[i]$。</p><a id="more"></a>
+
+
+
+
 <p>　　那区间修改呢？</p>
 <p>　　如我们将从l到r的区间加上s（减去也一样），那么由差分数组的定义得，观察数组，发现只有c[l]和c[r+1]变化了。</p>
 <p>　　具体证明可以手动模拟，而中间的不变是因为i项与i-1项都加上了s，差值不变;</p>
@@ -49,14 +49,14 @@
   <entry>
     <title>扫描线</title>
     <url>/2019/10/25/%E6%89%AB%E6%8F%8F%E7%BA%BF/</url>
-    <content><![CDATA[<p>请在学习之前有一定的线段树基础</p>
-<p>在一些题中，它总会给你一些矩形，之后让你求总覆盖面积。</p>
-<p>它的难点在于，有重叠面积，如果只是罗列情况，那么只会一事无成。</p>
-<p>所以说，这里就引进了扫描线做法；</p>
-<p>其实它的原理很简单，只是底*高而已，只是分段求解；</p>
-<p>而问题大概的图就是这样</p>
-<p><img src="/images/10.png" alt="alt"></p>
-<p>根据我刚刚说的分段求解和底*高，那么我们就可以推测出扫描线是什么了</p>
+    <content><![CDATA[<p>请在学习之前有一定的线段树基础</p><p>在一些题中，它总会给你一些矩形，之后让你求总覆盖面积。</p><p>它的难点在于，有重叠面积，如果只是罗列情况，那么只会一事无成。</p><p>所以说，这里就引进了扫描线做法；</p><p>其实它的原理很简单，只是底*高而已，只是分段求解；</p><p>而问题大概的图就是这样</p><p><img src="/images/10.png" alt="alt"></p><p>根据我刚刚说的分段求解和底*高，那么我们就可以推测出扫描线是什么了</p><a id="more"></a>
+
+
+
+
+
+
+
 <p>它是由矩形的上边和下边构成，并记录其左右端点和其所在的纵坐标；</p>
 <p><img src="/images/11.png" alt="img"></p>
 <p>图中标红的即为扫描线，那么我们用它做什么？</p>
@@ -115,9 +115,9 @@
   <entry>
     <title>悬线法</title>
     <url>/2019/10/25/%E6%82%AC%E7%BA%BF%E6%B3%95/</url>
-    <content><![CDATA[<p>例题 P1169 [ZJOI2007]棋盘制作</p>
-<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>国际象棋是世界上最古老的博弈游戏之一，和中国的围棋、象棋以及日本的将棋同享盛名。据说国际象棋起源于易经的思想，棋盘是一个8×88 \times 88×8大小的黑白相间的方阵，对应八八六十四卦，黑白对应阴阳。</p>
-<p>而我们的主人公<code>小Q</code>，正是国际象棋的狂热爱好者。作为一个顶尖高手，他已不满足于普通的棋盘与规则，于是他跟他的好朋友<code>小W</code>决定将棋盘扩大以适应他们的新规则。</p>
+    <content><![CDATA[<p>例题 P1169 [ZJOI2007]棋盘制作</p><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>国际象棋是世界上最古老的博弈游戏之一，和中国的围棋、象棋以及日本的将棋同享盛名。据说国际象棋起源于易经的思想，棋盘是一个8×88 \times 88×8大小的黑白相间的方阵，对应八八六十四卦，黑白对应阴阳。</p><p>而我们的主人公<code>小Q</code>，正是国际象棋的狂热爱好者。作为一个顶尖高手，他已不满足于普通的棋盘与规则，于是他跟他的好朋友<code>小W</code>决定将棋盘扩大以适应他们的新规则。</p><a id="more"></a>
+
+
 <p><code>小Q</code>找到了一张由N×MN \times MN×M个正方形的格子组成的矩形纸片，每个格子被涂有黑白两种颜色之一。<code>小Q</code>想在这种纸中裁减一部分作为新棋盘，当然，他希望这个棋盘尽可能的大。</p>
 <p>不过<code>小Q</code>还没有决定是找一个正方形的棋盘还是一个矩形的棋盘（当然，不管哪种，棋盘必须都黑白相间，即相邻的格子不同色），所以他希望可以找到最大的正方形棋盘面积和最大的矩形棋盘面积，从而决定哪个更好一些。</p>
 <p>于是<code>小Q</code>找到了即将参加全国信息学竞赛的你，你能帮助他么？</p>
@@ -150,22 +150,22 @@
   <entry>
     <title>树链剖分</title>
     <url>/2019/10/25/%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/</url>
-    <content><![CDATA[<p>。。。。</p>
-<p>有点懒；</p>
-<p>需要先理解几个概念：</p>
-<ol>
+    <content><![CDATA[<p>。。。。</p><p>有点懒；</p><p>需要先理解几个概念：</p><ol>
 <li><p>LCA</p>
 </li>
 <li><p>线段树（熟练，要不代码能调一天）</p>
 </li>
 <li><p>图论的基本知识（dfs序的性质）</p>
 </li>
-</ol>
-<p>这大概就好了；</p>
-<p><strong>定义</strong>：</p>
-<p>　　1.重儿子：一个点所连点树size最大的，这个son被称为这个点的重儿子；</p>
-<p>　　2.轻儿子：一个点所连点除重儿子以外的都是轻儿子；</p>
-<p>　　3.重链：从一个轻儿子或根节点开始沿重儿子走所成的链；</p>
+</ol><p>这大概就好了；</p><p><strong>定义</strong>：</p><p>　　1.重儿子：一个点所连点树size最大的，这个son被称为这个点的重儿子；</p><p>　　2.轻儿子：一个点所连点除重儿子以外的都是轻儿子；</p><p>　　3.重链：从一个轻儿子或根节点开始沿重儿子走所成的链；</p><a id="more"></a>
+
+
+
+
+
+
+
+
 <p><strong>步骤</strong>：</p>
 <p>　　在代码里，结合代码更清晰。。。（其实是太懒了）</p>
 <p>　有重点需要注意的东西在code中有提到，仔细看。。。。</p>
@@ -195,10 +195,10 @@
   <entry>
     <title>莫队--基于分块的优化</title>
     <url>/2019/10/25/%E8%8E%AB%E9%98%9F-%E5%9F%BA%E4%BA%8E%E5%88%86%E5%9D%97%E7%9A%84%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<h1 id="莫队思想浅谈"><a href="#莫队思想浅谈" class="headerlink" title="莫队思想浅谈"></a>莫队思想浅谈</h1><p>莫队，基于分块思想。</p>
-<p>所以说，在学习莫队时可以先了解一下分块的优化原理，这对于莫队的理解会有帮助；</p>
-<p>我们将分层次讲解，难度不断增加，并附有例题。。。（由于博主太烂懒，所以莫队的模板概念知识只会在这里叙述）</p>
-<h2 id="1-莫队："><a href="#1-莫队：" class="headerlink" title="1.莫队："></a><strong>1.莫队：</strong></h2><p>　　基础的莫队是用来解决区间离线查询问题，利用分块原理和排序，将查询时的重叠部分集中以来优化的算法，大多的算法的复杂度为$O(nsqrt(n))$，实际更优；</p>
+    <content><![CDATA[<h1 id="莫队思想浅谈"><a href="#莫队思想浅谈" class="headerlink" title="莫队思想浅谈"></a>莫队思想浅谈</h1><p>莫队，基于分块思想。</p><p>所以说，在学习莫队时可以先了解一下分块的优化原理，这对于莫队的理解会有帮助；</p><p>我们将分层次讲解，难度不断增加，并附有例题。。。（由于博主太烂懒，所以莫队的模板概念知识只会在这里叙述）</p><h2 id="1-莫队："><a href="#1-莫队：" class="headerlink" title="1.莫队："></a><strong>1.莫队：</strong></h2><p>　　基础的莫队是用来解决区间离线查询问题，利用分块原理和排序，将查询时的重叠部分集中以来优化的算法，大多的算法的复杂度为$O(nsqrt(n))$，实际更优；</p><a id="more"></a>
+
+
+
 <p>　　莫队代码一般很短，且有套路可言，所以应熟练掌握；</p>
 <p>　　表述完毕，开始讲解：</p>
 <p>　　<a href="https://www.luogu.org/problem/P1972" target="_blank" rel="noopener">P1972 [SDOI2009]HH的项链</a></p>
@@ -292,11 +292,11 @@
   <entry>
     <title>Guass初步</title>
     <url>/2019/10/25/Guass%E5%88%9D%E6%AD%A5/</url>
-    <content><![CDATA[<p>Gauss算法，称为高斯消元算法，用来解决n元一次方程，在解决线性方程问题起着重要作用。</p>
-<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a><strong>简述</strong></h2><p>　　运用高斯消元的方法，我们可以在O(n3)的时间求出n元线性方程，但是由于时间复杂度的原因，请注意题目数据范围的提示。</p>
-<p>　　<strong>高斯消元三大定理（在小学就学过了吧）：</strong></p>
-<p>　　　　1.两个方程互换位置，解不变；</p>
-<p>　　　　2.一个方程进行加减乘除，解不变；</p>
+    <content><![CDATA[<p>Gauss算法，称为高斯消元算法，用来解决n元一次方程，在解决线性方程问题起着重要作用。</p><h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a><strong>简述</strong></h2><p>　　运用高斯消元的方法，我们可以在O(n3)的时间求出n元线性方程，但是由于时间复杂度的原因，请注意题目数据范围的提示。</p><p>　　<strong>高斯消元三大定理（在小学就学过了吧）：</strong></p><p>　　　　1.两个方程互换位置，解不变；</p><p>　　　　2.一个方程进行加减乘除，解不变；</p><a id="more"></a>
+
+
+
+
 <p>　　　　3.一个方程乘上数k加上另一个方程，解不变；</p>
 <p>　　这便是我们解决的基础；</p>
 <h2 id="过程："><a href="#过程：" class="headerlink" title="过程："></a><strong>过程：</strong></h2><p>　　这里给出<a href="https://www.luogu.org/problem/P3389" target="_blank" rel="noopener">luogu例题链接</a>，这样方便寻找；</p>
@@ -346,11 +346,11 @@
   <entry>
     <title>manacher</title>
     <url>/2019/10/25/manacher/</url>
-    <content><![CDATA[<p>manacher算法的由来不再赘述，自行百度QWQ。。。</p>
-<p>进入正题，manacher算法是一个高效的计算回文串的算法，回文串如果不知道可以给出一个例子：“ noon ”，这样应该就很清晰了；</p>
-<p>其实这个算法虽然名字长，但是实际代码很短，而且理解起来并不难。。。（连我这种蒟蒻都懂了）</p>
-<p>这里给出<a href="https://www.luogu.org/problem/P3805" target="_blank" rel="noopener">模板题</a></p>
-<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给出一个只由小写英文字符a,b,c…y,z组成的字符串S,求S中最长回文串的长度.</p>
+    <content><![CDATA[<p>manacher算法的由来不再赘述，自行百度QWQ。。。</p><p>进入正题，manacher算法是一个高效的计算回文串的算法，回文串如果不知道可以给出一个例子：“ noon ”，这样应该就很清晰了；</p><p>其实这个算法虽然名字长，但是实际代码很短，而且理解起来并不难。。。（连我这种蒟蒻都懂了）</p><p>这里给出<a href="https://www.luogu.org/problem/P3805" target="_blank" rel="noopener">模板题</a></p><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给出一个只由小写英文字符a,b,c…y,z组成的字符串S,求S中最长回文串的长度.</p><a id="more"></a>
+
+
+
+
 <p>字符串长度为n</p>
 <h3 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h3><p>一行小写英文字符a,b,c…y,z组成的字符串S</p>
 <h3 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h3><p>一个整数表示答案</p>
@@ -385,9 +385,9 @@
   <entry>
     <title>AC自动机</title>
     <url>/2019/10/25/AC%E8%87%AA%E5%8A%A8%E6%9C%BA/</url>
-    <content><![CDATA[<p>先存代码</p>
-<h2 id="AC自动机（简单版）"><a href="#AC自动机（简单版）" class="headerlink" title="AC自动机（简单版）"></a>AC自动机（简单版）</h2><p>　　</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 1000007</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,ans;</span><br><span class="line"><span class="keyword">int</span> tr[maxn][<span class="number">28</span>],val[maxn],cnt,fail[maxn];</span><br><span class="line"><span class="keyword">char</span> mod[maxn],tx[maxn];</span><br><span class="line"><span class="built_in">queue</span>&lt;<span class="keyword">int</span> &gt;q;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">char</span> *a)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> now=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;a[i];i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!tr[now][a[i]-<span class="string">'a'</span>]) tr[now][a[i]-<span class="string">'a'</span>]=++cnt;</span><br><span class="line">        now=tr[now][a[i]-<span class="string">'a'</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    val[now]++;</span><br><span class="line">&#125;<span class="comment">//建树 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AC</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++) <span class="keyword">if</span>(tr[<span class="number">0</span>][i]) q.push(tr[<span class="number">0</span>][i]);<span class="comment">//26个字母跑 </span></span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> u=q.front();q.pop();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(tr[u][i]) fail[tr[u][i]]=tr[fail[u]][i],q.push(tr[u][i]);<span class="comment">//调取指针 </span></span><br><span class="line">            <span class="keyword">else</span> tr[u][i]=tr[fail[u]][i];<span class="comment">//建立“虚边”——指向失配指针的i边</span></span><br><span class="line">            <span class="comment">//这里已经改变了trie图 </span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">query</span><span class="params">(<span class="keyword">char</span> *t)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ol=<span class="number">0</span>,u=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;t[i];i++)&#123;</span><br><span class="line">        u=tr[u][t[i]-<span class="string">'a'</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=u;j&amp;&amp;val[j]!=<span class="number">-1</span>;j=fail[j])</span><br><span class="line">            ol+=val[j],val[j]=<span class="number">-1</span>;<span class="comment">//fail跳（这样其实很慢） </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ol;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="comment">//    freopen("cin.in","r",stdin);</span></span><br><span class="line"><span class="comment">//    freopen("co.out","w",stdout);</span></span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%s"</span>,mod),build(mod);</span><br><span class="line">    AC();</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%s"</span>,tx);ans=query(tx);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,ans);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<p>先存代码</p><h2 id="AC自动机（简单版）"><a href="#AC自动机（简单版）" class="headerlink" title="AC自动机（简单版）"></a>AC自动机（简单版）</h2><p>　　</p><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 1000007</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,ans;</span><br><span class="line"><span class="keyword">int</span> tr[maxn][<span class="number">28</span>],val[maxn],cnt,fail[maxn];</span><br><span class="line"><span class="keyword">char</span> mod[maxn],tx[maxn];</span><br><span class="line"><span class="built_in">queue</span>&lt;<span class="keyword">int</span> &gt;q;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">char</span> *a)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> now=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;a[i];i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!tr[now][a[i]-<span class="string">'a'</span>]) tr[now][a[i]-<span class="string">'a'</span>]=++cnt;</span><br><span class="line">        now=tr[now][a[i]-<span class="string">'a'</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    val[now]++;</span><br><span class="line">&#125;<span class="comment">//建树 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AC</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++) <span class="keyword">if</span>(tr[<span class="number">0</span>][i]) q.push(tr[<span class="number">0</span>][i]);<span class="comment">//26个字母跑 </span></span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> u=q.front();q.pop();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(tr[u][i]) fail[tr[u][i]]=tr[fail[u]][i],q.push(tr[u][i]);<span class="comment">//调取指针 </span></span><br><span class="line">            <span class="keyword">else</span> tr[u][i]=tr[fail[u]][i];<span class="comment">//建立“虚边”——指向失配指针的i边</span></span><br><span class="line">            <span class="comment">//这里已经改变了trie图 </span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">query</span><span class="params">(<span class="keyword">char</span> *t)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ol=<span class="number">0</span>,u=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;t[i];i++)&#123;</span><br><span class="line">        u=tr[u][t[i]-<span class="string">'a'</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=u;j&amp;&amp;val[j]!=<span class="number">-1</span>;j=fail[j])</span><br><span class="line">            ol+=val[j],val[j]=<span class="number">-1</span>;<span class="comment">//fail跳（这样其实很慢） </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ol;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="comment">//    freopen("cin.in","r",stdin);</span></span><br><span class="line"><span class="comment">//    freopen("co.out","w",stdout);</span></span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%s"</span>,mod),build(mod);</span><br><span class="line">    AC();</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%s"</span>,tx);ans=query(tx);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,ans);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><a id="more"></a>
+
+
 <h2 id="AC自动机（加强版）"><a href="#AC自动机（加强版）" class="headerlink" title="AC自动机（加强版）"></a>AC自动机（加强版）</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 1000007</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> T,n,ans;</span><br><span class="line"><span class="keyword">char</span> mod[maxn][<span class="number">100</span>],tx[maxn];</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> AC&#123;</span><br><span class="line">    <span class="keyword">int</span> tr[maxn][<span class="number">27</span>],fail[maxn],tot;</span><br><span class="line">    <span class="keyword">int</span> cnt,val[maxn],num[maxn];</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Init</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">memset</span>(tr,<span class="number">0</span>,<span class="keyword">sizeof</span>(tr));</span><br><span class="line">        <span class="built_in">memset</span>(num,<span class="number">0</span>,<span class="keyword">sizeof</span>(num));</span><br><span class="line">        <span class="built_in">memset</span>(fail,<span class="number">0</span>,<span class="keyword">sizeof</span> fail);</span><br><span class="line">        <span class="built_in">memset</span>(val,<span class="number">0</span>,<span class="keyword">sizeof</span> val);</span><br><span class="line">        cnt=ans=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">char</span> *s,<span class="keyword">int</span> id)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> now=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;s[i];i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!tr[now][s[i]-<span class="string">'a'</span>]) tr[now][s[i]-<span class="string">'a'</span>]=++cnt;</span><br><span class="line">            now=tr[now][s[i]-<span class="string">'a'</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        val[now]=id;<span class="comment">//记录id，这个不怕覆盖 </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span> &gt;q;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++) <span class="keyword">if</span>(tr[<span class="number">0</span>][i]) q.push(tr[<span class="number">0</span>][i]);</span><br><span class="line">        <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">            <span class="keyword">int</span> u=q.front();q.pop();</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)</span><br><span class="line">                <span class="keyword">if</span>(tr[u][i]) fail[tr[u][i]]=tr[fail[u]][i],q.push(tr[u][i]),<span class="built_in">cerr</span>&lt;&lt;fail[tr[u][i]]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">                <span class="keyword">else</span> tr[u][i]=tr[fail[u]][i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">query</span><span class="params">(<span class="keyword">char</span> *t)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> u=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;t[i];i++)&#123;</span><br><span class="line">            u=tr[u][t[i]-<span class="string">'a'</span>];</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=u;j;j=fail[j])</span><br><span class="line">                <span class="keyword">if</span>(val[j]) num[val[j]]++,ans=max(ans,num[val[j]]);</span><br><span class="line">        &#125;<span class="comment">//还是跳，不过记录的不一样而已 </span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,ans);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="keyword">if</span>(ans==num[i]) <span class="built_in">printf</span>(<span class="string">"%s\n"</span>,mod[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">while</span>(n)&#123;</span><br><span class="line">        AC::Init();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="built_in">scanf</span>(<span class="string">"%s"</span>,mod[i]),AC::insert(mod[i],i);</span><br><span class="line">        AC::build();</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%s"</span>,tx);</span><br><span class="line">        AC::query(tx);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="AC自动机（二次加强版）"><a href="#AC自动机（二次加强版）" class="headerlink" title="AC自动机（二次加强版）"></a>AC自动机（二次加强版）</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 2000007</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">char</span> mod[maxn],tx[maxn];</span><br><span class="line"><span class="keyword">int</span> fail[maxn],tr[maxn][<span class="number">27</span>],val[maxn],num[maxn];</span><br><span class="line"><span class="keyword">int</span> id[maxn],cnt,in[maxn],to[maxn];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">char</span> *a,<span class="keyword">int</span> idx)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> now=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;a[i];i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!tr[now][a[i]-<span class="string">'a'</span>]) tr[now][a[i]-<span class="string">'a'</span>]=++cnt;</span><br><span class="line">        now=tr[now][a[i]-<span class="string">'a'</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    val[now]++;id[idx]=now;<span class="comment">//记录 </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">queue</span>&lt;<span class="keyword">int</span> &gt;q;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++) <span class="keyword">if</span>(tr[<span class="number">0</span>][i]) q.push(tr[<span class="number">0</span>][i]);</span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> u=q.front();q.pop();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(tr[u][i]) fail[tr[u][i]]=tr[fail[u]][i],q.push(tr[u][i]),in[fail[tr[u][i]]]++;</span><br><span class="line">            <span class="keyword">else</span> tr[u][i]=tr[fail[u]][i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">query</span><span class="params">(<span class="keyword">char</span> *t)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> u=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;t[i];i++)</span><br><span class="line">        u=tr[u][t[i]-<span class="string">'a'</span>],num[u]++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">topu</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=cnt;i++) <span class="keyword">if</span>(!in[i]) q.push(i);</span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> u=q.front(),v=fail[u];q.pop();</span><br><span class="line">        num[v]+=num[u];--in[v];</span><br><span class="line">        <span class="keyword">if</span>(!(in[v])) q.push(v);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="comment">//这里是跟题解学的topu,效率也挺高 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="built_in">scanf</span>(<span class="string">"%s"</span>,mod),insert(mod,i);</span><br><span class="line">    build();</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%s"</span>,tx);query(tx);</span><br><span class="line">    topu(); </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,num[id[i]]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="单词"><a href="#单词" class="headerlink" title="单词"></a>单词</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 2000007</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">char</span> mod[maxn],tx[maxn],c[maxn];</span><br><span class="line"><span class="keyword">int</span> fail[maxn],tr[maxn][<span class="number">28</span>],val[maxn],num[maxn];</span><br><span class="line"><span class="keyword">int</span> id[maxn],cnt,in[maxn],tot;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">char</span> *a,<span class="keyword">int</span> idx)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> now=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;a[i];i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!tr[now][a[i]-<span class="string">'a'</span>]) tr[now][a[i]-<span class="string">'a'</span>]=++cnt;</span><br><span class="line">        now=tr[now][a[i]-<span class="string">'a'</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    val[now]++;id[idx]=now;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">queue</span>&lt;<span class="keyword">int</span> &gt;q;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">27</span>;i++) <span class="keyword">if</span>(tr[<span class="number">0</span>][i]) q.push(tr[<span class="number">0</span>][i]);</span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> u=q.front();q.pop();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">27</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(tr[u][i]) fail[tr[u][i]]=tr[fail[u]][i],q.push(tr[u][i]),in[fail[tr[u][i]]]++;</span><br><span class="line">            <span class="keyword">else</span> tr[u][i]=tr[fail[u]][i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">query</span><span class="params">(<span class="keyword">char</span> *t)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> u=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;t[i];i++)</span><br><span class="line">        u=tr[u][t[i]-<span class="string">'a'</span>],num[u]++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">topu</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=cnt;i++) <span class="keyword">if</span>(!in[i]) q.push(i);</span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> u=q.front(),v=fail[u];q.pop();</span><br><span class="line">        num[v]+=num[u];--in[v];</span><br><span class="line">        <span class="keyword">if</span>(!(in[v])) q.push(v);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">work</span><span class="params">(<span class="keyword">char</span> *a,<span class="keyword">char</span> *b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len1=<span class="built_in">strlen</span>(a),len2=<span class="built_in">strlen</span>(b);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=len1;i&lt;len1+len2;i++)</span><br><span class="line">        a[i]=b[i-len1];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="built_in">scanf</span>(<span class="string">"%s"</span>,c),work(mod,c),</span><br><span class="line">        tot=<span class="built_in">strlen</span>(mod),insert(c,i),mod[tot++]=<span class="string">'&#123;'</span>;</span><br><span class="line">    build();</span><br><span class="line">    query(mod);topu();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,num[id[i]]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -399,12 +399,12 @@
   <entry>
     <title>math collect</title>
     <url>/2019/10/25/math-collect/</url>
-    <content><![CDATA[<h2 id="EXGCD"><a href="#EXGCD" class="headerlink" title="EXGCD"></a>EXGCD</h2><p>　　我们在遇见不定方程的时候，总会一筹莫展，但是EXGCD为我们提供了方法，如同</p>
-<p>　　$ a x + b y = c $   </p>
-<p>　　那么我们先从这个这个式子出发：</p>
-<p>　　$ax+by=gcd(a,b)$ 　　 $(1)$</p>
-<p>　　我们不妨设出另一个式子</p>
-<p>　　$ b x_{0}+(a \% b)y_{0}=gcd(b,a \% b)$ 　　 $(2)$</p>
+    <content><![CDATA[<h2 id="EXGCD"><a href="#EXGCD" class="headerlink" title="EXGCD"></a>EXGCD</h2><p>　　我们在遇见不定方程的时候，总会一筹莫展，但是EXGCD为我们提供了方法，如同</p><p>　　$ a x + b y = c $   </p><p>　　那么我们先从这个这个式子出发：</p><p>　　$ax+by=gcd(a,b)$ 　　 $(1)$</p><p>　　我们不妨设出另一个式子</p><p>　　$ b x_{0}+(a \% b)y_{0}=gcd(b,a \% b)$ 　　 $(2)$</p><a id="more"></a>
+
+
+
+
+
 <p>　　Because $gcd(a,b)= gcd ( b , a \% b ) $ ,thus:</p>
 <p>　　(a x+b y=bx_{0}+a \% b y_{0})</p>
 <p>　　(a x+b y=bx_{0} +(x-a/b \times y_{0}))</p>
@@ -444,10 +444,10 @@
   <entry>
     <title>euler</title>
     <url>/2019/10/25/euler/</url>
-    <content><![CDATA[<h2 id="euler函数"><a href="#euler函数" class="headerlink" title="euler函数"></a>euler函数</h2><p>euler函数是表示从1~n中与n互质的个数，互质的定义简单提一下，$gcd(a,b)=1$。</p>
-<p>那么如何求一个数的euler函数？</p>
-<p>我们可以将每个数与n求gcd一下，如果gcd为1，则贡献加1，时间复杂度为 $O(n logn)$，极其优秀（雾）</p>
-<p>那么来思考更加优秀的算法（为什么一定要求euler函数($\varphi(n)$函数)呢QAQ）</p>
+    <content><![CDATA[<h2 id="euler函数"><a href="#euler函数" class="headerlink" title="euler函数"></a>euler函数</h2><p>euler函数是表示从1~n中与n互质的个数，互质的定义简单提一下，$gcd(a,b)=1$。</p><p>那么如何求一个数的euler函数？</p><p>我们可以将每个数与n求gcd一下，如果gcd为1，则贡献加1，时间复杂度为 $O(n logn)$，极其优秀（雾）</p><p>那么来思考更加优秀的算法（为什么一定要求euler函数($\varphi(n)$函数)呢QAQ）</p><a id="more"></a>
+
+
+
 <h3 id="引论"><a href="#引论" class="headerlink" title="引论"></a>引论</h3><p>在算法基本定理中，$N=p1^{c1}<em>p2^{c2}</em>p3^{c3}…$，其中pi为质因数，那么：</p>
 <script type="math/tex; mode=display">
 \varphi(N)=N*\frac{p1-1}{p1}*\frac{p2-1}{p2}...=\frac{pn-1}{pn}=N*\prod_{p|n} \frac{p-1}{p}</script><p>简单证明：</p>
@@ -498,12 +498,12 @@ a^{b}=a^{p*\varphi(n)+r}=(a^{\varphi(n)})^p*a^{r} \equiv 1^{p}*a^{r} \equiv a^{r
   <entry>
     <title>主席树初步</title>
     <url>/2019/10/25/%E4%B8%BB%E5%B8%AD%E6%A0%91%E5%88%9D%E6%AD%A5/</url>
-    <content><![CDATA[<h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><p>　　1.线段树。。。</p>
-<p>　　（好像没了</p>
-<p>　　2.（可知可不知，可能会有帮助）动态开点线段树</p>
-<h2 id="主席树-可持久化线段树"><a href="#主席树-可持久化线段树" class="headerlink" title="主席树(可持久化线段树)"></a>主席树(可持久化线段树)</h2><p>　　一看可持久化,我们总会想到一些恐怖的算法.但是其实理解并不难,而这里我只是将主席树的思想讲清楚(尽量),题还是自己刷(虽然我就没刷几道</p>
-<p>　　先看一道 <a href="https://www.luogu.org/problem/P3834" target="_blank" rel="noopener">模板题</a></p>
-<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>如题，给定N个整数构成的序列，将对于指定的闭区间查询其区间内的第K小值。</p>
+    <content><![CDATA[<h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><p>　　1.线段树。。。</p><p>　　（好像没了</p><p>　　2.（可知可不知，可能会有帮助）动态开点线段树</p><h2 id="主席树-可持久化线段树"><a href="#主席树-可持久化线段树" class="headerlink" title="主席树(可持久化线段树)"></a>主席树(可持久化线段树)</h2><p>　　一看可持久化,我们总会想到一些恐怖的算法.但是其实理解并不难,而这里我只是将主席树的思想讲清楚(尽量),题还是自己刷(虽然我就没刷几道</p><p>　　先看一道 <a href="https://www.luogu.org/problem/P3834" target="_blank" rel="noopener">模板题</a></p><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>如题，给定N个整数构成的序列，将对于指定的闭区间查询其区间内的第K小值。</p><a id="more"></a>
+
+
+
+
+
 <h3 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h3><p>第一行包含两个正整数N、M，分别表示序列的长度和查询的个数。</p>
 <p>第二行包含N个整数，表示这个序列各项的数字。</p>
 <p>接下来M行每行包含三个整数l,r,k l, r, kl,r,k , 表示查询区间[l,r][l, r][l,r]内的第k小值。</p>
@@ -539,11 +539,11 @@ a^{b}=a^{p*\varphi(n)+r}=(a^{\varphi(n)})^p*a^{r} \equiv 1^{p}*a^{r} \equiv a^{r
   <entry>
     <title>dsu on tree</title>
     <url>/2019/10/25/dsu-on-tree/</url>
-    <content><![CDATA[<p>这篇博客只是简单叙述思想(因为ML太弱了),具体例题请转其他博客.</p>
-<hr>
-<p>dsu on tree,许多OI将其归于启发式合并,当然如果你能理解更好,这只是一个理解方式罢了.</p>
-<h2 id="思想简述"><a href="#思想简述" class="headerlink" title="思想简述"></a>思想简述</h2><p>　　顾名思义,这个算法是处理树上问题,将子树分开求解,如果暴力了话是枚举每个子树,然后dfs;</p>
-<p>　　这里将每次dfs完的清空操作重新定义,并且规定dfs顺序,以来优化成log解法.</p>
+    <content><![CDATA[<p>这篇博客只是简单叙述思想(因为ML太弱了),具体例题请转其他博客.</p><hr><p>dsu on tree,许多OI将其归于启发式合并,当然如果你能理解更好,这只是一个理解方式罢了.</p><h2 id="思想简述"><a href="#思想简述" class="headerlink" title="思想简述"></a>思想简述</h2><p>　　顾名思义,这个算法是处理树上问题,将子树分开求解,如果暴力了话是枚举每个子树,然后dfs;</p><p>　　这里将每次dfs完的清空操作重新定义,并且规定dfs顺序,以来优化成log解法.</p><a id="more"></a>
+
+
+
+
 <p>　　这里我们引入一个 <a href="https://www.luogu.org/problem/CF600E" target="_blank" rel="noopener">例题</a></p>
 <blockquote>
 <p>一棵树有n个结点，每个结点都是一种颜色，每个颜色有一个编号，求树中每个子树的最多的颜色编号的和。</p>
@@ -565,10 +565,10 @@ a^{b}=a^{p*\varphi(n)+r}=(a^{\varphi(n)})^p*a^{r} \equiv 1^{p}*a^{r} \equiv a^{r
   <entry>
     <title>博弈论入门</title>
     <url>/2019/10/25/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[<p>说实话,我真的对这个游戏看得是一脸懵逼,因为(我太弱了)我没有明白一些变量的意思,所以一直很懵,现在才明白,这让我明白博弈论(还可以骗钱)博大精深;</p>
-<p>以下是我自己思考的过程,也许不严谨,但是最终明白了.</p>
-<p>这里只是粗略地介绍Nim游戏,一个入门博客,以来更好地进入SG函数(因为我才刚学</p>
-<h2 id="游戏简介"><a href="#游戏简介" class="headerlink" title="游戏简介"></a>游戏简介</h2><p>　　背景故事我就不说了,直接介绍游戏规则.</p>
+    <content><![CDATA[<p>说实话,我真的对这个游戏看得是一脸懵逼,因为(我太弱了)我没有明白一些变量的意思,所以一直很懵,现在才明白,这让我明白博弈论(还可以骗钱)博大精深;</p><p>以下是我自己思考的过程,也许不严谨,但是最终明白了.</p><p>这里只是粗略地介绍Nim游戏,一个入门博客,以来更好地进入SG函数(因为我才刚学</p><h2 id="游戏简介"><a href="#游戏简介" class="headerlink" title="游戏简介"></a>游戏简介</h2><p>　　背景故事我就不说了,直接介绍游戏规则.</p><a id="more"></a>
+
+
+
 <p>　　有n堆物品,每堆有$a_{i}$个物品,两个玩家每次可以任选一堆挑出任意整数个物品(可以整堆取完),但不能不取,取走最后一个物品的为胜者.</p>
 <p>　　这个游戏历史久远,曾用来赌钱,但是被一位数学家用二进制求解,得到了先手必胜和先手必败理论,于是这个游戏也就GG了;</p>
 <h2 id="游戏套路"><a href="#游戏套路" class="headerlink" title="游戏套路"></a>游戏套路</h2><p>　　假如有3堆物品,它们的个数分别是6,4,2,那么两个玩家都选择最优策略,那么先手胜还是后手胜? <a href="https://www.luogu.org/problem/P2197" target="_blank" rel="noopener">(例题(竟然还蓝了))</a></p>
@@ -604,10 +604,10 @@ a^{b}=a^{p*\varphi(n)+r}=(a^{\varphi(n)})^p*a^{r} \equiv 1^{p}*a^{r} \equiv a^{r
   <entry>
     <title>网络流初步</title>
     <url>/2019/10/25/%E7%BD%91%E7%BB%9C%E6%B5%81%E5%88%9D%E6%AD%A5/</url>
-    <content><![CDATA[<p>其实网络流很久之前已经学过,但是因为一些原因搁置了很久,于是想再系统地复习一下.</p>
-<p>由于博主能力有限,所以关于网络流知识也是了解个大概,这里只是简单介绍,并且说一下博主的感性理解</p>
-<hr>
-<h1 id="最大流"><a href="#最大流" class="headerlink" title="最大流"></a>最大流</h1><h2 id="EK増广路算法"><a href="#EK増广路算法" class="headerlink" title="　　EK増广路算法"></a>　　EK増广路算法</h2><p>　　　　很容易理解的一个算法,也就是我们不断地bfs找出一条増广路然后更新剩余容量,直到更新完毕,类似于SPFA做法.时间复杂度$O(nm^{2})$;</p>
+    <content><![CDATA[<p>其实网络流很久之前已经学过,但是因为一些原因搁置了很久,于是想再系统地复习一下.</p><p>由于博主能力有限,所以关于网络流知识也是了解个大概,这里只是简单介绍,并且说一下博主的感性理解</p><hr><h1 id="最大流"><a href="#最大流" class="headerlink" title="最大流"></a>最大流</h1><h2 id="EK増广路算法"><a href="#EK増广路算法" class="headerlink" title="　　EK増广路算法"></a>　　EK増广路算法</h2><p>　　　　很容易理解的一个算法,也就是我们不断地bfs找出一条増广路然后更新剩余容量,直到更新完毕,类似于SPFA做法.时间复杂度$O(nm^{2})$;</p><a id="more"></a>
+
+
+
 <p>　　　　这里不再附上代码,因为后面的费用流就要用EK+SPFA,而只是求最大流,推荐Dinic.</p>
 <h2 id="Dinic算法"><a href="#Dinic算法" class="headerlink" title="　　Dinic算法"></a>　　Dinic算法</h2><p>　　　　与EK不同的是,Dinic算法增加了一些优化,这里引进了深度这个概念,通过在同一深度图中増广,一个点可以向多个点进行多流増广,并有减枝;</p>
 <p>　　　　于是Dinic就可以达到$O(n^{2}m)$的优秀时间复杂度,可以代替匈牙利算法跑二分图匹配,时间复杂度$O(n\sqrt{n})$;</p>
@@ -626,12 +626,12 @@ a^{b}=a^{p*\varphi(n)+r}=(a^{\varphi(n)})^p*a^{r} \equiv 1^{p}*a^{r} \equiv a^{r
   <entry>
     <title>猫树</title>
     <url>/2019/10/25/%E7%8C%AB%E6%A0%91/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p> 　　猫树,由猫锟发明,以简单的构造以及优秀的离线复杂度而出名,可以优秀地处理区间和问题;</p>
-<p> 　　前置知识:无;</p>
-<h2 id="简单思想"><a href="#简单思想" class="headerlink" title="简单思想"></a>简单思想</h2><p> 　　运用分治的思想,分别处理中点两边的信息,之后分类讨论,合并区间得出结果;</p>
-<p> 　　保存数据时运用完全二叉树的思想,逐层保存信息,有一定的层次性;</p>
-<p> 　　<a href="https://www.luogu.org/problem/SP1043" target="_blank" rel="noopener">例题</a></p>
-<p> 　　简单意思即求区间最大和;</p>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p> 　　猫树,由猫锟发明,以简单的构造以及优秀的离线复杂度而出名,可以优秀地处理区间和问题;</p><p> 　　前置知识:无;</p><h2 id="简单思想"><a href="#简单思想" class="headerlink" title="简单思想"></a>简单思想</h2><p> 　　运用分治的思想,分别处理中点两边的信息,之后分类讨论,合并区间得出结果;</p><p> 　　保存数据时运用完全二叉树的思想,逐层保存信息,有一定的层次性;</p><p> 　　<a href="https://www.luogu.org/problem/SP1043" target="_blank" rel="noopener">例题</a></p><p> 　　简单意思即求区间最大和;</p><a id="more"></a>
+
+
+
+
+
 <p> 　　考虑上面所说的,处理中点两端的信息,即将区间的两个端点置于一个中点中间,而这个中点两边的信息我们已经处理过,所以可以分类讨论;</p>
 <p>　　<img src="/images/2.png" alt="alt"></p>
 <p>　　这个是一个简单的图形解释(图画歪了)　　</p>
@@ -667,11 +667,11 @@ a^{b}=a^{p*\varphi(n)+r}=(a^{\varphi(n)})^p*a^{r} \equiv 1^{p}*a^{r} \equiv a^{r
   <entry>
     <title>矩阵树</title>
     <url>/2019/10/25/%E7%9F%A9%E9%98%B5%E6%A0%91/</url>
-    <content><![CDATA[<h2 id="必备知识："><a href="#必备知识：" class="headerlink" title="必备知识："></a>必备知识：</h2><p>　　高斯消元，图论基本知识（好像就这。。。（雾）） </p>
-<p>这里是无向图部分，请不要走错场。。。</p>
-<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>　　我们将邻接矩阵定义为矩阵$A(u,v)$，我想邻接矩阵就不用再多说了；</p>
-<p>　　我们将每个点的度数矩阵定义为矩阵$D(u,v)$，这里再加上数学表示；</p>
-<p>　　$D(u,u)=u$这个点的度数，$D(u,v)=0（u!=v)$；</p>
+    <content><![CDATA[<h2 id="必备知识："><a href="#必备知识：" class="headerlink" title="必备知识："></a>必备知识：</h2><p>　　高斯消元，图论基本知识（好像就这。。。（雾）） </p><p>这里是无向图部分，请不要走错场。。。</p><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>　　我们将邻接矩阵定义为矩阵$A(u,v)$，我想邻接矩阵就不用再多说了；</p><p>　　我们将每个点的度数矩阵定义为矩阵$D(u,v)$，这里再加上数学表示；</p><p>　　$D(u,u)=u$这个点的度数，$D(u,v)=0（u!=v)$；</p><a id="more"></a>
+
+
+
+
 <p>　　我们将矩阵Laplace（或Kirchhoff）定义为$L(u,v)=D(u,v)-A(u,v)$</p>
 <p>　　我们将生成树的个数定义为 $t$；</p>
 <h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>　　这里将讲述行列式，如果dalao已经学过，请直接跳过这个环节；</p>
@@ -741,10 +741,10 @@ a^{b}=a^{p*\varphi(n)+r}=(a^{\varphi(n)})^p*a^{r} \equiv 1^{p}*a^{r} \equiv a^{r
   <entry>
     <title>基环树初步</title>
     <url>/2019/10/25/%E5%9F%BA%E7%8E%AF%E6%A0%91%E5%88%9D%E6%AD%A5/</url>
-    <content><![CDATA[<h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>​    说实话,基环树一般比较综合,所以一般只要就要具有图论基本知识便可以开始学习.</p>
-<h4 id="警告"><a href="#警告" class="headerlink" title="警告"></a>警告</h4><p>​    博主实力不足,如果出错,<del>请用力D他</del> .</p>
-<h2 id="认识"><a href="#认识" class="headerlink" title="认识"></a>认识</h2><p>​    基环树,原体是树,有树上任意连一条边,就成了一个环,即基环树,一般特征,$n$个点$n$条边;</p>
-<p>​    由于有树的特征,所以经常会用一些树的算法来计算基环树;</p>
+    <content><![CDATA[<h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>​    说实话,基环树一般比较综合,所以一般只要就要具有图论基本知识便可以开始学习.</p><h4 id="警告"><a href="#警告" class="headerlink" title="警告"></a>警告</h4><p>​    博主实力不足,如果出错,<del>请用力D他</del> .</p><h2 id="认识"><a href="#认识" class="headerlink" title="认识"></a>认识</h2><p>​    基环树,原体是树,有树上任意连一条边,就成了一个环,即基环树,一般特征,$n$个点$n$条边;</p><p>​    由于有树的特征,所以经常会用一些树的算法来计算基环树;</p><a id="more"></a>
+
+
+
 <h2 id="常用的算法"><a href="#常用的算法" class="headerlink" title="常用的算法"></a>常用的算法</h2><p>​    寻找环,这是基环树的基础,也很简单.</p>
 <p>​    考虑记录每个点是否访问过,当再次经过这个点时,那么这个点就能找出这个环了.</p>
 <p>​    我们只要在dfs时记录点的前继即可.</p>
@@ -753,7 +753,7 @@ a^{b}=a^{p*\varphi(n)+r}=(a^{\varphi(n)})^p*a^{r} \equiv 1^{p}*a^{r} \equiv a^{r
   <entry>
     <title>Hello World</title>
     <url>/2019/10/25/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><a id="more"></a>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
