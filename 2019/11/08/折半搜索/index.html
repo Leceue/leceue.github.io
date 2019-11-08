@@ -51,18 +51,18 @@
   };
 </script>
 
-  <meta name="description" content="说实话,我真的对这个游戏看得是一脸懵逼,因为(我太弱了)我没有明白一些变量的意思,所以一直很懵,现在才明白,这让我明白博弈论(还可以骗钱)博大精深;以下是我自己思考的过程,也许不严谨,但是最终明白了.这里只是粗略地介绍Nim游戏,一个入门博客,以来更好地进入SG函数(因为我才刚学游戏简介　　背景故事我就不说了,直接介绍游戏规则.">
-<meta name="keywords" content="数论">
+  <meta name="description" content="折半搜索(meet in the middle)​    我们经常会遇见一些暴力枚举的题目,但是由于时间复杂度太过庞大不得不放弃.​    由于子树分支是指数性增长,所以我们考虑将其折半优化;前言​    这个知识点曾经在模拟赛中出现过,所以这里稍微提一下;​    讲的很浅显,但是不要D讲者;入门​    dfs搜索树是指数性增长,如果将指数减少一半,就将会有量的飞跃,所以在遇见暴力枚举太大时,">
+<meta name="keywords" content="搜索">
 <meta property="og:type" content="article">
-<meta property="og:title" content="博弈论入门">
-<meta property="og:url" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;2019&#x2F;10&#x2F;25&#x2F;%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%85%A5%E9%97%A8&#x2F;index.html">
+<meta property="og:title" content="折半搜索">
+<meta property="og:url" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;2019&#x2F;11&#x2F;08&#x2F;%E6%8A%98%E5%8D%8A%E6%90%9C%E7%B4%A2&#x2F;index.html">
 <meta property="og:site_name" content="Thinkings and Works">
-<meta property="og:description" content="说实话,我真的对这个游戏看得是一脸懵逼,因为(我太弱了)我没有明白一些变量的意思,所以一直很懵,现在才明白,这让我明白博弈论(还可以骗钱)博大精深;以下是我自己思考的过程,也许不严谨,但是最终明白了.这里只是粗略地介绍Nim游戏,一个入门博客,以来更好地进入SG函数(因为我才刚学游戏简介　　背景故事我就不说了,直接介绍游戏规则.">
+<meta property="og:description" content="折半搜索(meet in the middle)​    我们经常会遇见一些暴力枚举的题目,但是由于时间复杂度太过庞大不得不放弃.​    由于子树分支是指数性增长,所以我们考虑将其折半优化;前言​    这个知识点曾经在模拟赛中出现过,所以这里稍微提一下;​    讲的很浅显,但是不要D讲者;入门​    dfs搜索树是指数性增长,如果将指数减少一半,就将会有量的飞跃,所以在遇见暴力枚举太大时,">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-25T13:16:39.368Z">
+<meta property="og:updated_time" content="2019-11-08T11:24:24.170Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://leceue.github.io./2019/10/25/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%85%A5%E9%97%A8/">
+<link rel="canonical" href="http://leceue.github.io./2019/11/08/%E6%8A%98%E5%8D%8A%E6%90%9C%E7%B4%A2/">
 
 
 <script id="page-configurations">
@@ -76,7 +76,7 @@
   };
 </script>
 
-  <title>博弈论入门 | Thinkings and Works</title>
+  <title>折半搜索 | Thinkings and Works</title>
   
 
 
@@ -208,7 +208,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/10/25/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%85%A5%E9%97%A8/">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/08/%E6%8A%98%E5%8D%8A%E6%90%9C%E7%B4%A2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -221,7 +221,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          博弈论入门
+          折半搜索
         </h1>
 
         <div class="post-meta">
@@ -232,7 +232,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-10-25 15:59:17 / Modified: 21:16:39" itemprop="dateCreated datePublished" datetime="2019-10-25T15:59:17+08:00">2019-10-25</time>
+              <time title="Created: 2019-11-08 19:22:56 / Modified: 19:24:24" itemprop="dateCreated datePublished" datetime="2019-11-08T19:22:56+08:00">2019-11-08</time>
             </span>
 
           
@@ -253,37 +253,29 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>说实话,我真的对这个游戏看得是一脸懵逼,因为(我太弱了)我没有明白一些变量的意思,所以一直很懵,现在才明白,这让我明白博弈论(还可以骗钱)博大精深;</p><p>以下是我自己思考的过程,也许不严谨,但是最终明白了.</p><p>这里只是粗略地介绍Nim游戏,一个入门博客,以来更好地进入SG函数(因为我才刚学</p><h2 id="游戏简介"><a href="#游戏简介" class="headerlink" title="游戏简介"></a>游戏简介</h2><p>　　背景故事我就不说了,直接介绍游戏规则.</p><a id="more"></a>
+        <h2 id="折半搜索-meet-in-the-middle"><a href="#折半搜索-meet-in-the-middle" class="headerlink" title="折半搜索(meet in the middle)"></a>折半搜索(meet in the middle)</h2><p>​    我们经常会遇见一些暴力枚举的题目,但是由于时间复杂度太过庞大不得不放弃.</p><p>​    由于子树分支是指数性增长,所以我们考虑将其折半优化;</p><h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>​    这个知识点曾经在模拟赛中出现过,所以这里稍微提一下;</p><p>​    讲的很浅显,但是不要D讲者;</p><h3 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h3><p>​    dfs搜索树是指数性增长,如果将指数减少一半,就将会有量的飞跃,所以在遇见暴力枚举太大时,我们可以考虑这种算法;</p><a id="more"></a>
 
 
 
-<p>　　有n堆物品,每堆有$a_{i}$个物品,两个玩家每次可以任选一堆挑出任意整数个物品(可以整堆取完),但不能不取,取走最后一个物品的为胜者.</p>
-<p>　　这个游戏历史久远,曾用来赌钱,但是被一位数学家用二进制求解,得到了先手必胜和先手必败理论,于是这个游戏也就GG了;</p>
-<h2 id="游戏套路"><a href="#游戏套路" class="headerlink" title="游戏套路"></a>游戏套路</h2><p>　　假如有3堆物品,它们的个数分别是6,4,2,那么两个玩家都选择最优策略,那么先手胜还是后手胜? <a href="https://www.luogu.org/problem/P2197" target="_blank" rel="noopener">(例题(竟然还蓝了))</a></p>
-<p>　　答案是后手胜.(这个可以自己推一下)</p>
-<p>　　这里引入一个概念:有向图游戏;</p>
-<h3 id="有向图游戏"><a href="#有向图游戏" class="headerlink" title="　　有向图游戏"></a>　　有向图游戏</h3><p>　　　　我们定义一个游戏的初始状态为起点,向所能到达的所有状态连边,通过不断向下延展,得到必胜点(就是到这个点是胜利的情况)和必败点(这其实是我自己的理解)</p>
-<p>　　考虑将${6,4,2}$这个集合作为起点,然后向所有状态连边;但是显然状态太多,我们无法完全枚举;</p>
-<p>　　考虑终点,必然是${0,0,0}$,此时集合的异或和显然是0.</p>
-<p>　　那么我们定义每一堆剩余的个数为$A_{i}$,我们通过推论可以得到:初始状态集合异或和为0时必败,反之必胜.</p>
-<p>　　为什么会得到这个结论?</p>
-<h2 id="游戏思考"><a href="#游戏思考" class="headerlink" title="游戏思考"></a>游戏思考</h2><p>　　考虑将开始时集合中的数换成二进制,即${110,100,010}$,最后状态也换成二进制,我就不再写出来了.</p>
-<p>　　我们倒着推,最终解异或和为0,那么必然是从异或和非0的状态转移过来的.</p>
-<h3 id="证明"><a href="#证明" class="headerlink" title="　　证明"></a>　　证明</h3><p>　　　　如果$A_{1} Xor A_{2} Xor A_{3} …Xor A_{i}… Xor  A_{n}=0$,那么其中$A_{i}$是从$A_{i}^{‘}$转移过来的,假设$A_{1} Xor A_{2} Xor A_{3} …Xor A_{i}^{‘}… Xor  A_{n}=0$,</p>
-<p>　　　　根据异或运算得到,$A_{i}=A_{i}^{‘}$,根据游戏规则,每个玩家必然至少要取1个物品,与规则矛盾,假设不成立,结论成立.</p>
-<p>　　所以考虑采取这样一个策略,如果我们开始时异或和不为0,那么我们策略是轮到对手时,让他得到$A_{1} Xor A_{2} Xor A_{3} …Xor A_{i}… Xor  A_{n}=0$.</p>
-<p>　　那么必败节点必定到对方手中,我们需要证明一下我们一定能实现这个策略</p>
-<h3 id="证明-1"><a href="#证明-1" class="headerlink" title="　　证明"></a>　　证明</h3><p>　　　　假设此时集合异或和为x,此时最大数为$A_{i}$,那么我们可以让$A_{i}$变成$A_{i} Xor x$,这样异或和就又为0了.</p>
-<p>　　　　显然,$A_{i} &gt; A_{i} Xor x$,所以我们可以让$A_{i}$变成$A{i}Xor即可,那么一定可以实现这个策略.</p>
-<p>　　但是如果我们开始时异或和为0,对方也可以反过来利用这个策略,让我们陷入必败场面.</p>
-<p>　　结论再次强调一遍:初始状态集合异或和为0时必败,反之必胜.</p>
-<p>　　(以上证明单纯自己类似口述,没有按照严格的证明格式,请多谅解)</p>
-<h2 id="游戏反思"><a href="#游戏反思" class="headerlink" title="游戏反思"></a>游戏反思</h2><p>　　我们学习的是思维方式,而不单单是结论,所以我们反思一下我们做了什么</p>
-<p>　　1.首先分析了模型,概括出每种情况的集合,构造了一个有向图游戏;</p>
-<p>　　2.我们思考了每个点的转移方式.并分析了必败点的特点,发现一些特别的转移情况.</p>
-<p>　　3.我们更加深入的思考了转移情景,并证明了策略的正确性.</p>
-<p>　　4.算法实现(这里没有摆出);</p>
-<p>　　根据这个思路,也许会对以后有帮助,SG函数和Mex运算将会在之后讲到(博主还在努力的学T_T)</p>
+
+<p>​    总体思想即,dfs搜素通常从一个点出发,遍历所有深度,那么我们考虑将深度减半,从两个点出发,然后分别统计两边dfs时的信息,整合即可;</p>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>​    该算法能否使用的关键是整合,两个深度是否能整合在一起需要思考;</p>
+<h3 id="了解"><a href="#了解" class="headerlink" title="了解"></a>了解</h3><p>​    我们通过一道例题来讲解;</p>
+<blockquote>
+<p>​    有一个体积为 $m$ $(m&lt;=1e18)$ 的背包,有 $n$ $(n&lt;=40)$ 个物品,问装背包有多少种方案.</p>
+</blockquote>
+<p>​    若 $m$ 较小时,该题即一个裸的背包,但本题 $m&lt;=1e18$ 背包就会不可做 (我不会) ;</p>
+<p>​    那么考虑最基础的方法,暴力枚举每一种情况,然后统计即可.</p>
+<p>​    直接枚举会导致超时,我们可以考虑双向搜索,将物品截半,将第一次搜索时的情况存下来,排序,第二次搜索时,找到一个结果,二分查找第一次的情况,计数即可;</p>
+<p>​    </p>
+<blockquote>
+<p>给 $n$ $(n&lt;=20)$ 个数，从中任意选出一些数，使这些数能分成和相等的两组。</p>
+<p>求方案数.</p>
+</blockquote>
+<p>​    我们同样考虑两遍dfs,分别整理出两次搜索的结果,但是整合时有些麻烦;</p>
+<p>​    整合时,我们可以暴力计数,考虑到这些数的随机性,所以期望得分 $100$ ,但是如果出题人精心手造数据,就会有些凉凉;</p>
+<p>​    考虑每种情况只会有 $1$ 的贡献,那么我们将 $2^{20}$ 种情况分别跑出来,用两次dfs储存的结果判断是否可行即可;</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>​    我们面对一些其他算法很难处理的问题,要留住我们的本心 <del>(根)</del> ,优化暴力搜索,也许也会得到一个不错的复杂度.</p>
 
     </div>
 
@@ -299,7 +291,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="http://leceue.github.io./2019/10/25/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%85%A5%E9%97%A8/" title="博弈论入门">http://leceue.github.io./2019/10/25/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%85%A5%E9%97%A8/</a>
+    <a href="http://leceue.github.io./2019/11/08/%E6%8A%98%E5%8D%8A%E6%90%9C%E7%B4%A2/" title="折半搜索">http://leceue.github.io./2019/11/08/%E6%8A%98%E5%8D%8A%E6%90%9C%E7%B4%A2/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/null" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -310,24 +302,21 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag"># 数论</a>
+              <a href="/tags/%E6%90%9C%E7%B4%A2/" rel="tag"># 搜索</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2019/10/25/%E7%BD%91%E7%BB%9C%E6%B5%81%E5%88%9D%E6%AD%A5/" rel="next" title="网络流初步">
-                  <i class="fa fa-chevron-left"></i> 网络流初步
+                <a href="/2019/11/08/%E5%85%B3%E4%BA%8E%E7%88%86%E6%90%9C/" rel="next" title="关于爆搜">
+                  <i class="fa fa-chevron-left"></i> 关于爆搜
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/10/25/dsu-on-tree/" rel="prev" title="dsu on tree">
-                  dsu on tree <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -365,7 +354,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#游戏简介"><span class="nav-number">1.</span> <span class="nav-text">游戏简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#游戏套路"><span class="nav-number">2.</span> <span class="nav-text">游戏套路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#有向图游戏"><span class="nav-number">2.1.</span> <span class="nav-text">　　有向图游戏</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#游戏思考"><span class="nav-number">3.</span> <span class="nav-text">游戏思考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#证明"><span class="nav-number">3.1.</span> <span class="nav-text">　　证明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#证明-1"><span class="nav-number">3.2.</span> <span class="nav-text">　　证明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#游戏反思"><span class="nav-number">4.</span> <span class="nav-text">游戏反思</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#折半搜索-meet-in-the-middle"><span class="nav-number">1.</span> <span class="nav-text">折半搜索(meet in the middle)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#前言"><span class="nav-number">1.0.1.</span> <span class="nav-text">前言</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#入门"><span class="nav-number">1.1.</span> <span class="nav-text">入门</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注意"><span class="nav-number">1.1.1.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#了解"><span class="nav-number">1.2.</span> <span class="nav-text">了解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
