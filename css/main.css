@@ -1174,7 +1174,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #62fae8;
+  background: #b2f;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2407,7 +2407,7 @@ body {
   background-position: center;
 }
 .header {
-  background: url("") none repeat scroll !important;
+  background: url("https://i.loli.net/2019/07/26/5d3a4a18aa5ed89472.jpg") none repeat scroll !important;
 }
 .footer {
   background: rgba(255,255,255,0.6) none repeat scroll !important;

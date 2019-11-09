@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 4.0.0">
@@ -103,12 +103,12 @@
   .use-motion .logo-line-before i { left: initial; }
   .use-motion .logo-line-after i { right: initial; }
   </style>
-</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</noscript>
 
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+  <div class="container use-motion">
     <div class="headband"></div>
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -478,6 +478,11 @@
       </div>
   </nav>
 </div>
+  <div class="chat motion-element">
+    <a onclick="tidioChatApi.open();"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
 
 
 
@@ -550,12 +555,13 @@
 
 
 
-  <script src="/js/local-search.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <script src="/js/local-search.js"></script>
 
 
 
 
 
+  <script src="//code.tidio.co/qfo1arvo9qom3eghfkajrividcavzs78.js"></script>
 
 
 
@@ -571,6 +577,33 @@
   
 
   
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'eoo6yoyq9vwOBGrPb56keF4k-MdYXbMMI',
+    appKey: 'iLNuNDzUOFCaB1a5EVE989C7',
+    placeholder: "Just go go",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
 
 </body>
 </html>
