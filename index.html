@@ -204,7 +204,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/08/%E6%8A%98%E5%8D%8A%E6%90%9C%E7%B4%A2/">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/12/graph-collect/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -218,7 +218,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/11/08/%E6%8A%98%E5%8D%8A%E6%90%9C%E7%B4%A2/" class="post-title-link" itemprop="url">折半搜索</a>
+            <a href="/2019/11/12/graph-collect/" class="post-title-link" itemprop="url">简谈图论重要性&&图论总结</a>
         </h1>
 
         <div class="post-meta">
@@ -229,7 +229,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-11-08 19:22:56 / Modified: 19:24:24" itemprop="dateCreated datePublished" datetime="2019-11-08T19:22:56+08:00">2019-11-08</time>
+              <time title="Created: 2019-11-12 16:22:47 / Modified: 16:24:28" itemprop="dateCreated datePublished" datetime="2019-11-12T16:22:47+08:00">2019-11-12</time>
             </span>
 
           
@@ -241,8 +241,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2019/11/08/%E6%8A%98%E5%8D%8A%E6%90%9C%E7%B4%A2/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/08/%E6%8A%98%E5%8D%8A%E6%90%9C%E7%B4%A2/" itemprop="commentCount"></span>
+    <a title="valine" href="/2019/11/12/graph-collect/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/12/graph-collect/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -257,10 +257,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="折半搜索-meet-in-the-middle"><a href="#折半搜索-meet-in-the-middle" class="headerlink" title="折半搜索(meet in the middle)"></a>折半搜索(meet in the middle)</h2><p>​    我们经常会遇见一些暴力枚举的题目,但是由于时间复杂度太过庞大不得不放弃.</p><p>​    由于子树分支是指数性增长,所以我们考虑将其折半优化;</p><h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>​    这个知识点曾经在模拟赛中出现过,所以这里稍微提一下;</p><p>​    讲的很浅显,但是不要D讲者;</p><h3 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h3><p>​    dfs搜索树是指数性增长,如果将指数减少一半,就将会有量的飞跃,所以在遇见暴力枚举太大时,我们可以考虑这种算法;</p>
+          <p>从外地学习回来，我对图论才有认识（以前就没接触过，非常尴尬），说实话，学好图论的重要性，就像学数学时在进行解析几何时，图极有可能是打开答案的最后秘钥，也就是数形结合，而懂的人永远明白，用图解决绝对比用解析简单（一般情况）。而图论对于oi选手说，就是一大杀器，有可能利己，也可能抱憾终身。所以说图论的重要性就很显然了。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/11/08/%E6%8A%98%E5%8D%8A%E6%90%9C%E7%B4%A2/#more" rel="contents">
+              <a class="btn" href="/2019/11/12/graph-collect/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -284,7 +284,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/08/%E5%85%B3%E4%BA%8E%E7%88%86%E6%90%9C/">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/12/LCA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -298,7 +298,429 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/11/08/%E5%85%B3%E4%BA%8E%E7%88%86%E6%90%9C/" class="post-title-link" itemprop="url">关于爆搜</a>
+            <a href="/2019/11/12/LCA/" class="post-title-link" itemprop="url">倍增Tarjan求LCA</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-11-12 16:11:49 / Modified: 16:19:08" itemprop="dateCreated datePublished" datetime="2019-11-12T16:11:49+08:00">2019-11-12</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/11/12/LCA/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/12/LCA/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>LCA，最近公共祖先，这是树上最常用的算法之一，因为它可以求距离，也可以求路径等等</p><p>LCA有两种写法，一种是倍增思想，另一种是Tarjan求法，我们可以通过一道题来看一看，</p><h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><blockquote>
+<p>欢乐岛上有个非常好玩的游戏，叫做“紧急集合”。在岛上分散有N个等待点，有N-1条道路连接着它们，每一条道路都连接某两个等待点，且通过这些道路可以走遍所有的等待点，通过道路从一个点到另一个点要花费一个游戏币。</p>
+<p>参加游戏的人三人一组，开始的时候，所有人员均任意分散在各个等待点上（每个点同时允许多个人等待），每个人均带有足够多的游戏币（用于支付使用道路的花费）、地图（标明等待点之间道路连接的情况）以及对话机（用于和同组的成员联系）。当集合号吹响后，每组成员之间迅速联系，了解到自己组所有成员所在的等待点后，迅速在N个等待点中确定一个集结点，组内所有成员将在该集合点集合，集合所用花费最少的组将是游戏的赢家。</p>
+<p>小可可和他的朋友邀请你一起参加这个游戏，由你来选择集合点，聪明的你能够完成这个任务，帮助小可可赢得游戏吗？</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/12/LCA/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/12/Tarjan-Point/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Mr_Leceue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Thinkings and Works">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/11/12/Tarjan-Point/" class="post-title-link" itemprop="url">Tarjan初步-点双连通分量</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-11-12 16:08:45 / Modified: 16:11:02" itemprop="dateCreated datePublished" datetime="2019-11-12T16:08:45+08:00">2019-11-12</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/11/12/Tarjan-Point/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/12/Tarjan-Point/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>上一次我们讲到了边双，这次我们来看点双。</p><p>说实话来说，点双比边双稍微复杂一些；</p><p>学完边双，我们先看一道题</p><p><img src="/images/1606547-20190220215809712-1764741801.png" alt="alt"></p><p><img src="/images/1606547-20190220215831857-626374096.png" alt="alt"></p><p>第一问都不用说了吧，多余的道路，明显的割边。</p><p>是不是首先想到用边双，但是我们来看一个图：</p><p><img src="/images/1606547-20190220220012034-762051649.png" alt="alt">**</p><p>有点丑，但是凑活看吧。</p><p>它是一个边双，但是！！！！它竟然没有冲突的边！！！</p><p>此时我们就要用点双了（是不是想打死我，竟然没讲，先坑人）</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/12/Tarjan-Point/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/11/DP-queue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Mr_Leceue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Thinkings and Works">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/11/11/DP-queue/" class="post-title-link" itemprop="url">单调队列</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-11 21:26:57" itemprop="dateCreated datePublished" datetime="2019-11-11T21:26:57+08:00">2019-11-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-12 15:30:00" itemprop="dateModified" datetime="2019-11-12T15:30:00+08:00">2019-11-12</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/11/11/DP-queue/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/11/DP-queue/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>​    单调队列并不是太难的东西,不应其应用到的题目困难而觉得单调队列困难.</p><p>​    我第一次遇见单调队列时是在学图论时,遇到了Island这道题(见基环树专题),当时的我对单调队列一无所知,而对其优化更是懵,所以当时就懵着将题解半抄半写地打了出来,但还是不懂.现在来看,单论单调队列,它是不难的,难的是与其他算法的结合;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/11/DP-queue/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/10/D-DP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Mr_Leceue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Thinkings and Works">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/11/10/D-DP/" class="post-title-link" itemprop="url">D-DP</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-10 21:44:55" itemprop="dateCreated datePublished" datetime="2019-11-10T21:44:55+08:00">2019-11-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-11 07:42:36" itemprop="dateModified" datetime="2019-11-11T07:42:36+08:00">2019-11-11</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/11/10/D-DP/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/10/D-DP/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="必备知识"><a href="#必备知识" class="headerlink" title="必备知识"></a>必备知识</h4><p>​    树链剖分,最大权独立集(即没有上司的舞会(树上DP)),矩阵乘法;</p><h2 id="D-DP"><a href="#D-DP" class="headerlink" title="D-DP"></a>D-DP</h2><h3 id="模版简述"><a href="#模版简述" class="headerlink" title="模版简述"></a>模版简述</h3><p>​    <a href="https://www.luogu.org/problem/P4719" target="_blank" rel="noopener">模板</a> </p><p>​    关于动态DP,其实是关于一类动态修改点权的问题,但是很难去处理;</p><p>​    我们平常的DP经常是离线DP,而当在线时,就会出现事故;</p><p>​    D-DP是关于求最大权独立集的,支持动态修改点值,其思想即DP的通项递推式改为矩阵乘的形式进行递推,而树上问题就可以使用树链剖分提前处理出区间矩阵乘;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/10/D-DP/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/08/meet-in-the-middle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Mr_Leceue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Thinkings and Works">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/11/08/meet-in-the-middle/" class="post-title-link" itemprop="url">折半搜索</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-08 19:22:56" itemprop="dateCreated datePublished" datetime="2019-11-08T19:22:56+08:00">2019-11-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-12 15:47:07" itemprop="dateModified" datetime="2019-11-12T15:47:07+08:00">2019-11-12</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/11/08/meet-in-the-middle/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/08/meet-in-the-middle/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="折半搜索-meet-in-the-middle"><a href="#折半搜索-meet-in-the-middle" class="headerlink" title="折半搜索(meet in the middle)"></a>折半搜索(meet in the middle)</h2><p>​    我们经常会遇见一些暴力枚举的题目,但是由于时间复杂度太过庞大不得不放弃.</p><p>​    由于子树分支是指数性增长,所以我们考虑将其折半优化;</p><h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>​    这个知识点曾经在模拟赛中出现过,所以这里稍微提一下;</p><p>​    讲的很浅显,但是不要D讲者;</p><h3 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h3><p>​    dfs搜索树是指数性增长,如果将指数减少一半,就将会有量的飞跃,所以在遇见暴力枚举太大时,我们可以考虑这种算法;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/08/meet-in-the-middle/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/08/DFS-BFS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Mr_Leceue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Thinkings and Works">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/11/08/DFS-BFS/" class="post-title-link" itemprop="url">关于爆搜</a>
         </h1>
 
         <div class="post-meta">
@@ -321,8 +743,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2019/11/08/%E5%85%B3%E4%BA%8E%E7%88%86%E6%90%9C/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/08/%E5%85%B3%E4%BA%8E%E7%88%86%E6%90%9C/" itemprop="commentCount"></span>
+    <a title="valine" href="/2019/11/08/DFS-BFS/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/08/DFS-BFS/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -340,7 +762,7 @@
           <h2 id="关于爆搜"><a href="#关于爆搜" class="headerlink" title="关于爆搜"></a>关于爆搜</h2><p>​    <del>(这还用说,讲者太菜了)</del> </p><p>​    爆搜通常是没有思路时一个 <del>优秀</del> 玄学的解题方法,但同样是搜索,我们所的分数却相差甚远,即搜索的优化问题;</p><h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>​    这是很基础的东西,这里只作为回顾.</p><p>​    讲着实力不足,请不要D讲者;</p><h3 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h3><p>​    BFS,广度优先搜索,用于逐层拓展的工具,可以有效地通过比较同一层之间的结果进行有效地减枝,而相比之下DFS的减枝就比较玄学,故能用BFS时,BFS的时间复杂度一般比DFS要低很多;</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/11/08/%E5%85%B3%E4%BA%8E%E7%88%86%E6%90%9C/#more" rel="contents">
+              <a class="btn" href="/2019/11/08/DFS-BFS/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -364,7 +786,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/08/%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2/">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/08/mem-dfs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -378,7 +800,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/11/08/%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2/" class="post-title-link" itemprop="url">记忆化搜索</a>
+            <a href="/2019/11/08/mem-dfs/" class="post-title-link" itemprop="url">记忆化搜索</a>
         </h1>
 
         <div class="post-meta">
@@ -387,10 +809,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2019-11-08 19:20:54 / Modified: 19:21:25" itemprop="dateCreated datePublished" datetime="2019-11-08T19:20:54+08:00">2019-11-08</time>
+              <time title="Created: 2019-11-08 19:20:54" itemprop="dateCreated datePublished" datetime="2019-11-08T19:20:54+08:00">2019-11-08</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-12 15:46:12" itemprop="dateModified" datetime="2019-11-12T15:46:12+08:00">2019-11-12</time>
+              </span>
 
           
   
@@ -401,8 +829,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2019/11/08/%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/08/%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2/" itemprop="commentCount"></span>
+    <a title="valine" href="/2019/11/08/mem-dfs/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/08/mem-dfs/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -420,7 +848,7 @@
           <h2 id="记忆化搜索"><a href="#记忆化搜索" class="headerlink" title="记忆化搜索"></a>记忆化搜索</h2><p>​    记忆化搜索,属于DP的分支,但是其实现更加简单,依靠于DFS,所以在一些方面更具优越性;</p><h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>​    记忆化可以作为DP难以实现时一个简易的方法<del>(我知道你们都秒切DP,就我一个蒟蒻不会QWQ)</del>.</p><p>​    讲的很浅显,但是不要D讲者;</p><h3 id="浅谈"><a href="#浅谈" class="headerlink" title="浅谈"></a>浅谈</h3><p>​    记忆化搜素,顾名思义,是通过储存一个状态的最优信息,减少DFS的搜索树;</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/11/08/%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2/#more" rel="contents">
+              <a class="btn" href="/2019/11/08/mem-dfs/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -444,7 +872,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/10/30/trie%E6%B5%85%E8%B0%88/">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/10/30/trie/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -458,7 +886,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/10/30/trie%E6%B5%85%E8%B0%88/" class="post-title-link" itemprop="url">trie浅谈</a>
+            <a href="/2019/10/30/trie/" class="post-title-link" itemprop="url">trie浅谈</a>
         </h1>
 
         <div class="post-meta">
@@ -487,8 +915,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2019/10/30/trie%E6%B5%85%E8%B0%88/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/30/trie%E6%B5%85%E8%B0%88/" itemprop="commentCount"></span>
+    <a title="valine" href="/2019/10/30/trie/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/30/trie/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -506,7 +934,7 @@
           <h2 id="关于trie"><a href="#关于trie" class="headerlink" title="关于trie"></a>关于trie</h2><p>​    其实字典树和以上两种算法有很大不同,但是hash由于其优秀的应用,导致有些字符串查找用hash也是可行的.</p><p>​    字典树中支持添加,查找,区间查询(可持久化字典树),而且在异或操作上有更加好的操作;</p><h4 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h4><p>​    树的基本构造;</p><h2 id="入坑"><a href="#入坑" class="headerlink" title="入坑"></a>入坑</h2><p>​    字典树是通过动态建点,而形成的树,基本数组有两维, $tr[x][to]$ 中第一维存的是节点标号,而第二维存的是当字符为 $to$ 时通向的节点;</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/10/30/trie%E6%B5%85%E8%B0%88/#more" rel="contents">
+              <a class="btn" href="/2019/10/30/trie/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -530,7 +958,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/10/30/hash%E5%BA%94%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/10/30/hash/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -544,7 +972,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/10/30/hash%E5%BA%94%E7%94%A8/" class="post-title-link" itemprop="url">hash应用</a>
+            <a href="/2019/10/30/hash/" class="post-title-link" itemprop="url">hash应用</a>
         </h1>
 
         <div class="post-meta">
@@ -573,8 +1001,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2019/10/30/hash%E5%BA%94%E7%94%A8/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/30/hash%E5%BA%94%E7%94%A8/" itemprop="commentCount"></span>
+    <a title="valine" href="/2019/10/30/hash/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/30/hash/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -592,413 +1020,7 @@
           <h2 id="关于HASH"><a href="#关于HASH" class="headerlink" title="关于HASH"></a>关于HASH</h2><p>​    这应该是经常使用的一个算法,因为其预处理后,优秀的$O(1)$处理出子串,并且$O(1)$比较,大快人心,而且写法简单,令人心情愉悦;</p><p>​    但是其空间复杂度较高,并且有玄学模数以及哈希冲突,以至于如果想hack,其实可以hack掉;</p><h4 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h4><p>​    关于进制,模数,hash就用到了重构进制,取模稀疏,所以哈希表又叫稀疏表;</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/10/30/hash%E5%BA%94%E7%94%A8/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/10/30/KMP%E6%B5%85%E8%B0%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Mr_Leceue">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Thinkings and Works">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/30/KMP%E6%B5%85%E8%B0%88/" class="post-title-link" itemprop="url">KMP浅谈</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-10-30 19:25:09" itemprop="dateCreated datePublished" datetime="2019-10-30T19:25:09+08:00">2019-10-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-10-31 07:43:02" itemprop="dateModified" datetime="2019-10-31T07:43:02+08:00">2019-10-31</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2019/10/30/KMP%E6%B5%85%E8%B0%88/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/30/KMP%E6%B5%85%E8%B0%88/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="关于KMP"><a href="#关于KMP" class="headerlink" title="关于KMP"></a>关于KMP</h2><p>​    KMP其实是三个人名字的缩写,因为是他们同时发现的<del>(大佬惹不起)</del>;</p><p>​    KMP作为CSP考点,主要亮点是其优秀的匹配复杂度,而且消耗空间小,比起hash虽然有些局限性,但是因为其正确率高,所以经常被人使用.</p><h4 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h4><p>​    关于字符串的读取,以及字符串相关操作的基础了解,这里涉及字符串匹配以及子串;</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/10/30/KMP%E6%B5%85%E8%B0%88/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/10/26/%E5%9F%BA%E7%8E%AF%E6%A0%91%E5%88%9D%E6%AD%A5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Mr_Leceue">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Thinkings and Works">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/26/%E5%9F%BA%E7%8E%AF%E6%A0%91%E5%88%9D%E6%AD%A5/" class="post-title-link" itemprop="url">基环树初步</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2019-10-26 08:28:08 / Modified: 14:46:22" itemprop="dateCreated datePublished" datetime="2019-10-26T08:28:08+08:00">2019-10-26</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2019/10/26/%E5%9F%BA%E7%8E%AF%E6%A0%91%E5%88%9D%E6%AD%A5/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/26/%E5%9F%BA%E7%8E%AF%E6%A0%91%E5%88%9D%E6%AD%A5/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>​    说实话,基环树一般比较综合,所以一般只要就要具有图论基本知识便可以开始学习.</p><h4 id="警告"><a href="#警告" class="headerlink" title="警告"></a>警告</h4><p>​    博主实力不足,如果出错,<del>请用力D他</del> .</p><h2 id="认识"><a href="#认识" class="headerlink" title="认识"></a>认识</h2><p>​    基环树,原体是树,有树上任意连一条边,就成了一个环,即基环树,一般特征,$n$个点$n$条边;</p><p>​    由于有树的特征,所以经常会用一些树的算法来计算基环树;</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/10/26/%E5%9F%BA%E7%8E%AF%E6%A0%91%E5%88%9D%E6%AD%A5/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/10/25/%E4%B8%80%E7%BB%B4%E4%BB%A5%E5%8F%8A%E4%BA%8C%E7%BB%B4%E7%9A%84%E5%B7%AE%E5%88%86%E7%9A%84%E7%AE%80%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Mr_Leceue">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Thinkings and Works">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/25/%E4%B8%80%E7%BB%B4%E4%BB%A5%E5%8F%8A%E4%BA%8C%E7%BB%B4%E7%9A%84%E5%B7%AE%E5%88%86%E7%9A%84%E7%AE%80%E8%BF%B0/" class="post-title-link" itemprop="url">一维以及二维的差分的简述</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2019-10-25 16:22:08 / Modified: 21:24:23" itemprop="dateCreated datePublished" datetime="2019-10-25T16:22:08+08:00">2019-10-25</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2019/10/25/%E4%B8%80%E7%BB%B4%E4%BB%A5%E5%8F%8A%E4%BA%8C%E7%BB%B4%E7%9A%84%E5%B7%AE%E5%88%86%E7%9A%84%E7%AE%80%E8%BF%B0/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/25/%E4%B8%80%E7%BB%B4%E4%BB%A5%E5%8F%8A%E4%BA%8C%E7%BB%B4%E7%9A%84%E5%B7%AE%E5%88%86%E7%9A%84%E7%AE%80%E8%BF%B0/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>　　差分，也就是数与数之间的差值。拿一维差分来举例子，将差分设为c[ ]数组，原数为a[ ],那么</p><p>　　$c[i]=a[i]-a[i-1]$</p><p>　　这便是简单的差分数组；</p><p>　　那么要他何用？</p><p>　　最为主要的作用就是区间的修改，那么在修改之前，我们先明白如何将原数求出。很显然，$c[1]$~$c[i]$差分数组求和即可得到$a[i]$。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/10/25/%E4%B8%80%E7%BB%B4%E4%BB%A5%E5%8F%8A%E4%BA%8C%E7%BB%B4%E7%9A%84%E5%B7%AE%E5%88%86%E7%9A%84%E7%AE%80%E8%BF%B0/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/10/25/%E6%89%AB%E6%8F%8F%E7%BA%BF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Mr_Leceue">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Thinkings and Works">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/25/%E6%89%AB%E6%8F%8F%E7%BA%BF/" class="post-title-link" itemprop="url">扫描线</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2019-10-25 16:21:22 / Modified: 21:17:23" itemprop="dateCreated datePublished" datetime="2019-10-25T16:21:22+08:00">2019-10-25</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2019/10/25/%E6%89%AB%E6%8F%8F%E7%BA%BF/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/25/%E6%89%AB%E6%8F%8F%E7%BA%BF/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>请在学习之前有一定的线段树基础</p><p>在一些题中，它总会给你一些矩形，之后让你求总覆盖面积。</p><p>它的难点在于，有重叠面积，如果只是罗列情况，那么只会一事无成。</p><p>所以说，这里就引进了扫描线做法；</p><p>其实它的原理很简单，只是底*高而已，只是分段求解；</p><p>而问题大概的图就是这样</p><p><img src="/images/10.png" alt="alt"></p><p>根据我刚刚说的分段求解和底*高，那么我们就可以推测出扫描线是什么了</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/10/25/%E6%89%AB%E6%8F%8F%E7%BA%BF/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/10/25/%E6%82%AC%E7%BA%BF%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Mr_Leceue">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Thinkings and Works">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/25/%E6%82%AC%E7%BA%BF%E6%B3%95/" class="post-title-link" itemprop="url">悬线法</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2019-10-25 16:21:05 / Modified: 21:17:48" itemprop="dateCreated datePublished" datetime="2019-10-25T16:21:05+08:00">2019-10-25</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2019/10/25/%E6%82%AC%E7%BA%BF%E6%B3%95/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/25/%E6%82%AC%E7%BA%BF%E6%B3%95/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>例题 P1169 [ZJOI2007]棋盘制作</p><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>国际象棋是世界上最古老的博弈游戏之一，和中国的围棋、象棋以及日本的将棋同享盛名。据说国际象棋起源于易经的思想，棋盘是一个8×88 \times 88×8大小的黑白相间的方阵，对应八八六十四卦，黑白对应阴阳。</p><p>而我们的主人公<code>小Q</code>，正是国际象棋的狂热爱好者。作为一个顶尖高手，他已不满足于普通的棋盘与规则，于是他跟他的好朋友<code>小W</code>决定将棋盘扩大以适应他们的新规则。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/10/25/%E6%82%AC%E7%BA%BF%E6%B3%95/#more" rel="contents">
+              <a class="btn" href="/2019/10/30/hash/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -1022,7 +1044,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1066,7 +1088,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">32</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1078,8 +1100,7 @@
       </div>
   </nav>
 </div>
-  <div class="chat motion-element">
-    <a onclick="tidioChatApi.open();"><i class="fa fa-comment"></i>
+  <div class="chat motion-element"><i class="fa fa-comment"></i>
     Chat
   </a>
   </div>
@@ -1161,7 +1182,6 @@
 
 
 
-  <script src="//code.tidio.co/qfo1arvo9qom3eghfkajrividcavzs78.js"></script>
 
 
 

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/256.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="前言​    单调队列并不是太难的东西,不应其应用到的题目困难而觉得单调队列困难.​    我第一次遇见单调队列时是在学图论时,遇到了Island这道题(见基环树专题),当时的我对单调队列一无所知,而对其优化更是懵,所以当时就懵着将题解半抄半写地打了出来,但还是不懂.现在来看,单论单调队列,它是不难的,难的是与其他算法的结合;">
+<meta name="keywords" content="DP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单调队列">
+<meta property="og:url" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;2019&#x2F;11&#x2F;11&#x2F;DP-queue&#x2F;index.html">
+<meta property="og:site_name" content="Thinkings and Works">
+<meta property="og:description" content="前言​    单调队列并不是太难的东西,不应其应用到的题目困难而觉得单调队列困难.​    我第一次遇见单调队列时是在学图论时,遇到了Island这道题(见基环树专题),当时的我对单调队列一无所知,而对其优化更是懵,所以当时就懵着将题解半抄半写地打了出来,但还是不懂.现在来看,单论单调队列,它是不难的,难的是与其他算法的结合;">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-12T07:30:00.097Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://leceue.github.io./2019/11/11/DP-queue/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>单调队列 | Thinkings and Works</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Thinkings and Works</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">A HA IOer</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/11/DP-queue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Mr_Leceue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Thinkings and Works">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          单调队列
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-11 21:26:57" itemprop="dateCreated datePublished" datetime="2019-11-11T21:26:57+08:00">2019-11-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-12 15:30:00" itemprop="dateModified" datetime="2019-11-12T15:30:00+08:00">2019-11-12</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/11/11/DP-queue/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/11/DP-queue/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>​    单调队列并不是太难的东西,不应其应用到的题目困难而觉得单调队列困难.</p><p>​    我第一次遇见单调队列时是在学图论时,遇到了Island这道题(见基环树专题),当时的我对单调队列一无所知,而对其优化更是懵,所以当时就懵着将题解半抄半写地打了出来,但还是不懂.现在来看,单论单调队列,它是不难的,难的是与其他算法的结合;</p><a id="more"></a>
+
+<h2 id="单调队列"><a href="#单调队列" class="headerlink" title="单调队列"></a>单调队列</h2><h4 id="限制与应用"><a href="#限制与应用" class="headerlink" title="限制与应用"></a>限制与应用</h4><p>​    对于单调队列,有两个操作,入队和出队;</p>
+<p>​    有两个限制,队首元素满足区间条件,队列中数满足单调;</p>
+<p>​    应用限制,转移DP时应满足区间取max-min操作,即让单调有其发挥作用的空间;</p>
+<h3 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h3><p>​    推荐这道<a href="https://www.luogu.org/problem/P2698" target="_blank" rel="noopener">例题</a>理解一下单调队列思想;</p>
+<blockquote>
+<p>老板需要你帮忙浇花。给出N滴水的坐标，y表示水滴的高度，x表示它下落到x轴的位置。</p>
+<p>每滴水以每秒1个单位长度的速度下落。你需要把花盆放在x轴上的某个位置，使得从被花盆接着的第1滴水开始，到被花盆接着的最后1滴水结束，之间的时间差至少为D。</p>
+<p>我们认为，只要水滴落到x轴上，与花盆的边沿对齐，就认为被接住。给出N滴水的坐标和D的大小，请算出最小的花盆的宽度W。</p>
+</blockquote>
+<p>​    我们首先考虑到答案是具有单调性的,宽度W满足条件,那么大于W的也会满足条件,那么我们可以二分答案;</p>
+<p>​    二分答案后,我们可以得到一个区间,我们想要的即所有区间中是否存在 $max-min&gt;=D$ ;</p>
+<p>​    这里就引入了单调队列,单调队列的队首表示区间 $i-mid-1$ ~ $i$ 最大值或者最小值,其限制条件即 $q[l]&gt;=i-mid-1$ ,不满足条件时弹出.</p>
+<p>​    入队时,比较队尾元素和要加入元素值,比较方式是 “比我小的人还比我强,那我就要退役了” ,即未来会更新到我们要加入值,存在时间肯定比队尾元素长,而队尾元素又比要加入的值小,那么队尾元素的贡献就可以被要加入的值代替,故直接弹出;</p>
+<p>​    那么这里我们限制一下区间,求出区间最大值与最小值,更新最大差值即可;</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn=<span class="number">1e5</span>+<span class="number">7</span>,inf=<span class="number">1e9</span>;</span><br><span class="line"><span class="keyword">int</span> n,d,lim,q[maxn],f[maxn];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> x,y;</span><br><span class="line">&#125;a[maxn];</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> type_of_scan&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">scan</span><span class="params">(type_of_scan &amp;x)</span></span>&#123;</span><br><span class="line">	type_of_scan f=<span class="number">1</span>;x=<span class="number">0</span>;<span class="keyword">char</span> s=getchar();</span><br><span class="line">	<span class="keyword">while</span>(s&lt;<span class="string">'0'</span>||s&gt;<span class="string">'9'</span>)&#123;<span class="keyword">if</span>(s==<span class="string">'-'</span>)f=<span class="number">-1</span>;s=getchar();&#125;</span><br><span class="line">	<span class="keyword">while</span>(s&gt;=<span class="string">'0'</span>&amp;&amp;s&lt;=<span class="string">'9'</span>)&#123;x=x*<span class="number">10</span>+s-<span class="string">'0'</span>;s=getchar();&#125;</span><br><span class="line">	x*=f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> mid)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> l=<span class="number">1</span>,r=<span class="number">0</span>,x=<span class="number">1</span>,y=<span class="number">0</span>,ans=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="keyword">int</span> maxx=<span class="number">-1</span>,minx=inf;</span><br><span class="line">		<span class="keyword">while</span>(l&lt;=r&amp;&amp;a[q[l]].x&lt;=a[i].x-mid<span class="number">-1</span>) l++;<span class="comment">//限制区间弹出,注意区间大小为mid+1 </span></span><br><span class="line">		<span class="keyword">while</span>(l&lt;=r&amp;&amp;a[q[r]].y&lt;=a[i].y) r--;<span class="comment">//根据原则弹出 </span></span><br><span class="line">		q[++r]=i;maxx=max(a[q[l]].y,maxx);<span class="comment">//更新,下面是一样的 </span></span><br><span class="line">		<span class="keyword">while</span>(x&lt;=y&amp;&amp;a[f[x]].x&lt;=a[i].x-mid<span class="number">-1</span>) x++;</span><br><span class="line">		<span class="keyword">while</span>(x&lt;=y&amp;&amp;a[f[y]].y&gt;=a[i].y) y--;</span><br><span class="line">		f[++y]=i;minx=min(a[f[x]].y,minx);</span><br><span class="line">		ans=max(maxx-minx,ans);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ans&gt;=d;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(node a,node b)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a.x&lt;b.x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	scan(n),scan(d);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) scan(a[i].x),scan(a[i].y),lim=max(a[i].x,lim);</span><br><span class="line">	sort(a+<span class="number">1</span>,a+<span class="number">1</span>+n,cmp);<span class="comment">//排序 </span></span><br><span class="line">	<span class="keyword">int</span> l=<span class="number">1</span>,r=lim;</span><br><span class="line">	<span class="keyword">while</span>(r&gt;l)&#123;</span><br><span class="line">		<span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">if</span>(check(mid)) r=mid;</span><br><span class="line">		<span class="keyword">else</span> l=mid+<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(!check(l)) <span class="built_in">puts</span>(<span class="string">"-1"</span>);</span><br><span class="line">	<span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,l);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​    另一道<a href="https://www.luogu.org/problem/P2564" target="_blank" rel="noopener">例题</a> ,主要是依靠单调队列原则进行;</p>
+<blockquote>
+<p>求一段最短的区间,其区间中包含了所有类型的颜色;</p>
+</blockquote>
+<p>​    根据题目中区间的信息,我们可以隐约地想到单调队列,但是并没有单调性.</p>
+<p>​    考虑队首弹出条件,当一个颜色在一个区间多次出现时,有贡献的只会是一个,那么当队首颜色重复时,其贡献已经被之后的颜色代替,也就没用了,那么既可以弹出;</p>
+<p>​    队尾弹出就不再需要了,我们直接更新满足条件的区间即可;</p>
+<p>​    那么思路即,对每种颜色计数,当队首元素颜色个数&gt;=2时,将其弹出;</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,m,cnt,num;</span><br><span class="line"><span class="keyword">int</span> q[<span class="number">1000007</span>],ans=<span class="number">2147483647</span>,vis[<span class="number">1000007</span>];</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> id,sp;	</span><br><span class="line">&#125;a[<span class="number">1000007</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span> &lt;(node a,node b)&#123;</span><br><span class="line">	<span class="keyword">return</span> a.sp&lt;b.sp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;n,&amp;m);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">1</span>,to;k&lt;=m;k++)&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;to);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=to;i++)</span><br><span class="line">			<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;a[++cnt].sp),a[cnt].id=k;</span><br><span class="line">	&#125;</span><br><span class="line">	sort(a+<span class="number">1</span>,a+n+<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">int</span> l=<span class="number">1</span>,r=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(vis[a[i].id]) vis[a[i].id]++;</span><br><span class="line">		<span class="keyword">if</span>(!vis[a[i].id]) vis[a[i].id]++,num++;</span><br><span class="line">		<span class="keyword">while</span>(vis[a[q[l]].id]&gt;<span class="number">1</span>) vis[a[q[l]].id]--,l++;<span class="comment">//超过一个,弹出</span></span><br><span class="line">		q[++r]=i;</span><br><span class="line">		<span class="keyword">if</span>(num==m) ans=min(ans,a[q[r]].sp-a[q[l]].sp);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d"</span>,ans);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h3><p>​    二维单调队列,在一个固定矩形中,求其中最大值和最小值.</p>
+<h4 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h4><p>​    <a href="https://www.luogu.org/problem/P2216" target="_blank" rel="noopener"> [HAOI2007]理想的正方形 </a></p>
+<blockquote>
+<p>在一个 $a<em>b$ 的矩形中,求一个最大值与最小值差值最小的 $n</em>n$ 的正方形,输出其差值;</p>
+</blockquote>
+<p>​    首先求出横向一维区间最大值,之后在原有横向区间最大值中求纵向一维区间最大值,这里由于用到了横向一维的值,使其变成了二维,那么思路就很显然了,注意区间大小和边界限制;</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> a,b,n,maps[<span class="number">1007</span>][<span class="number">1007</span>],work1[<span class="number">1007</span>][<span class="number">1007</span>],qmax[<span class="number">1007</span>],qmin[<span class="number">1007</span>],ans1[<span class="number">1007</span>][<span class="number">1007</span>];</span><br><span class="line"><span class="keyword">int</span> q[<span class="number">100007</span>],work2[<span class="number">1007</span>][<span class="number">1007</span>],ans2[<span class="number">1007</span>][<span class="number">1007</span>],ans=<span class="number">2147483647</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>,&amp;a,&amp;b,&amp;n);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=a;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=b;j++)&#123;</span><br><span class="line">			<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;maps[i][j]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> x=<span class="number">1</span>;x&lt;=a;x++)&#123;</span><br><span class="line">		<span class="keyword">int</span> l=<span class="number">1</span>,r=<span class="number">0</span>,k=n;</span><br><span class="line">		<span class="built_in">memset</span>(qmax,<span class="number">0</span>,<span class="keyword">sizeof</span>(qmax));</span><br><span class="line">		<span class="built_in">memset</span>(qmin,<span class="number">0</span>,<span class="keyword">sizeof</span> qmin);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=b;i++)&#123;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;i-k&gt;=qmax[l]) l++;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;maps[x][qmax[r]]&lt;=maps[x][i]) r--;</span><br><span class="line">			qmax[++r]=i;</span><br><span class="line">			<span class="keyword">if</span>(i&gt;=n) work1[x][i-k+<span class="number">1</span>]=maps[x][qmax[l]];</span><br><span class="line">		&#125;</span><br><span class="line">		l=<span class="number">1</span>,r=<span class="number">0</span>,k=n;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=b;i++)&#123;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;i-k&gt;=qmin[l]) l++;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;maps[x][qmin[r]]&gt;=maps[x][i]) r--;</span><br><span class="line">			qmin[++r]=i;</span><br><span class="line">			<span class="keyword">if</span>(i&gt;=n) work2[x][i-k+<span class="number">1</span>]=maps[x][qmin[l]];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;<span class="comment">//横向区间最大最小值</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> x=<span class="number">1</span>;x&lt;=b;x++)&#123;</span><br><span class="line">		<span class="keyword">int</span> l=<span class="number">1</span>,r=<span class="number">0</span>,k=n;</span><br><span class="line">		<span class="built_in">memset</span>(qmax,<span class="number">0</span>,<span class="keyword">sizeof</span>(qmax));</span><br><span class="line">		<span class="built_in">memset</span>(qmin,<span class="number">0</span>,<span class="keyword">sizeof</span> qmin);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=a;i++)&#123;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;i-k&gt;=qmax[l]) l++;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;work1[qmax[r]][x]&lt;=work1[i][x]) r--;</span><br><span class="line">			qmax[++r]=i;</span><br><span class="line">			<span class="keyword">if</span>(i&gt;=n) ans1[i-k+<span class="number">1</span>][x]=work1[qmax[l]][x];</span><br><span class="line">		&#125;</span><br><span class="line">		l=<span class="number">1</span>,r=<span class="number">0</span>,k=n;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=a;i++)&#123;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;i-k&gt;=qmin[l]) l++;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;work2[qmin[r]][x]&gt;=work2[i][x]) r--;</span><br><span class="line">			qmin[++r]=i;</span><br><span class="line">			<span class="keyword">if</span>(i&gt;=n) ans2[i-k+<span class="number">1</span>][x]=work2[qmin[l]][x];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;<span class="comment">//纵向区间最大最小值</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=a-n+<span class="number">1</span>;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=b-n+<span class="number">1</span>;j++)</span><br><span class="line">			ans=min(ans,ans1[i][j]-ans2[i][j]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d"</span>,ans);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="例2"><a href="#例2" class="headerlink" title="例2"></a>例2</h4><p>​    <a href="https://www.luogu.org/problem/P2219" target="_blank" rel="noopener"> [HAOI2007]修筑绿化带 </a>,</p>
+<blockquote>
+<p>如果把公园看成一个 $M <em> N$ 的矩形，那么花坛可以看成一个 $C</em>D$ 的矩形，绿化带和花坛一起可以看成一个 $A*B$ 的矩形。</p>
+<p>如果将花园中的每一块土地的“肥沃度”定义为该块土地上每一个小块肥沃度之和，那么， </p>
+<p>绿化带的肥沃度= $A<em>B$ 块的肥沃度 $- C</em>D$块的肥沃度 </p>
+<p>为了使得绿化带的生长得旺盛，我们希望绿化带的肥沃度最大。</p>
+</blockquote>
+<p>​    <del>震惊!某HA省竟在同一年考了两道相同算法的题</del> </p>
+<p>​    这道题看起来是求最大区间值和,但是如果我们先用二维前缀和预处理出 $C<em>D$ 矩形的权值和,然后再限制在 $A</em>B$ 的矩形中,即上面那道题,有些不同的是,花坛不能触碰边界,注意边界的划分.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> m,n,c,d,a,b,maps[<span class="number">1007</span>][<span class="number">1007</span>],num[<span class="number">1007</span>][<span class="number">1007</span>];</span><br><span class="line"><span class="keyword">int</span> qmin[<span class="number">1007</span>],mms[<span class="number">1007</span>][<span class="number">1007</span>];</span><br><span class="line"><span class="keyword">int</span> work2[<span class="number">1007</span>][<span class="number">1007</span>],ans2[<span class="number">1007</span>][<span class="number">1007</span>],ans;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d%d%d%d%d%d"</span>,&amp;m,&amp;n,&amp;a,&amp;b,&amp;c,&amp;d);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">			<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;maps[i][j]);</span><br><span class="line">			num[i][j]=maps[i][j]+num[i<span class="number">-1</span>][j]+num[i][j<span class="number">-1</span>]-num[i<span class="number">-1</span>][j<span class="number">-1</span>];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=c;i&lt;=m;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=d;j&lt;=n;j++)&#123;</span><br><span class="line">			maps[i-c+<span class="number">1</span>][j-d+<span class="number">1</span>]=num[i][j]-num[i-c][j]-num[i][j-d]+num[i-c][j-d];</span><br><span class="line">			<span class="keyword">if</span>(i&gt;=a&amp;&amp;j&gt;=b) mms[i-a+<span class="number">1</span>][j-b+<span class="number">1</span>]=num[i][j]-num[i-a][j]-num[i][j-b]+num[i-a][j-b];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> x=<span class="number">1</span>;x&lt;=m<span class="number">-1</span>;x++)&#123;</span><br><span class="line">		<span class="keyword">int</span> l=<span class="number">1</span>,r=<span class="number">0</span>,k=b-d<span class="number">-1</span>;</span><br><span class="line">		<span class="built_in">memset</span>(qmin,<span class="number">0</span>,<span class="keyword">sizeof</span> qmin);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;i-k&gt;=qmin[l]) l++;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;maps[x][qmin[r]]&gt;=maps[x][i]) r--;</span><br><span class="line">			qmin[++r]=i;</span><br><span class="line">			<span class="keyword">if</span>(i-k+<span class="number">1</span>&gt;=<span class="number">0</span>) work2[x][i-k+<span class="number">1</span>]=maps[x][qmin[l]];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> x=<span class="number">1</span>;x&lt;=n<span class="number">-1</span>;x++)&#123;</span><br><span class="line">		<span class="keyword">int</span> l=<span class="number">1</span>,r=<span class="number">0</span>,k=a-c<span class="number">-1</span>;</span><br><span class="line">		<span class="built_in">memset</span>(qmin,<span class="number">0</span>,<span class="keyword">sizeof</span> qmin);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;i-k&gt;=qmin[l]) l++;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;work2[qmin[r]][x]&gt;=work2[i][x]) r--;</span><br><span class="line">			qmin[++r]=i;</span><br><span class="line">			<span class="keyword">if</span>(i-k+<span class="number">1</span>&gt;<span class="number">0</span>) ans2[i-k+<span class="number">1</span>][x]=work2[qmin[l]][x];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m-a+<span class="number">1</span>;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n-b+<span class="number">1</span>;j++)&#123;</span><br><span class="line">			ans=max(ans,mms[i][j]-ans2[i+<span class="number">1</span>][j+<span class="number">1</span>]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d"</span>,ans);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="DP与单调队列"><a href="#DP与单调队列" class="headerlink" title="DP与单调队列"></a>DP与单调队列</h3><p>​    <a href="https://www.luogu.org/problem/P2569" target="_blank" rel="noopener"> [SCOI2010]股票交易 </a>;</p>
+<blockquote>
+<p>通过一段时间的观察，$\text{lxhgww}$  预测到了未来 $T$ 天内某只股票的走势，第 $i$ 天的股票买入价为每股 $AP_i$ ，第 $i$ 天的股票卖出价为每股 $BP_i$（数据保证对于每个 $i$，都有 $AP_i &gt; BP_i$ ），但是每天不能无限制地交易，于是股票交易所规定第 $i$ 天的一次买入至多只能购买 $AS_i$ 股，一次卖出至多只能卖出 $BS_i$ 股。</p>
+<p>另外，股票交易所还制定了两个规定。为了避免大家疯狂交易，股票交易所规定在两次交易（某一天的买入或者卖出均算是一次交易）之间，至少要间隔 $W$ 天，也就是说如果在第 $i$ 天发生了交易，那么从第 $i+1$ 天到第 $i+W$ 天，均不能发生交易。同时，为了避免垄断，股票交易所还规定在任何时间，一个人的手里的股票数不能超过 $\text{MaxP}$。</p>
+<p>在第 $1$ 天之前，$\text{lxhgww}$  手里有一大笔钱（可以认为钱的数目无限），但是没有任何股票，当然，$T$ 天以后，$\text{lxhgww}$ 想要赚到最多的钱，聪明的程序员们，你们能帮助他吗？</p>
+</blockquote>
+<p>​    首先推出DP式子,设 $f[i][j]$ 为第 $i$ 天手持 $j$ 个股票是的最大收入,那么分类转移;</p>
+<p>​    CASE1: 没有买股票, $f[i][j]=f[i-1][j]$ </p>
+<p>​    CASE2: 买了股票,但是有 $W$ 天的限制,所以转移应为 $f[i][j]=max(f[i-w-1][j-k] - k*AP_i ,f[i][j])$ ;</p>
+<p>​    CASE3:  卖了股票, $f[i][j]=max(f[i-w-1][j+k]+k*BP_i , f[i][j])$ ;</p>
+<p>​    那么 $k$ 的枚举我们可以用单调队列优化掉,时间复杂度 $O(tm)$ .</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> t,m,w,f[<span class="number">2007</span>][<span class="number">2007</span>],q[<span class="number">2007</span>],ans=-INT_MAX;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">max</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span>&#123;<span class="keyword">return</span> a &gt; b ? a : b;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>,&amp;t,&amp;m,&amp;w);</span><br><span class="line">	<span class="built_in">memset</span>(f,<span class="number">128</span>,<span class="keyword">sizeof</span>(f));<span class="comment">//初始化最小值</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>,ap,bp,as,bs;i&lt;=t;i++)&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%d%d%d%d"</span>,&amp;ap,&amp;bp,&amp;as,&amp;bs);</span><br><span class="line">		<span class="built_in">memset</span>(q,<span class="number">0</span>,<span class="keyword">sizeof</span> q);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=as;j++) f[i][j]=-ap*j;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=m;j++) f[i][j]=max(f[i][j],f[i<span class="number">-1</span>][j]);</span><br><span class="line">		<span class="keyword">if</span>(i&lt;=w) <span class="keyword">continue</span>;</span><br><span class="line">		<span class="keyword">int</span> l=<span class="number">1</span>,r=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=m;j++)&#123;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;q[l]&lt;j-as) l++;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;f[i-w<span class="number">-1</span>][q[r]]+q[r]*ap&lt;=f[i-w<span class="number">-1</span>][j]+j*ap) r--;</span><br><span class="line">			q[++r]=j;</span><br><span class="line">			<span class="keyword">if</span>(l&lt;=r) f[i][j]=max(f[i][j],f[i-w<span class="number">-1</span>][q[l]]+q[l]*ap-j*ap);</span><br><span class="line">		&#125;<span class="comment">//买的时候从比自己股票少的转移,正序枚举 </span></span><br><span class="line">		<span class="built_in">memset</span>(q,<span class="number">0</span>,<span class="keyword">sizeof</span> q);</span><br><span class="line">		l=<span class="number">1</span>,r=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=m;j&gt;=<span class="number">0</span>;j--)&#123;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;q[l]&gt;j+bs) l++;</span><br><span class="line">			<span class="keyword">while</span>(l&lt;=r&amp;&amp;f[i-w<span class="number">-1</span>][q[r]]+q[r]*bp&lt;=f[i-w<span class="number">-1</span>][j]+j*bp) r--;</span><br><span class="line">			q[++r]=j;</span><br><span class="line">			<span class="keyword">if</span>(l&lt;=r) f[i][j]=max(f[i][j],f[i<span class="number">-1</span>-w][q[l]]+q[l]*bp-j*bp);</span><br><span class="line">		&#125;<span class="comment">//卖的时候从比自己股票多的转移,倒序枚举 </span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d"</span>,f[t][<span class="number">0</span>]);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>​    单调队列可以有效处理区间最大最小值信息,这在DP方程转移过程中有重要意义,但在应用时应注意其应用范围,而不是盲目的套;</p>
+<p>​    应用时要注意细节问题,区间范围应卡好,出队时注意判断范围;</p>
+<h4 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h4><p>​    <a href="https://www.luogu.org/problem/P2254" target="_blank" rel="noopener">P2254 [NOI2005]瑰丽华尔兹</a> ;</p>
+<h5 id="TO-BE-CONTINUE"><a href="#TO-BE-CONTINUE" class="headerlink" title="TO BE CONTINUE"></a>TO BE CONTINUE</h5>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Mr_Leceue
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://leceue.github.io./2019/11/11/DP-queue/" title="单调队列">http://leceue.github.io./2019/11/11/DP-queue/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/null" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/DP/" rel="tag"># DP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/10/D-DP/" rel="next" title="D-DP">
+                  <i class="fa fa-chevron-left"></i> D-DP
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/12/Tarjan-Point/" rel="prev" title="Tarjan初步-点双连通分量">
+                  Tarjan初步-点双连通分量 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单调队列"><span class="nav-number"></span> <span class="nav-text">单调队列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#限制与应用"><span class="nav-number">1.</span> <span class="nav-text">限制与应用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#入门"><span class="nav-number"></span> <span class="nav-text">入门</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进阶"><span class="nav-number"></span> <span class="nav-text">进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#例1"><span class="nav-number">1.</span> <span class="nav-text">例1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例2"><span class="nav-number">2.</span> <span class="nav-text">例2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DP与单调队列"><span class="nav-number"></span> <span class="nav-text">DP与单调队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number"></span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#练习题"><span class="nav-number">1.</span> <span class="nav-text">练习题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#TO-BE-CONTINUE"><span class="nav-number">1.1.</span> <span class="nav-text">TO BE CONTINUE</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Mr_Leceue"
+    src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Mr_Leceue</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="chat motion-element"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr_Leceue</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'eoo6yoyq9vwOBGrPb56keF4k-MdYXbMMI',
+    appKey: 'iLNuNDzUOFCaB1a5EVE989C7',
+    placeholder: "Just go go",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>
+
+<span id="busuanzi_container_site_uv">
+  本站访问次数：<span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+</span>
