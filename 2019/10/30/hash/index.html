@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/256.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="关于HASH​    这应该是经常使用的一个算法,因为其预处理后,优秀的$O(1)$处理出子串,并且$O(1)$比较,大快人心,而且写法简单,令人心情愉悦;​    但是其空间复杂度较高,并且有玄学模数以及哈希冲突,以至于如果想hack,其实可以hack掉;前置知识​    关于进制,模数,hash就用到了重构进制,取模稀疏,所以哈希表又叫稀疏表;">
+<meta name="keywords" content="字符串">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hash应用">
+<meta property="og:url" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;2019&#x2F;10&#x2F;30&#x2F;hash&#x2F;index.html">
+<meta property="og:site_name" content="Thinkings and Works">
+<meta property="og:description" content="关于HASH​    这应该是经常使用的一个算法,因为其预处理后,优秀的$O(1)$处理出子串,并且$O(1)$比较,大快人心,而且写法简单,令人心情愉悦;​    但是其空间复杂度较高,并且有玄学模数以及哈希冲突,以至于如果想hack,其实可以hack掉;前置知识​    关于进制,模数,hash就用到了重构进制,取模稀疏,所以哈希表又叫稀疏表;">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-10-30T23:36:39.345Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://leceue.github.io./2019/10/30/hash/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>hash应用 | Thinkings and Works</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Thinkings and Works</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">A HA IOer</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/10/30/hash/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Mr_Leceue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Thinkings and Works">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          hash应用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-10-30 19:26:25" itemprop="dateCreated datePublished" datetime="2019-10-30T19:26:25+08:00">2019-10-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-31 07:36:39" itemprop="dateModified" datetime="2019-10-31T07:36:39+08:00">2019-10-31</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/10/30/hash/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/30/hash/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="关于HASH"><a href="#关于HASH" class="headerlink" title="关于HASH"></a>关于HASH</h2><p>​    这应该是经常使用的一个算法,因为其预处理后,优秀的$O(1)$处理出子串,并且$O(1)$比较,大快人心,而且写法简单,令人心情愉悦;</p><p>​    但是其空间复杂度较高,并且有玄学模数以及哈希冲突,以至于如果想hack,其实可以hack掉;</p><h4 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h4><p>​    关于进制,模数,hash就用到了重构进制,取模稀疏,所以哈希表又叫稀疏表;</p><a id="more"></a>
+
+
+<h2 id="入坑"><a href="#入坑" class="headerlink" title="入坑"></a>入坑</h2><p>​    hash很好理解,而且匹配非常方便,<del>不容易写炸,对于萌新十分友好</del>,</p>
+<h3 id="HASH查询"><a href="#HASH查询" class="headerlink" title="HASH查询"></a>HASH查询</h3><p>​    我们知道数字匹配复杂度为 $O(1)$ ,数字匹配速度快,而字符串却只能一个一个匹配, <del>这不公平</del> .那么我们考虑将字符串变成数字.</p>
+<p>​    想一下数字有进制,那么我们定义一下字母的进制,不一定是26,我们可以随便取一个数,习惯性取质数;</p>
+<p>​    但是数字太长,爆 $long$ $long$ 我们没办法存怎么办,我们考虑字符串很少,但是空间很大,我们考虑将数字安排入一个位置,其实这个位置是随机的,但是我们可以推出,这就够了;</p>
+<p>​    那么我们可以模一个数字,将数字限制在一个范围之内,然后储存下来,而这个模数一般是一个质数,因为质数的特殊性质,可以造成更好地将数字稀疏;</p>
+<h4 id="模版"><a href="#模版" class="headerlink" title="模版"></a>模版</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="keyword">const</span> ll base=<span class="number">133</span>;</span><br><span class="line"><span class="keyword">const</span> ll mod=<span class="number">19491001</span>;</span><br><span class="line"><span class="function">ll <span class="title">id</span><span class="params">(<span class="keyword">char</span> s[])</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> l=<span class="built_in">strlen</span>(s);ll ol=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;l;i++)</span><br><span class="line">		ol=(ol*base+s[i]-<span class="string">'a'</span>+<span class="number">1</span>)%mod;</span><br><span class="line">	<span class="keyword">return</span> ol;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​    处理复杂度 $O(n)$ 然后开个数组储存即可;</p>
+<h3 id="HASH子串匹配"><a href="#HASH子串匹配" class="headerlink" title="HASH子串匹配"></a>HASH子串匹配</h3><p>​    我们知道,如果每次都处理出一个串的子串,那么时间复杂度 $O(n^2)$ ,这是我们不能接受的,但是考虑一下我们存的是数字,数字有进制,那么一定可以通过加减操作得到其子串,那么,就简单很多了;</p>
+<p>​    我们可以先预处理出 $HASH$ 前缀和,之后通过加减得到一段区间的子串;</p>
+<p>​    但是直接开数组了话,有可能开不下,或者加大hash冲突的可能(即两个字符串hash值相同),那么我们可以考虑在不超时的情况下,加入一个map储存hash值,这样不需再担心空间问题,但是每次查询时间会多一个 $logn$ ,请谨慎使用;</p>
+<h4 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h4><p>​    我不再直接附上模版,而是引入一个 <a href="https://www.luogu.org/problem/P5546" target="_blank" rel="noopener">例题</a>;</p>
+<blockquote>
+<p>给出几个由小写字母构成的单词，求它们最长的公共子串的长度。</p>
+</blockquote>
+<h5 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h5><p>​    我们可以二分枚举公共子串长度,因为公共子串长度一定是满足单调性质的.</p>
+<p>​    那么我们选择枚举第一个串的子串,然后将其他串中相同长度的子串储存起来,那么就可以匹配了;</p>
+<h5 id="code"><a href="#code" class="headerlink" title="code"></a>code</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 2007</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> ll base=<span class="number">133</span>;</span><br><span class="line"><span class="keyword">const</span> ll mod=<span class="number">998244353</span>; </span><br><span class="line"><span class="built_in">map</span>&lt;<span class="keyword">int</span>,<span class="keyword">bool</span>&gt;ha[<span class="number">6</span>];</span><br><span class="line">ll sum[<span class="number">6</span>][maxn],ad[maxn];</span><br><span class="line"><span class="keyword">int</span> n,lim=maxn,len[<span class="number">6</span>];</span><br><span class="line"><span class="keyword">char</span> c[<span class="number">6</span>][maxn];</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> type_of_scan&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">scan</span><span class="params">(type_of_scan &amp;x)</span></span>&#123;</span><br><span class="line">	type_of_scan f=<span class="number">1</span>;x=<span class="number">0</span>;<span class="keyword">char</span> s=getchar();</span><br><span class="line">	<span class="keyword">while</span>(s&lt;<span class="string">'0'</span>||s&gt;<span class="string">'9'</span>)&#123;<span class="keyword">if</span>(s==<span class="string">'-'</span>)f=<span class="number">-1</span>;s=getchar();&#125;</span><br><span class="line">	<span class="keyword">while</span>(s&gt;=<span class="string">'0'</span>&amp;&amp;s&lt;=<span class="string">'9'</span>)&#123;x=x*<span class="number">10</span>+s-<span class="string">'0'</span>;s=getchar();&#125;</span><br><span class="line">	x*=f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> top,<span class="keyword">typename</span>... tops&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">scan</span><span class="params">(top &amp;x,tops&amp;... X)</span></span>&#123;</span><br><span class="line">	scan(x),scan(X...);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">id</span><span class="params">(<span class="keyword">int</span> pos,<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> (sum[pos][r+<span class="number">1</span>]-sum[pos][l]*ad[r-l+<span class="number">1</span>]%mod+mod)%mod;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> l)</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) ha[i].clear();</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j+l<span class="number">-1</span>&lt;len[i];j++)</span><br><span class="line">			ha[i][id(i,j,l+j<span class="number">-1</span>)]=<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i+l<span class="number">-1</span>&lt;len[<span class="number">1</span>];i++)&#123;</span><br><span class="line">		<span class="keyword">int</span> temp=id(<span class="number">1</span>,i,i+l<span class="number">-1</span>),cnt=n<span class="number">-1</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">2</span>;j&lt;=n;j++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(ha[j][temp]) cnt--;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(!cnt) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">	ad[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">2001</span>;i++) ad[i]=ad[i<span class="number">-1</span>]*base%mod;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;len[i];j++)&#123;</span><br><span class="line">			sum[i][j+<span class="number">1</span>]=(sum[i][j]*base+(c[i][j]-<span class="string">'a'</span>))%mod;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	scan(n);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%s"</span>,c[i]),lim=min(len[i]=<span class="built_in">strlen</span>(c[i]),lim);</span><br><span class="line">	<span class="keyword">int</span> l=<span class="number">0</span>,r=lim;init();</span><br><span class="line">	<span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">		<span class="keyword">int</span> mid=l+r+<span class="number">1</span>&gt;&gt;<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">if</span>(check(mid)) l=mid;</span><br><span class="line">		<span class="keyword">else</span> r=mid<span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,l);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="TO-BE-CONTINUED"><a href="#TO-BE-CONTINUED" class="headerlink" title="TO BE CONTINUED"></a>TO BE CONTINUED</h5>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Mr_Leceue
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://leceue.github.io./2019/10/30/hash/" title="hash应用">http://leceue.github.io./2019/10/30/hash/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/null" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag"># 字符串</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/10/30/KMP/" rel="next" title="KMP浅谈">
+                  <i class="fa fa-chevron-left"></i> KMP浅谈
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/10/30/trie/" rel="prev" title="trie浅谈">
+                  trie浅谈 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于HASH"><span class="nav-number">1.</span> <span class="nav-text">关于HASH</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#前置知识"><span class="nav-number">1.0.1.</span> <span class="nav-text">前置知识</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#入坑"><span class="nav-number">2.</span> <span class="nav-text">入坑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HASH查询"><span class="nav-number">2.1.</span> <span class="nav-text">HASH查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#模版"><span class="nav-number">2.1.1.</span> <span class="nav-text">模版</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HASH子串匹配"><span class="nav-number">2.2.</span> <span class="nav-text">HASH子串匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#例题"><span class="nav-number">2.2.1.</span> <span class="nav-text">例题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#做法"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">做法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#code"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">code</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TO-BE-CONTINUED"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">TO BE CONTINUED</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Mr_Leceue"
+    src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Mr_Leceue</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="chat motion-element"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr_Leceue</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'eoo6yoyq9vwOBGrPb56keF4k-MdYXbMMI',
+    appKey: 'iLNuNDzUOFCaB1a5EVE989C7',
+    placeholder: "Just go go",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>
+
+<span id="busuanzi_container_site_uv">
+  本站访问次数：<span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+</span>

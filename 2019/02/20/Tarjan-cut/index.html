@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/256.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="所谓割点（顶）割边，我们引进一个概念 割点：删掉它之后(删掉所有跟它相连的边)，图必然会分裂成两个或两个以上的子图。割边(桥)：删掉一条边后，图必然会分裂成两个或两个以上的子图，又称桥。 这样大家就应该能简单理解（怎么可能）割点割边了。所以我们再来看一个图这样大家就能明白了吧（明白是明白了，但是要他干嘛（自动忽略））到后面会明白的。">
+<meta name="keywords" content="图论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tarjan初步-割点和割边">
+<meta property="og:url" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;2019&#x2F;02&#x2F;20&#x2F;Tarjan-cut&#x2F;index.html">
+<meta property="og:site_name" content="Thinkings and Works">
+<meta property="og:description" content="所谓割点（顶）割边，我们引进一个概念 割点：删掉它之后(删掉所有跟它相连的边)，图必然会分裂成两个或两个以上的子图。割边(桥)：删掉一条边后，图必然会分裂成两个或两个以上的子图，又称桥。 这样大家就应该能简单理解（怎么可能）割点割边了。所以我们再来看一个图这样大家就能明白了吧（明白是明白了，但是要他干嘛（自动忽略））到后面会明白的。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;images&#x2F;1606547-20190220195943670-530347978.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;images&#x2F;1606547-20190220200553851-1931555270.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;images&#x2F;1606547-20190220203114220-1429768074.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;images&#x2F;1606547-20190220204305802-44108416.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;images&#x2F;1606547-20190220205223960-1428633160.png">
+<meta property="og:updated_time" content="2019-11-12T07:59:59.091Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;images&#x2F;1606547-20190220195943670-530347978.png">
+
+<link rel="canonical" href="http://leceue.github.io./2019/02/20/Tarjan-cut/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Tarjan初步-割点和割边 | Thinkings and Works</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Thinkings and Works</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">A HA IOer</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/02/20/Tarjan-cut/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Mr_Leceue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Thinkings and Works">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Tarjan初步-割点和割边
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-02-20 15:51:53" itemprop="dateCreated datePublished" datetime="2019-02-20T15:51:53+08:00">2019-02-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-12 15:59:59" itemprop="dateModified" datetime="2019-11-12T15:59:59+08:00">2019-11-12</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/02/20/Tarjan-cut/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/02/20/Tarjan-cut/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>所谓割点（顶）割边，我们引进一个概念</p><blockquote>
+<p>割点：删掉它之后(删掉所有跟它相连的边)，图必然会分裂成两个或两个以上的子图。<br>割边(桥)：删掉一条边后，图必然会分裂成两个或两个以上的子图，又称桥。</p>
+</blockquote><p>这样大家就应该能简单理解（怎么可能）割点割边了。</p><p>所以我们再来看一个图</p><p><img src="/images/1606547-20190220195943670-530347978.png" alt="alt"></p><p>这样大家就能明白了吧（明白是明白了，但是要他干嘛（自动忽略））到后面会明白的。</p><a id="more"></a>
+
+
+
+
+
+<p>然后怎么求，这是一个问题，直接想法是搜索，枚举每一个点，然后再去检验是否联通，这样的复杂度应该是O(n2),很显然很不优秀，万一数据是1e5以上不就凉凉了吗。所以我们就可以引进我们的正题了，low-dfn求割点割边。</p>
+<p>怎么求？</p>
+<p>那么什么是dfn和low呢，简单解释一下，我们的dfn是一个时间戳，也就是访问的时间，而这个就是Tarjan算法的基础（好像忘介绍Tarjan了）而我们的low就是返祖边，也就是通向以前的点的边，所以说，看图。</p>
+<p><img src="/images/1606547-20190220200553851-1931555270.png" alt="alt"></p>
+<p>还有一个重要概念也就是，母树继承其子树最小的返祖边，而我们可以观察一下我们的dfn值和low值，再去寻找割点会发现一个重要的事实</p>
+<p><strong>每一个割点的dfn一定小于等于其子树的low值，而且如果是root，他的子树大于1他即为割点</strong></p>
+<p>这样我们的Code就跃然纸上了</p>
+<p><strong>Code</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Tarjan</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    low[x]=dfn[x]=++t;<span class="comment">//记录时间戳，当然low值一开始也要与dfn值相同 </span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=edge[i].next)&#123;<span class="comment">//链式前向星 </span></span><br><span class="line">        <span class="keyword">int</span> y=edge[i].to;</span><br><span class="line">        <span class="keyword">if</span>(!dfn[y])&#123;<span class="comment">//如果没有访问过 </span></span><br><span class="line">            Tarjan(y);<span class="comment">//搜索查询 </span></span><br><span class="line">            low[x]=min(low[x],low[y]);<span class="comment">//母树继承子树的最小low值 </span></span><br><span class="line">            <span class="keyword">if</span>(low[y]&gt;=dfn[x])&#123;<span class="comment">//发现的规律 </span></span><br><span class="line">                flag++;<span class="comment">//这个是因为我们的root也有可能是割点，但是它的条件有点苛刻 </span></span><br><span class="line">                <span class="keyword">if</span>(flag&gt;<span class="number">1</span>||x!=root) cut[x]=<span class="number">1</span>;<span class="comment">//如果子树分支大于1，那么无论他是什么都是割点了 </span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span> low[x]=min(low[x],dfn[y]);<span class="comment">//返祖边，其连接的点继承最小返祖边连接点的dfn值</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>备注应该也是很明白了。</p>
+<p>然后我们来看割边，上面已经将概念说的很明白了，删边后，图不联通，然后我们根据一个图来理解割边。</p>
+<p><img src="/images/1606547-20190220203114220-1429768074.png" alt="alt"></p>
+<p>有点丑，左边是dfn，右边是low，红边就是割边，观察一下割边两边两个点的dfn和low值情况，我们会惊喜地发现</p>
+<p><strong>母点的dfn值小于（严格小于）子点low值，那么这条边就是割边</strong></p>
+<p><strong>
+</strong>好的，我们的代码就出来了</p>
+<p>这里引进一道例题</p>
+<p><img src="/images/1606547-20190220204305802-44108416.png" alt="alt"></p>
+<p><strong>Code</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,m,head[<span class="number">100007</span>],cent=<span class="number">1</span>,low[<span class="number">100007</span>],dfn[<span class="number">100007</span>],t,cnt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> next,to;</span><br><span class="line">&#125;edge[<span class="number">700007</span>];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">prin</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> u,v;</span><br><span class="line">&#125;ans[<span class="number">100007</span>];<span class="comment">//记录答案 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">    edge[++cent]=(node)&#123;head[u],v&#125;;head[u]=cent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span> &lt;(prin a,prin b)&#123;</span><br><span class="line">    <span class="keyword">if</span>(a.u!=b.u) <span class="keyword">return</span> a.u&lt;b.u;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> a.v&lt;b.v;</span><br><span class="line">&#125;<span class="comment">//重载运算符 ，sort要用 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Tarjan</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> fa)</span></span>&#123;<span class="comment">//fa定义的是我们走的上一条边 </span></span><br><span class="line">    low[x]=dfn[x]=++t;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=edge[i].next)&#123;</span><br><span class="line">        <span class="keyword">int</span> y=edge[i].to;</span><br><span class="line">        <span class="keyword">if</span>(!dfn[y])&#123;</span><br><span class="line">            Tarjan(y,i);</span><br><span class="line">            low[x]=min(low[x],low[y]);</span><br><span class="line">            <span class="keyword">if</span>(low[y]&gt;dfn[x]) &#123;</span><br><span class="line">                ans[++cnt]=x&lt;y?(prin)&#123;x,y&#125;:(prin)&#123;y,x&#125;;<span class="comment">//如果结果成立，那么就可以记录这条边的两个点 </span></span><br><span class="line">            &#125; <span class="comment">//这里用到了格式转换，prin的定义在上面 </span></span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>((i^<span class="number">1</span>)!=fa)&#123;<span class="comment">//由于双向建边，需要cent=1，然后用^来验边，或者将fa定义成上一个点 </span></span><br><span class="line">            low[x]=min(low[x],dfn[y]);<span class="comment">//</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    freopen(<span class="string">"danger.in"</span>,<span class="string">"r"</span>,<span class="built_in">stdin</span>);</span><br><span class="line">    freopen(<span class="string">"danger.out"</span>,<span class="string">"w"</span>,<span class="built_in">stdout</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;n,&amp;m);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>,a,b;i&lt;=m;i++)&#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;a,&amp;b);</span><br><span class="line">        <span class="keyword">if</span>(a==b) <span class="keyword">continue</span>;<span class="comment">//去除自环 </span></span><br><span class="line">        add(a,b),add(b,a);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!dfn[i]) Tarjan(i,<span class="number">0</span>);<span class="comment">//不连通时Tarjan，一般都是这样写 </span></span><br><span class="line">    &#125; </span><br><span class="line">    sort(ans+<span class="number">1</span>,ans+cnt+<span class="number">1</span>);<span class="comment">//题目要求 </span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=cnt;i++)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d %d\n"</span>,ans[i].u,ans[i].v);<span class="comment">//输出答案 </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这应该就很显然了。</p>
+<p>模板讲完了，但还是希望自己的Code要有自己的风格，可以借鉴，但不能照搬。</p>
+<p><strong>例题</strong></p>
+<p>我们先来看一下割点</p>
+<p><img src="/images/1606547-20190220205223960-1428633160.png" alt="alt"></p>
+<p>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　——嗅探器</p>
+<p>这个显然是要找割点的，那么怎么找呢?</p>
+<p>我们的最大问题是有两个点，在去掉割点后，如何检验他们是否在同一个联通块中?</p>
+<p>我们首先的思路是暴力枚举割点，然后检验联通，大概能得10%的分，那么我们来想正解</p>
+<p>我们可以以a为根，那么就解决了两个点的问题，但是检验呢？</p>
+<p>我们可以将Tarjan定义为bool类型即可，然后在Tarjan的过程中，回溯检验值，详情看代码；</p>
+<p><strong>Code</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,a,b,head[<span class="number">100007</span>],cent,root,fin,low[<span class="number">100007</span>],dfn[<span class="number">100007</span>];</span><br><span class="line"><span class="keyword">int</span> t,cut[<span class="number">100007</span>];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> next,to;</span><br><span class="line">&#125;edge[<span class="number">3000007</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">    edge[++cent]=(node)&#123;head[u],v&#125;;head[u]=cent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Tarjan</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    low[x]=dfn[x]=++t;</span><br><span class="line">    <span class="keyword">bool</span> f1=(x==fin);<span class="comment">// fin是b点，f1是标记 ，检验有没有b点 </span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[x];i;i=edge[i].next)&#123;</span><br><span class="line">        <span class="keyword">int</span> y=edge[i].to;</span><br><span class="line">        <span class="keyword">if</span>(!dfn[y])&#123;</span><br><span class="line">            <span class="keyword">bool</span> z=Tarjan(y);f1|=z;<span class="comment">//回溯标记 </span></span><br><span class="line">            low[x]=min(low[x],low[y]);</span><br><span class="line">            <span class="keyword">if</span>(low[y]&gt;=dfn[x]&amp;&amp;x!=root&amp;&amp;x!=fin&amp;&amp;z)&#123;<span class="comment">//这里割点一定不是root </span></span><br><span class="line">                cut[x]=<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            low[x]=min(low[x],dfn[y]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> f1;<span class="comment">//回溯标记 </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="comment">//    freopen("dfnIn.in","r",stdin);</span></span><br><span class="line"><span class="comment">//    freopen("dfnin.out","w",stdout);</span></span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;a,&amp;b)&amp;&amp;(a!=<span class="number">0</span>&amp;&amp;b!=<span class="number">0</span>))&#123;</span><br><span class="line">        <span class="keyword">if</span>(a==b) <span class="keyword">continue</span>;</span><br><span class="line">        add(a,b),add(b,a);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;root,&amp;fin);</span><br><span class="line">    Tarjan(root);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(cut[i]&amp;&amp;low[fin]&gt;=dfn[i])&#123;<span class="comment">//检验 </span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d"</span>,i);<span class="comment">//输出 </span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"No solution"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就让我们对Tarjan的灵活运用有更深理解。</p>
+<p>然后来看割边例题</p>
+<p>……</p>
+<p>其实上面的板子题就是我们的例题（逃~）</p>
+<p>好了，Tarjan的割点和割边就结束了。</p>
+<p>可以自行找些例题，寻找灵感。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Mr_Leceue
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://leceue.github.io./2019/02/20/Tarjan-cut/" title="Tarjan初步-割点和割边">http://leceue.github.io./2019/02/20/Tarjan-cut/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/null" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9B%BE%E8%AE%BA/" rel="tag"># 图论</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/02/21/Tarjan-edge/" rel="prev" title="Tarjan初步-边双联通分量">
+                  Tarjan初步-边双联通分量 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Mr_Leceue"
+    src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Mr_Leceue</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="chat motion-element"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr_Leceue</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'eoo6yoyq9vwOBGrPb56keF4k-MdYXbMMI',
+    appKey: 'iLNuNDzUOFCaB1a5EVE989C7',
+    placeholder: "Just go go",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>
+
+<span id="busuanzi_container_site_uv">
+  本站访问次数：<span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+</span>
