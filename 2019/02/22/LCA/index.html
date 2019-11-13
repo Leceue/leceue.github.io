@@ -55,14 +55,14 @@
 <meta name="keywords" content="图论">
 <meta property="og:type" content="article">
 <meta property="og:title" content="倍增Tarjan求LCA">
-<meta property="og:url" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;2019&#x2F;11&#x2F;12&#x2F;LCA&#x2F;index.html">
+<meta property="og:url" content="http:&#x2F;&#x2F;leceue.github.io.&#x2F;2019&#x2F;02&#x2F;22&#x2F;LCA&#x2F;index.html">
 <meta property="og:site_name" content="Thinkings and Works">
 <meta property="og:description" content="LCA，最近公共祖先，这是树上最常用的算法之一，因为它可以求距离，也可以求路径等等LCA有两种写法，一种是倍增思想，另一种是Tarjan求法，我们可以通过一道题来看一看，例题 欢乐岛上有个非常好玩的游戏，叫做“紧急集合”。在岛上分散有N个等待点，有N-1条道路连接着它们，每一条道路都连接某两个等待点，且通过这些道路可以走遍所有的等待点，通过道路从一个点到另一个点要花费一个游戏币。 参加游戏的人三人">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-12T08:19:08.737Z">
+<meta property="og:updated_time" content="2019-11-12T23:55:32.667Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://leceue.github.io./2019/11/12/LCA/">
+<link rel="canonical" href="http://leceue.github.io./2019/02/22/LCA/">
 
 
 <script id="page-configurations">
@@ -213,7 +213,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/12/LCA/">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/02/22/LCA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -235,10 +235,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2019-11-12 16:11:49 / Modified: 16:19:08" itemprop="dateCreated datePublished" datetime="2019-11-12T16:11:49+08:00">2019-11-12</time>
+              <time title="Created: 2019-02-22 16:11:49" itemprop="dateCreated datePublished" datetime="2019-02-22T16:11:49+08:00">2019-02-22</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-13 07:55:32" itemprop="dateModified" datetime="2019-11-13T07:55:32+08:00">2019-11-13</time>
+              </span>
 
           
             <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -256,8 +262,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2019/11/12/LCA/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/12/LCA/" itemprop="commentCount"></span>
+    <a title="valine" href="/2019/02/22/LCA/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/02/22/LCA/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -302,7 +308,7 @@ dep[x]+dep[y]-2*dep[a]+dep[z]-dep[b]+dep[a]-dep[b]</script><script type="math/te
   </li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="http://leceue.github.io./2019/11/12/LCA/" title="倍增Tarjan求LCA">http://leceue.github.io./2019/11/12/LCA/</a>
+    <a href="http://leceue.github.io./2019/02/22/LCA/" title="倍增Tarjan求LCA">http://leceue.github.io./2019/02/22/LCA/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/null" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -320,16 +326,16 @@ dep[x]+dep[y]-2*dep[a]+dep[z]-dep[b]+dep[a]-dep[b]</script><script type="math/te
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2019/11/12/Tarjan-Point/" rel="next" title="Tarjan初步-点双连通分量">
-                  <i class="fa fa-chevron-left"></i> Tarjan初步-点双连通分量
+                <a href="/2019/02/21/graph-collect/" rel="next" title="简谈图论重要性&&图论总结">
+                  <i class="fa fa-chevron-left"></i> 简谈图论重要性&&图论总结
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/11/12/graph-collect/" rel="prev" title="简谈图论重要性&&图论总结">
-                  简谈图论重要性&&图论总结 <i class="fa fa-chevron-right"></i>
+                <a href="/2019/02/28/SPFA-Other/" rel="prev" title="差分约束-SPFA系统">
+                  差分约束-SPFA系统 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -384,7 +390,7 @@ dep[x]+dep[y]-2*dep[a]+dep[z]-dep[b]+dep[a]-dep[b]</script><script type="math/te
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

@@ -209,7 +209,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/12/graph-collect/">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/13/strongly-connected/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -223,7 +223,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/11/12/graph-collect/" class="post-title-link" itemprop="url">简谈图论重要性&&图论总结</a>
+            <a href="/2019/11/13/strongly-connected/" class="post-title-link" itemprop="url">Tarjan初步-强联通分量</a>
         </h1>
 
         <div class="post-meta">
@@ -234,7 +234,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-11-12 16:22:47 / Modified: 16:24:28" itemprop="dateCreated datePublished" datetime="2019-11-12T16:22:47+08:00">2019-11-12</time>
+              <time title="Created: 2019-11-13 10:00:37 / Modified: 13:29:18" itemprop="dateCreated datePublished" datetime="2019-11-13T10:00:37+08:00">2019-11-13</time>
             </span>
 
           
@@ -246,8 +246,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2019/11/12/graph-collect/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/12/graph-collect/" itemprop="commentCount"></span>
+    <a title="valine" href="/2019/11/13/strongly-connected/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/13/strongly-connected/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -262,174 +262,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>从外地学习回来，我对图论才有认识（以前就没接触过，非常尴尬），说实话，学好图论的重要性，就像学数学时在进行解析几何时，图极有可能是打开答案的最后秘钥，也就是数形结合，而懂的人永远明白，用图解决绝对比用解析简单（一般情况）。而图论对于oi选手说，就是一大杀器，有可能利己，也可能抱憾终身。所以说图论的重要性就很显然了。</p>
+          <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>​    发现我又咕咕了一篇早就应该写的博客,唉,真是的;</p><p>​    强联通分量常用于缩点,重建图去跑其他算法;</p><h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><p>​    强联通分量存在于有向图,简单的概念即有向图中一个块中的点可以彼此到达,这个块被称为分量,而两点彼此能到到达称为强联通,那么强联通分量的概念就出来了;</p><p>​    同样用的时间戳(dfn)与返祖标记(low)这个概念,如果不知道,请看本博客中的点双边双;</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/11/12/graph-collect/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/12/LCA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Mr_Leceue">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Thinkings and Works">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/12/LCA/" class="post-title-link" itemprop="url">倍增Tarjan求LCA</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2019-11-12 16:11:49 / Modified: 16:19:08" itemprop="dateCreated datePublished" datetime="2019-11-12T16:11:49+08:00">2019-11-12</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2019/11/12/LCA/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/12/LCA/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>LCA，最近公共祖先，这是树上最常用的算法之一，因为它可以求距离，也可以求路径等等</p><p>LCA有两种写法，一种是倍增思想，另一种是Tarjan求法，我们可以通过一道题来看一看，</p><h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><blockquote>
-<p>欢乐岛上有个非常好玩的游戏，叫做“紧急集合”。在岛上分散有N个等待点，有N-1条道路连接着它们，每一条道路都连接某两个等待点，且通过这些道路可以走遍所有的等待点，通过道路从一个点到另一个点要花费一个游戏币。</p>
-<p>参加游戏的人三人一组，开始的时候，所有人员均任意分散在各个等待点上（每个点同时允许多个人等待），每个人均带有足够多的游戏币（用于支付使用道路的花费）、地图（标明等待点之间道路连接的情况）以及对话机（用于和同组的成员联系）。当集合号吹响后，每组成员之间迅速联系，了解到自己组所有成员所在的等待点后，迅速在N个等待点中确定一个集结点，组内所有成员将在该集合点集合，集合所用花费最少的组将是游戏的赢家。</p>
-<p>小可可和他的朋友邀请你一起参加这个游戏，由你来选择集合点，聪明的你能够完成这个任务，帮助小可可赢得游戏吗？</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/12/LCA/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/11/12/Tarjan-Point/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Mr_Leceue">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Thinkings and Works">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/12/Tarjan-Point/" class="post-title-link" itemprop="url">Tarjan初步-点双连通分量</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2019-11-12 16:08:45 / Modified: 16:11:02" itemprop="dateCreated datePublished" datetime="2019-11-12T16:08:45+08:00">2019-11-12</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine: </span>
-    
-    <a title="valine" href="/2019/11/12/Tarjan-Point/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/12/Tarjan-Point/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>上一次我们讲到了边双，这次我们来看点双。</p><p>说实话来说，点双比边双稍微复杂一些；</p><p>学完边双，我们先看一道题</p><p><img src="/images/1606547-20190220215809712-1764741801.png" alt="alt"></p><p><img src="/images/1606547-20190220215831857-626374096.png" alt="alt"></p><p>第一问都不用说了吧，多余的道路，明显的割边。</p><p>是不是首先想到用边双，但是我们来看一个图：</p><p><img src="/images/1606547-20190220220012034-762051649.png" alt="alt">**</p><p>有点丑，但是凑活看吧。</p><p>它是一个边双，但是！！！！它竟然没有冲突的边！！！</p><p>此时我们就要用点双了（是不是想打死我，竟然没讲，先坑人）</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/12/Tarjan-Point/#more" rel="contents">
+              <a class="btn" href="/2019/11/13/strongly-connected/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -1045,6 +881,172 @@
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/10/30/KMP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Mr_Leceue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Thinkings and Works">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/30/KMP/" class="post-title-link" itemprop="url">KMP浅谈</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-10-30 19:25:09" itemprop="dateCreated datePublished" datetime="2019-10-30T19:25:09+08:00">2019-10-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-31 07:43:02" itemprop="dateModified" datetime="2019-10-31T07:43:02+08:00">2019-10-31</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/10/30/KMP/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/30/KMP/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="关于KMP"><a href="#关于KMP" class="headerlink" title="关于KMP"></a>关于KMP</h2><p>​    KMP其实是三个人名字的缩写,因为是他们同时发现的<del>(大佬惹不起)</del>;</p><p>​    KMP作为CSP考点,主要亮点是其优秀的匹配复杂度,而且消耗空间小,比起hash虽然有些局限性,但是因为其正确率高,所以经常被人使用.</p><h4 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h4><p>​    关于字符串的读取,以及字符串相关操作的基础了解,这里涉及字符串匹配以及子串;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/30/KMP/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://leceue.github.io./2019/10/26/Base-ring-tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Mr_Leceue">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Thinkings and Works">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/26/Base-ring-tree/" class="post-title-link" itemprop="url">基环树初步</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-10-26 08:28:08 / Modified: 14:46:22" itemprop="dateCreated datePublished" datetime="2019-10-26T08:28:08+08:00">2019-10-26</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/10/26/Base-ring-tree/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/26/Base-ring-tree/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>​    说实话,基环树一般比较综合,所以一般只要就要具有图论基本知识便可以开始学习.</p><h4 id="警告"><a href="#警告" class="headerlink" title="警告"></a>警告</h4><p>​    博主实力不足,如果出错,<del>请用力D他</del> .</p><h2 id="认识"><a href="#认识" class="headerlink" title="认识"></a>认识</h2><p>​    基环树,原体是树,有树上任意连一条边,就成了一个环,即基环树,一般特征,$n$个点$n$条边;</p><p>​    由于有树的特征,所以经常会用一些树的算法来计算基环树;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/26/Base-ring-tree/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
@@ -1093,7 +1095,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
