@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 4.0.0">
@@ -59,7 +59,7 @@
 <meta property="og:site_name" content="Thinkings and Works">
 <meta property="og:description" content="EXGCD　　我们在遇见不定方程的时候，总会一筹莫展，但是EXGCD为我们提供了方法，如同　　$ a x + b y = c $   　　那么我们先从这个这个式子出发：　　$ax+by=gcd(a,b)$ 　　 $(1)$　　我们不妨设出另一个式子　　$ b x_{0}+(a \% b)y_{0}=gcd(b,a \% b)$ 　　 $(2)$">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-25T13:16:31.390Z">
+<meta property="og:updated_time" content="2019-11-15T06:51:53.164Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://leceue.github.io./2019/10/25/math-collect/">
@@ -107,12 +107,12 @@
   .use-motion .logo-line-before i { left: initial; }
   .use-motion .logo-line-after i { right: initial; }
   </style>
-</noscript>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
     <div class="headband"></div>
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -126,7 +126,7 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-        <p class="site-subtitle">A HA IOer</p>
+        <p class="site-subtitle">A Huster</p>
   </div>
 
   <div class="site-nav-toggle">
@@ -235,10 +235,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2019-10-25 16:00:59 / Modified: 21:16:31" itemprop="dateCreated datePublished" datetime="2019-10-25T16:00:59+08:00">2019-10-25</time>
+              <time title="Created: 2019-10-25 16:00:59" itemprop="dateCreated datePublished" datetime="2019-10-25T16:00:59+08:00">2019-10-25</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-15 14:51:53" itemprop="dateModified" datetime="2019-11-15T14:51:53+08:00">2019-11-15</time>
+              </span>
 
           
             <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -279,9 +285,9 @@
 
 
 <p>　　Because $gcd(a,b)= gcd ( b , a \% b ) $ ,thus:</p>
-<p>　　(a x+b y=bx_{0}+a \% b y_{0})</p>
-<p>　　(a x+b y=bx_{0} +(x-a/b \times y_{0}))</p>
-<p>　　(a x+b y=ay_{0} +b(x-a/b \times y_{0}))</p>
+<p>　　$a x+b y=bx_{0}+a \% b y_{0}$</p>
+<p>　　$a x+b y=bx_{0} +(a-a/b \times b)\times  y_{0}$</p>
+<p>　　$a x+b y=ay_{0} +b(x_0-a/b \times y_{0})$</p>
 <p>　　根据乘法等式，相对应系数的未知数相等，那么就可以得到：</p>
 <p>　　$x=y_{0}　　y=x-a/b*y_{0}$　　</p>
 <p> 　　那么在求gcd的过程中，我们可以在其中不断求解，但是递归到底时返回的x，y值是多少？</p>
@@ -295,14 +301,13 @@
 <p>　　所以$\frac{b}{gcd(a,b)}$可以整除$(x-x_{0})$</p>
 <p>　　即 $\frac{b}{gcd(a,b)} \times t=(x-x_{0}), t \in Z$</p>
 <p>　　对于任意x，都可以表示为</p>
-<p>　　$x=x_{0}+\frac{b}{gcd(a,b)}$</p>
+<p>　　$x=x_{0}+\frac{b}{gcd(a,b)} \times t$</p>
 <p>　　那么根据exgcd求出的特解且$t \in Z$，我们可以这样求出最小解：</p>
 <p>　　$x_{min}=x \%(\frac{b}{gcd(a,b)})$</p>
 <p>　　在代码中的写法可以是</p>
-<p>　　</p>
-<p>　mod=b/gcd(a,b),ans=(x%mod+mod)%mod</p>
+<p>​    　$mod=b/gcd(a,b),ans=(x \% mod+mod) \% mod$</p>
 <p>　　那么这样我们就解决了$ax+by=gcd(a,b)$最小解问题。</p>
-<p>　　如果是$ax+bx=c$，只需要两边乘上$\frac{c}{gcd(a,b)}$即可；</p>
+<p>　　如果是 $ax+by=c$ ，只需要两边乘上$\frac{c}{gcd(a,b)}$即可；</p>
 <p> 　　这里附上 <a href="https://www.luogu.org/problem/P1516" target="_blank" rel="noopener">例题</a> </p>
 <p>　　并给出模板Code：</p>
 <p>　　</p>
@@ -406,14 +411,14 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-count">35</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -464,8 +469,8 @@
 
 <div class="copyright">
   
-  &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -612,7 +617,7 @@ NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     serverURLs: ''
   });
 }, window.Valine);
-</script>
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 </body>
 </html>
